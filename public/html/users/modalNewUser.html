@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancelNewUserButton()">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Inserisci Nuovo Utente</h4>
+</div>
+<div class="modal-body">
+    <form role="form" name="newUserForm" novalidate>
+        <fieldset>
+            <div class="row">
+                <div class="col-sm-12 form-group" ng-class="{'has-error': newUserForm.username.$invalid && !newUserForm.username.$pristine}">
+                    <p>Username:</p>
+                    <input class="form-control" placeholder="Username" ng-model="transient.newUser.username"
+                     name="username" type="text" required>
+                </div>   
+            </div>   
+            <div class="row">          
+                <div class="col-sm-6 form-group" ng-class="{'has-error': newUserForm.profilo.$invalid && !newUserForm.profilo.$pristine}">
+                    <p>Profilo:</p>
+                        <select required name="profilo" 
+                            ng-model="transient.newUser.idprofilo" class="form-control input-sm">
+                            <option value="">{{labels.select_empty_value}}</option>
+                            <option ng-repeat="profilo in listaProfili" value="{{profilo.ID}}">{{profilo.DESCRIZIONE}}</option>
+                        </select> 
+                </div>
+                <div class="col-sm-6 form-group" ng-class="{'has-error': newUserForm.email.$invalid && !newUserForm.email.$pristine}">
+                    <p>Email:</p>
+                    <input class="form-control" placeholder="E-Mail" ng-model="transient.newUser.email"
+                     name="email" type="email" required>
+                </div>         
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelNewUserButton()">Chiudi</button>
+    <button type="button" class="btn btn-primary" ng-click="createNewUserButton()" type="submit" ng-disabled="newUserForm.$invalid">Salva</button>
+</div>

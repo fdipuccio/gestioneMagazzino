@@ -1,0 +1,9 @@
+/bin
+/node_modules
+*.log
+temp/pdf/*
+.history/*
+/temp/ndcr/*
+/temp/ddt/*
+/temp/xlsx/*
+/temp/manutenzione/*.pdf

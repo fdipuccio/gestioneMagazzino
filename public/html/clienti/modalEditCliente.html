@@ -1,0 +1,139 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancelEditClienteButton()">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Modifica Cliente</h4>
+</div>
+<div class="modal-body">
+    <form role="form" name="editClienteForm" novalidate> 
+        <fieldset>
+            <div class="row">
+                <div class="col-sm-12 form-group" ng-class="{'has-error': editClienteForm.nome.$invalid && !editClienteForm.nome.$pristine}">
+                    <p>Nome/Ragione Sociale*:</p>
+                    <input class="form-control form-control-sm input-mini-xs" placeholder="Nome" name="nome" type="text" 
+                    ng-model="transient.editCliente.nome" required
+                    ng-maxlength="500">
+                </div>   
+            </div>           
+
+            <div class="row">
+                <div class="col-sm-12 col-md-8 form-group">
+                    <p>Citta:</p>                    
+                     <input type="text" name="f1-first-ricerca-comune" 
+                        placeholder="Ricerca comune" 
+                        id="campo-di-ricerca-comune-cliente"
+                        ng-maxlength="250"
+                        ng-model="transient.editCliente.cittaObject"
+                        ng-value="transient.editCliente.citta"
+                        ng-change="getComuniWithTypeAhead()"
+                        class="f1-first-ricerca-comune form-control" 
+                        uib-typeahead="comune as comune.NOME for comune in elencoComuni" 
+                        typeahead-on-select="onSelectClient($item, $model, $label)"                        
+                        typeahead-min-length="3">  
+                </div>               
+                <div class="col-sm-12 col-md-1 form-group">
+                    <p>Provincia:</p>
+                    <input class="form-control" placeholder="" ng-model="transient.editCliente.provincia" name="provincia" type="text" disabled>
+                </div>
+                
+                <div class="col-sm-12 col-md-2 form-group"  ng-class="{'has-error': editClienteForm.cap.$invalid && !editClienteForm.cap.$pristine}">
+                    <p>Cap*:</p>
+                    <input class="form-control" placeholder="" name="cap" type="text" disabled
+                    ng-model="transient.editCliente.cap" required ng-maxlength="5">
+                </div>
+            </div>            
+
+            <div class="row">
+                <div class="col-sm-12 col-md-7 form-group" ng-class="{'has-error': editClienteForm.indirizzo.$invalid && !editClienteForm.indirizzo.$pristine}">
+                    <p>Indirizzo*:</p>
+                    <input class="form-control" placeholder="Indirizzo" name="indirizzo" type="text"
+                    ng-model="transient.editCliente.indirizzo" required  ng-maxlength="500">
+                </div> 
+                <div class="col-sm-12 col-md-5 form-group">
+                    <p>Note Extra Indirizzo:</p>
+                    <input class="form-control" placeholder="Note Extra Indirizzo" ng-maxlength="999"  ng-model="transient.editCliente.note_extra_indirizzo" name="note_extra_indirizzo" type="text" autofocus>
+                </div>               
+            </div> 
+
+            <div class="row">
+                <div class="col-sm-12 col-md-6 form-group" ng-class="{'has-error': editClienteForm.partita_iva.$invalid && !editClienteForm.partita_iva.$pristine}">
+                    <p>Partita Iva*:</p>
+                    <input class="form-control" placeholder="Partita Iva" ng-model="transient.editCliente.partita_iva" 
+                    ng-required="!transient.editCliente.codice_fiscale"
+                    ng-maxlength="11" ng-minlength="11"
+                    ng-pattern="/^[0-9]{11}$/"
+                    name="partita_iva" type="text" autofocus>
+                    <span class="help-block small" ng-show="editClienteForm.partita_iva.$invalid && !editClienteForm.partita_iva.$pristine">Partita Iva non valida</span>
+
+                </div>   
+                <div class="col-sm-12 col-md-6 form-group" ng-class="{'has-error': editClienteForm.codiceFiscale.$invalid && !editClienteForm.codiceFiscale.$pristine}">
+                    <p>Codice Fiscale*:</p>
+                    <input class="form-control" placeholder="Codice Fiscale" ng-model="transient.editCliente.codice_fiscale" 
+                    ng-required="!transient.editCliente.partita_iva" name="codiceFiscale" 
+                    ng-pattern="/^[a-zA-Z]{6}\d{2}[a-zA-Z]\d{2}[a-zA-Z]\d{3}[a-zA-Z]$/"
+                    type="text" autofocus>
+                    <span class="help-block small" ng-show="editClienteForm.codiceFiscale.$invalid && !editClienteForm.codiceFiscale.$pristine">Codice Fiscale non valido</span>
+                </div>       
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-4 form-group" ng-class="{'has-error': editClienteForm.telefono.$invalid && !editClienteForm.telefono.$pristine}">
+                    <p>Telefono*:</p>
+                    <input class="form-control" required 
+                    placeholder="Telefono" ng-model="transient.editCliente.telefono" name="telefono" type="text" autofocus ng-maxlength="30">
+                </div>   
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error': editClienteForm.fax.$invalid && !editClienteForm.fax.$pristine}">
+                    <p>Fax:</p>
+                    <input class="form-control" placeholder="Fax" ng-model="transient.editCliente.fax" name="fax" type="text" autofocus  ng-maxlength="30">
+                </div>
+                <div class="col-sm-12 col-md-5 form-group" ng-class="{'has-error': editClienteForm.mail.$invalid && !editClienteForm.mail.$pristine}">
+                    <p>E-mail:</p>
+                    <input class="form-control" placeholder="E-mail" ng-model="transient.editCliente.mail" name="mail" type="email" autofocus  ng-maxlength="250">
+                </div>       
+            </div>
+
+            <div class="row">            
+                
+                <div class="col-sm-12 col-md-6 form-group">
+                    <p>IVA Applicata Prod:</p>
+                    <select class="form-control input-sm select2-multiple" name="iva_applicata_prod" ng-options="ivaItem.CODICE as ivaItem.DESCRIZIONE for ivaItem in listaIvaApplicata" ng-model="transient.editCliente.iva_applicata_prod">
+                        <option value="">{{labels.select_empty_value}}</option>
+                    </select>
+
+                    <!--
+                    <select name="iva_applicata_prod" ng-model="transient.editCliente.iva_applicata_prod" class="form-control input-sm">
+                        <option value="">{{labels.select_empty_value}}</option>
+                        <option ng-repeat="ivaItem in listaIvaApplicata" 
+                        ng-selected="ivaItem.CODICE == transient.editCliente.iva_applicata_prod"
+                        value="{{ivaItem.CODICE}}">{{ivaItem.DESCRIZIONE}}</option>
+                    </select>-->
+
+                </div>
+                <div class="col-sm-12 col-md-6 form-group">
+                    <p>IVA Applicata Serv:</p>
+                    <select class="form-control input-sm select2-multiple" name="iva_applicata_serv" ng-options="ivaItem.CODICE as ivaItem.DESCRIZIONE for ivaItem in listaIvaApplicata" ng-model="transient.editCliente.iva_applicata_serv">
+                        <option value="">{{labels.select_empty_value}}</option>
+                    </select>
+                    <!--
+                    <select name="iva_applicata_serv" ng-model="transient.editCliente.iva_applicata_serv" class="form-control input-sm">
+                        <option value="">{{labels.select_empty_value}}</option>
+                        <option ng-repeat="ivaItem in listaIvaApplicata" 
+                        ng-selected="ivaItem.CODICE == transient.editCliente.iva_applicata_serv"
+                        value="{{ivaItem.CODICE}}">{{ivaItem.DESCRIZIONE}}</option>
+                    </select>
+                    -->
+                </div>                                       
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12  form-group">
+                    <p>Note Cliente:</p>
+                    <textarea class="form-control" placeholder="Note Cliente" ng-model="transient.editCliente.note_cliente" name="noteCliente" ng-maxlength="999" ng-class="{'has-error': editClienteForm.noteCliente.$invalid && !editClienteForm.noteCliente.$pristine}"></textarea>
+                </div>                         
+            </div>
+            
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelEditClienteButton()">Chiudi</button>
+    <button type="button" class="btn btn-primary" ng-click="updateClienteButton()" type="submit" ng-disabled="editClienteForm.$invalid">Salva</button>
+</div>

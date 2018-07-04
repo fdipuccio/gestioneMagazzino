@@ -1,0 +1,70 @@
+ <div id="wrapper" ng-controller="ModPagamentoContiController">   
+
+        <div class="row text-center form-group"><h3>Safety - Conti e Modalità di Pagamento</h3></div>
+
+    <body>
+
+        <!-- Top menu -->
+        <!-- Top content -->
+        
+            <div class="container col-md-10">
+                
+                <div class="input-append">
+                  <input class="span2" ng-model="transient.newConto.conto" id="appendedInputButton" type="text">
+                  <button class="btn" ng-click="createConto()" type="button">Aggiungi Conto</button>
+                </div>
+                
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Conto</th>
+                      <th>Azione</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="odd gradeX" ng-repeat="account in accountsList">
+                      <td>{{account.ID_CONTO}}</td>
+                      <td>{{account.DESCRIZIONE}}</td>
+                      <td>X</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+            </div>
+
+
+
+            <div class="container col-md-10">
+                
+                <div class="form-group col-sm-12 col-md-5">
+                    <input class="form-control col-md-4" placeholder="nouova modalità pagamento" ng-model="transient.newModPag.descrizione" required name="descrizione" type="text">
+                  <button class="btn btn-primary btn-md pull-right" ng-click="createModPag()" type="button">Aggiungi Modalità Pagamento</button>
+                </div>
+                
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Conto</th>
+                      <th>Azione</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="odd gradeX" ng-repeat="modpag in modpagamentoList">
+                      <td>{{$index}}</td>
+                      <td>{{modpag.DESCRIZIONE}}</td>
+                      <td>X</td>
+                    </tr>
+                  </tbody>
+                </table>
+                
+            </div>
+
+    </body>
+
+
+        
+    </div>
+        <!-- /.modal-dialog -->
+ </div>

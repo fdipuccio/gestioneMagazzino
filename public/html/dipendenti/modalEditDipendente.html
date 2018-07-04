@@ -1,0 +1,140 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancelEditDipendenteButton()">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Modifica Dipendente</h4>
+</div>
+<div class="modal-body">
+    <form role="form" name="editDipendenteForm" novalidate> 
+        <fieldset>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error': editDipendenteForm.matricola.$invalid && !editDipendenteForm.matricola.$pristine}">
+                    <p>Matricola*:</p>
+                    <input class="form-control" placeholder="Matricola" readonly ng-model="persistent.editDipendente.matricola" 
+                    required ng-maxlength="5"
+                    name="matricola" type="text" autofocus>
+                </div>
+                
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error': editDipendenteForm.cf.$invalid && !editDipendenteForm.cf.$pristine}">
+                    <p>Codice Fiscale*:</p>
+                    <input class="form-control" placeholder="Codice Fiscale" ng-model="persistent.editDipendente.cf" 
+                    required name="cf"                     
+                    ng-pattern="/^[a-zA-Z]{6}\d{2}[a-zA-Z]\d{2}[a-zA-Z]\d{3}[a-zA-Z]$/"
+                    type="text" autofocus>
+                    <span class="help-block small" ng-show="editDipendenteForm.cf.$invalid && !editDipendenteForm.cf.$pristine">Codice Fiscale non valido</span>
+                </div> 
+
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error': editDipendenteForm.assunzione.$invalid && !editDipendenteForm.assunzione.$pristine}">
+                    <p>Assunzione*:</p>
+                    <div class="input-group" locale="it" moment-picker="persistent.editDipendente.assunzione" format="DD/MM/YYYY" start-view="month">
+                        <input type="text" readonly required name="assunzione" id="assunzione" 
+                        ng-model="persistent.editDipendente.assunzione" class="form-control" >
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </span>
+                    </div>
+                </div> 
+
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error': editDipendenteForm.datafinerapporto.$invalid && !editDipendenteForm.datafinerapporto.$pristine}">
+                    <p>Fine Rapporto:</p>
+                    <div class="input-group" locale="it" moment-picker="persistent.editDipendente.datafinerapporto" format="DD/MM/YYYY" start-view="month">
+                        <input type="text" readonly name="datafinerapporto" id="datafinerapporto" 
+                        ng-model="persistent.editDipendente.datafinerapporto" class="form-control" >
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </span>
+                    </div>
+                </div> 
+                
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4 form-group" ng-class="{'has-error': editDipendenteForm.cognome.$invalid && !editDipendenteForm.cognome.$pristine}">
+                    <p>Cognome*:</p>
+                    <input class="form-control form-control-sm input-mini-xs" placeholder="Cognome" name="cognome" type="text" 
+                    ng-model="persistent.editDipendente.cognome" required ng-maxlength="500">
+                </div>
+                <div class="col-sm-4 form-group" ng-class="{'has-error': editDipendenteForm.nome.$invalid && !editDipendenteForm.nome.$pristine}">
+                    <p>Nome*:</p>
+                    <input class="form-control form-control-sm input-mini-xs" placeholder="Nome" name="nome" type="text" 
+                    ng-model="persistent.editDipendente.nome" required ng-maxlength="500">
+                </div>
+
+                <div class="col-sm-12 col-md-4 form-group" ng-class="{'has-error': editDipendenteForm.idUser.$invalid && !editDipendenteForm.idUser.$pristine}">
+                    <p>Utente Collegato*:</p>
+                    <select name="idUser" ng-model="persistent.editDipendente.idUser" class="form-control input-md"
+                        ng-options="user.IDUTENTE as user.USERNAME for user in $parent.usersList" required ng-model="persistent.editDipendente.idUser">  
+                        <option value="">{{labels.select_empty_value}}</option>
+                    </select>
+                </div> 
+            </div>           
+
+            <div class="row">            
+                <div class="col-sm-12 col-md-6 form-group">
+                    <p>Tipo Contratto:</p>
+                    <select name="tipocontratto" ng-model="persistent.editDipendente.tipocontratto" class="form-control input-md"
+                        ng-options="contratto for contratto in $parent.listaTipoContratto" ng-model="persistent.editDipendente.tipocontratto">  
+                        <option value="">{{labels.select_empty_value}}</option>
+                    </select>
+
+                </div>
+                <div class="col-sm-12 col-md-2 form-group">
+                    <p>Livello:</p>
+                    <input class="form-control form-control-sm input-mini-xs" placeholder="Liv." name="livello" type="text" 
+                    ng-model="persistent.editDipendente.livello" 
+                    ng-maxlength="2">
+                </div>
+                <div class="col-sm-12 col-md-4 form-group">
+                    <p>Stipendio Base:</p>
+                    <input class="form-control form-control-sm input-mini-xs" placeholder="Stipendio Base" name="stipendiobase" type="text" 
+                    ng-model="persistent.editDipendente.stipendiobase">
+                </div> 
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-8 form-group">
+                    <p>Citta:</p>                    
+                     <input type="text" name="f1-first-ricerca-comune" 
+                        placeholder="Ricerca comune" 
+                        id="campo-di-ricerca-comune-dipendente"
+                        ng-model="persistent.editDipendente.cittaObject"
+                        ng-maxlength="250"
+                        ng-change="getComuniWithTypeAhead()"
+                        class="f1-first-ricerca-comune form-control" 
+                        uib-typeahead="comune as comune.NOME for comune in elencoComuni" 
+                        typeahead-on-select="onSelectDipentente($item, $model, $label)"                        
+                        typeahead-min-length="3">  
+                </div>               
+                <div class="col-sm-12 col-md-1 form-group">
+                    <p>Provincia:</p>
+                    <input class="form-control" placeholder="" ng-model="persistent.editDipendente.provincia" name="provincia" type="text" disabled>
+                </div>
+                
+                <div class="col-sm-12 col-md-2 form-group"  ng-class="{'has-error': editDipendenteForm.cap.$invalid && !editDipendenteForm.cap.$pristine}">
+                    <p>Cap*:</p>
+                    <input class="form-control" placeholder="" name="cap" type="text" disabled
+                    ng-model="persistent.editDipendente.cap" required  ng-maxlength="5">
+                </div>
+            </div>            
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12 form-group" ng-class="{'has-error': editDipendenteForm.indirizzo.$invalid && !editDipendenteForm.indirizzo.$pristine}">
+                    <p>Indirizzo*:</p>
+                    <input class="form-control" placeholder="Indirizzo" name="indirizzo" type="text"
+                    ng-model="persistent.editDipendente.indirizzo" required ng-maxlength="500">
+                </div> 
+            </div> 
+
+            <div class="row">
+                <div class="col-sm-12  form-group">
+                    <p>Note Dipendente:</p>
+                    <textarea class="form-control" placeholder="Note Dipendente" ng-model="persistent.editDipendente.note" name="noteDipendente" ng-maxlength="999"></textarea>
+                </div>                         
+            </div>
+ 
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelEditDipendenteButton()">Chiudi</button>
+    <button type="button" class="btn btn-primary" ng-click="updateDipendenteButton()" type="submit" ng-disabled="editDipendenteForm.$invalid">Salva</button>
+</div>

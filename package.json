@@ -1,0 +1,42 @@
+{
+  "name": "myapp",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "angular-animate": "^1.6.9",
+    "angular-moment-picker": "^0.10.2",
+    "app-root-path": "^2.0.1",
+    "array-json-transform": "0.0.8",
+    "async": "^2.6.0",
+    "body-parser": "^1.18.2",
+    "co-foreach": "^1.1.1",
+    "cookie-parser": "~1.4.3",
+    "create-output-stream": "0.0.1",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "express-session": "^1.15.6",
+    "icg-json-to-xlsx": "^0.2.5",
+    "iconv-lite": "^0.4.19",
+    "linebreak": "^0.3.0",
+    "md-steppers": "^0.3.4",
+    "method-override": "^2.3.10",
+    "morgan": "~1.9.0",
+    "mysql": "^2.15.0",
+    "ng-material": "0.0.0",
+    "nodemailer": "^4.4.2",
+    "password-validator": "^4.0.0",
+    "pdfkit": "^0.8.3",
+    "pug": "2.0.0-beta11",
+    "replace": "^0.3.0",
+    "require-new": "^1.1.1",
+    "sequelize": "^4.14.0",
+    "serve-favicon": "~2.4.5",
+    "stringinject": "^2.0.2",
+    "tedious": "^2.0.0",
+    "tracer": "^0.8.11",
+    "trycatch": "^1.5.21"
+  }
+}

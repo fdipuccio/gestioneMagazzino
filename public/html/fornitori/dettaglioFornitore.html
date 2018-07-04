@@ -1,0 +1,139 @@
+<div id="wrapper" ng-controller="DettaglioFornitoreController">   
+    <div class="profile">
+        <div class="tabbable-line tabbable-full-width">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tab_1_1" data-toggle="tab"> Scheda Fornitore </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_1_1">
+                    <div class="row">
+                        
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-4 profile-info">
+                                    <h1 class="font-green sbold uppercase">{{fornitoreModel.NOME}}</h1>
+                                    <p> sede: {{fornitoreModel.INDIRIZZO}} {{fornitoreModel.CITTA}} {{fornitoreModel.CAP}} ({{fornitoreModel.PROVINCIA}})
+                                        </p>
+                                    <p>
+                                        <a href="javascript:;"> {{fornitoreModel.MAIL}} </a>
+                                    </p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <i class="fa fa-map-marker"></i> {{fornitoreModel.NAZIONE}} </li>
+                                        <li>
+                                            <i class="fa fa-phone"></i> {{fornitoreModel.TELEFONO}} </li>
+                                        <li ng-if="fornitoreModel.FAX">
+                                            <i class="fa fa-fax"></i> {{fornitoreModel.FAX}} </li>
+                                        <li ng-if="fornitoreModel.PARTITA_IVA">
+                                            <i class="fa fa-file-text-o"></i> {{fornitoreModel.PARTITA_IVA}} </li>
+                                        <li ng-if="fornitoreModel.CODICE_FISCALE">
+                                            <i class="fa fa-cc"></i> {{fornitoreModel.CODICE_FISCALE}} </li>
+                                    </ul>
+
+                                    <div class="portlet-body hideForContract">                                                                                
+                                        <a href="javascript:;" ng-click="openModalNewAppuntamentoForn(fornitoreModel.ID)" title="Inserisci nuovo appuntamento" class="icon-btn">
+                                            <i class="fa fa-calendar"></i>
+                                            <div> Calendario </div>
+                                            <span class="badge badge-success"> {{appuntamenti.counterNotific}} </span>
+                                        </a> 
+                                        <a href="javascript:;" class="icon-btn" title="Visualizza elenco articoli associati">
+                                            <i class="fa fa-th-list"></i>
+                                            <div> Articoli </div>
+                                            <span class="badge badge-info"> {{articoli.length}} </span>
+                                        </a>                                       
+                                    </div>
+
+                                </div>
+
+                                <!--end col-md-4-->
+                                <div class="col-md-5 hideForContract" id="chartFornitore"></div>
+                                <div class="col-md-3 text-right hideForContract">
+                                    <button class="btn btn-primary btn-md" ng-click="gotoElencoFornitori()"> <i class="fa fa-home"></i>
+                                        Torna a fornitori
+                                    </button>
+                                </div>                                  
+                            </div>
+                            <!--end row-->
+                            <div class="tabbable-line tabbable-custom-profile">
+                                <ul class="nav nav-tabs">                                    
+                                    <li class="active">
+                                        <a href="#tab_1_22" data-toggle="tab"> Appuntamenti </a>
+                                    </li>                                    
+                                    <li>
+                                        <a href="#tab_1_44" data-toggle="tab"> Articoli </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">                                    
+                                    <div class="tab-pane" id="tab_1_22">
+                                        <div class="portlet-body">
+                                            <table ng-if="appuntamenti.counterNotific>0" class="table table-striped table-bordered table-advance table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th><i class="fa fa-calendar"> </i> Data e Ora</th>  
+                                                        <th><i class="fa fa-sticky-note-o"></i> Appuntamento</th>
+                                                        <th><i class="fa fa-cogs"></i> Azioni</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="odd gradeX" ng-repeat="appuntamento in appuntamenti">
+                                                        <td>{{appuntamento.START_DATE | date : 'dd/MM/yyyy hh:mm'}}</td>     
+                                                        <td>{{appuntamento.DESCRIZIONE}}</td>
+                                                        <td style="text-align:center">
+                                                        <a href="javascript:;" ng-click="askConfirmationDeleteAppuntamento(appuntamento.ID)">
+                                                        <i class="glyphicon glyphicon-trash"></i> </a>
+                                                        </td> 
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <span ng-if="appuntamenti.counterNotific==0">nessun appuntamento trovato per il fornitore</span>
+                                        </div>
+                                    </div>                                    
+                                    <div class="tab-pane" id="tab_1_44">
+                                       <div class="portlet-body">
+                                            <div ng-if="articoli.length>0">
+                                                <table datatable="ng" 
+                                                    dt-options="dtOptionsArticoli" dt-column-defs="dtColumnDefsArticoli"
+                                                    dt-instance="dtInstanceArticoli"
+                                                    width="100%" class="table table-striped table-bordered table-hover dtResponsive" id="dataTables-articoli">
+                                                    <thead>
+                                                        <tr>   
+                                                            <th><i class="fa fa-cube"> </i> Codice Fornitore</th> 
+                                                            <th><i class="fa fa-hashtag"> </i> Codice Catalogo</th>  
+                                                            <th><i class="fa fa-pencil-square"></i> Descrizione</th>                                                         
+                                                            <th><i class="fa fa-building-o"> </i> Prezzo</th>    
+                                                            <th><i class="fa fa-cogs"> </i> Azioni</th>                          
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="odd gradeX" ng-repeat="articolo in articoli">
+                                                            <td>{{articolo.codiceFornitore}}</td>      
+                                                            <td>{{articolo.codiceCatalogo}}</td>                                                          
+                                                            <td>{{articolo.descrizioneCatalogo}}</td>                                                                                                              
+                                                            <td>{{articolo.prezzoFornitore | currency: "€" : 2}}</td> 
+                                                            <td style="text-align:center">
+                                                                <a href="javascript:;" ng-click="askConfirmationDeleteAssociazione(articolo.codiceFornitore)">
+                                                                <i class="glyphicon glyphicon-trash"></i> </a>
+                                                            </td>    
+                                                            </tr>
+
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>           
+                                            <span ng-if="articoli.length==0">nessun articolo associato al fornitore</span>
+                                        </div>
+                                    </div>   
+                                </div>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+                <!--tab_1_2-->
+                
+                <!--end tab-pane-->
+            </div>
+        </div>
+    </div>
+</div>

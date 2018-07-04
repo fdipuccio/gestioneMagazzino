@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Safety</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../assets/pages/css/login-5.min.css" rel="stylesheet" type="text/css" />
+    <script src="../assets/pages/scripts/login-5.min.js" type="text/javascript"></script>
+</head>
+
+<body class="login">
+
+    <div class="user-login-5">
+            <div class="row bs-reset">
+                <div class="col-md-6 bs-reset mt-login-5-bsfix">
+                    <div class="login-bg" style="background-image:url(../assets/pages/img/login/bg1.jpg)">
+                        </div>
+                </div>
+                <div class="col-md-6 login-container bs-reset mt-login-5-bsfix">
+                        <div class="row" >
+                                <div class="col-md-12">
+                                        <img style="margin-left:30px;margin-top:9px" src="../assets/pages/img/login/logo.png" /> 
+                                </div>
+                        </div>
+                        
+                    <div class="login-content"> 
+                        <h1><b><center>Safety Gestionale Login </center></b></h1>
+                        <p style="font-size:14px"><b>
+                                Dietro ogni impresa di successo c’è qualcuno che ha preso una decisione coraggiosa.
+                            </b>
+                        </p>
+                        <br>
+                        <form role="form">
+                            <fieldset>
+                                <div ng-class="{'form-group':true, 'has-error':isInError}">
+                                    <input class="form-control" placeholder="Username" ng-model="username" name="username" type="text" autofocus>
+                                </div>
+                                <br>
+                                <div ng-class="{'form-group':true, 'has-error':isInError}">
+                                    <input class="form-control" placeholder="Password" ng-model="password" name="password" type="password" value="">
+                                    <label class="control-label" ng-show="isInError">{{erroreLogin}}</label>
+                                </div>
+                                <br>
+                                <div>
+                                    <div class="rem-password">
+                                       
+                                        <button class="btn green col-md-offset-5" type="submit" ng-click="login()">Login</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+</body>
+
+</html>

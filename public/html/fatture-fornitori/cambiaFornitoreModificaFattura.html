@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancelCambiaUtenteButton()">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Ricerca un altro cliente</h4>
+</div>
+<div class="modal-body">       
+        
+        
+      <div class="row">
+            <div class="form-group col-sm-10 col-md-offset-1">
+                    <p>Ricerca Fornitore:</p>   
+                                                                            
+                        <input type="text" name="f1-first-ricerca" 
+                        placeholder="Ricerca per nome, ragione sociale, partiva iva o codice fiscale" 
+                        id="campo-di-ricerca-fornitore"
+                        ng-model="temp.campoDiRicercaFornitore"
+                        class="f1-first-nome form-control" 
+                        uib-typeahead="supplier as supplier.DESCRIZIONE for supplier in fornitoreTypeaheadList  | filter:{DESCRIZIONE:$viewValue}" 
+                        typeahead-on-select="onSelectFornitore($item, $model, $label)"
+                        typeahead-no-results="noResults"
+                        typeahead-min-length="3"> 
+                        <!--
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-search" ng-click=""></span>
+                        </span>
+                        -->
+                        <div ng-if="noResults" uib-dropdown uib-dropdown-toggle auto-close="disabled" is-open="true">
+                            <ul class="dropdown-menu"  role="menu">
+                            <li><i class="fa fa-user fa-fw"></i>Nessun fornitore trovato</li>
+                            </ul>
+                        </div>
+            </div>   
+      </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelCambiaUtenteButton()">Chiudi</button>
+    <!--<button type="button" class="btn btn-primary" type="submit" ng-click="salvaCambiaUtenteButton()">Salva</button>-->
+</div>
+

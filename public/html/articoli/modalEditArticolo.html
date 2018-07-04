@@ -1,0 +1,134 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancelEditArticoloButton()">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Modifica Articolo</h4>
+</div>
+<div class="modal-body">
+    <form role="form" name="modificaArticoloForm" novalidate> 
+        <fieldset>
+            <div class="row">
+                <div class="col-sm-12 col-md-4 form-group" ng-class="{'has-error': modificaArticoloForm.codiceArticolo.$invalid && !modificaArticoloForm.codiceArticolo.$pristine}">
+                    <p>Codice articolo*:</p>
+                    <input class="form-control form-control-sm " placeholder="Codice Articolo" name="codiceArticolo" type="text" 
+                    ng-model="transient.editArticolo.CODICE_ARTICOLO" required disabled>
+                </div>
+                <div class="col-sm-12 col-md-8 form-group" ng-class="{'has-error':modificaArticoloForm.descrizione.$invalid && !modificaArticoloForm.descrizione.$pristine}">
+                    <p>Descrizione*:</p>
+                    <input class="form-control form-control-sm " placeholder="Descrizione" name="descrizione" type="text" 
+                    ng-model="transient.editArticolo.DESCRIZIONE" required ng-maxlength="70">
+                </div>                 
+            </div>                  
+
+            <div class="row">
+                <div class="col-sm-12 col-md-6 form-group" ng-class="{'has-error':modificaArticoloForm.codiceBarre.$invalid && !modificaArticoloForm.codiceBarre.$pristine}">
+                    <p>Codice a Barre:</p>
+                    <input class="form-control form-control-sm " placeholder="Codice a Barre" name="codiceBarre" type="text" 
+                    ng-model="transient.editArticolo.CODICE_BARRE" ng-maxlength="15">
+                </div>
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':modificaArticoloForm.categoria.$invalid && !modificaArticoloForm.categoria.$pristine}">
+                    <p>Categoria*:</p>
+                    <select required name="categoria" 
+                        ng-model="transient.editArticolo.ID_CATEGORIA" class="form-control input-sm">
+                        <option value="">{{labels.select_empty_value}}</option>
+                        <option ng-repeat="catItem in listaCategorie" 
+                        ng-selected="catItem.ID_CATEGORIA == transient.editArticolo.ID_CATEGORIA" 
+                        value="{{catItem.ID_CATEGORIA}}">{{catItem.NOME_CATEGORIA}}</option>
+                    </select>                    
+                </div>
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':modificaArticoloForm.tipologia.$invalid && !modificaArticoloForm.tipologia.$pristine}">
+                    <p>Tipologia*:</p>                    
+                    <select required name="tipologia" 
+                        ng-model="transient.editArticolo.TIPOLOGIA" class="form-control input-sm">
+                        <option value="">{{labels.select_empty_value}}</option>
+                        <option ng-repeat="tipolItem in listaTipologie" 
+                        ng-selected="tipolItem.DESCRIZIONE == transient.editArticolo.TIPOLOGIA"
+                        value="{{tipolItem.DESCRIZIONE}}">{{tipolItem.DESCRIZIONE}}</option>
+                    </select>
+                </div>     
+            </div>
+            
+
+            <div class="row">
+                <div class="col-sm-12 col-md-4 form-group" ng-class="{'has-error':modificaArticoloForm.prezzo.$invalid && !modificaArticoloForm.prezzo.$pristine}">
+                    <p>Prezzo:</p>
+                    <input class="form-control form-control-sm " placeholder="Prezzo" name="prezzo" 
+                    ng-model="transient.editArticolo.PREZZO" 
+                    awnum="importoPositivo" type="text" ng-maxlength="15">
+                    <span class="error" ng-show="modificaArticoloForm.prezzo.$invalid">Numero non valido!</span>
+                </div> 
+                
+                <div class="col-sm-12 col-md-3 form-group" >
+                    <p>Valuta:</p>                    
+                    <select name="valuta" 
+                        ng-model="transient.editArticolo.VALUTA" class="form-control input-sm"                    >
+                     <option value="">{{labels.select_empty_value}}</option>
+                     <option ng-repeat="valutaItem in listaValute" 
+                     ng-selected="valutaItem.COD == transient.editArticolo.VALUTA"
+                     value="{{valutaItem.COD}}" >{{valutaItem.COD}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-12 col-md-5 form-group" ng-class="{'has-error':modificaArticoloForm.iva.$invalid && !modificaArticoloForm.iva.$pristine}">
+                    <p>IVA*:</p>                    
+                    <select  name="iva" required
+                        ng-model="transient.editArticolo.IVA" class="form-control input-sm">
+                     <option value="">{{labels.select_empty_value}}</option>
+                     <option ng-repeat="ivaItem in listaIvaApplicata" 
+                     ng-selected="ivaItem.CODICE == transient.editArticolo.IVA"
+                     value="{{ivaItem.CODICE}}">{{ivaItem.DESCRIZIONE}}</option>
+                    </select>
+                    
+                </div>              
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':modificaArticoloForm.peso.$invalid && !modificaArticoloForm.peso.$pristine}">
+                    <p>Peso (kg):</p>
+                    <input class="form-control form-control-sm " placeholder="Peso" name="peso" type="text" 
+                    ng-model="transient.editArticolo.PESO" awnum="importoPositivo" num-int="4" num-fract="2">
+                    <span class="error" ng-show="modificaArticoloForm.peso.$invalid">Numero non valido!</span>
+                </div>  
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':modificaArticoloForm.volume.$invalid && !modificaArticoloForm.volume.$pristine}">
+                    <p>Volume (mc) :</p>
+                    <input class="form-control form-control-sm " placeholder="Volume" name="volume" type="text" 
+                    ng-model="transient.editArticolo.VOLUME" awnum="importoPositivo" num-int="3" num-fract="2">
+                    <span class="error" ng-show="modificaArticoloForm.volume.$invalid">Numero non valido!</span>
+                </div>
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':modificaArticoloForm.capacita.$invalid && !modificaArticoloForm.capacita.$pristine}">
+                    <p>Capacita (lt):</p>
+                    <input class="form-control form-control-sm " placeholder="Capacita" name="capacita" type="text" 
+                    ng-model="transient.editArticolo.CAPACITA" awnum="importoPositivo" num-int="3" num-fract="2">
+                    <span class="error" ng-show="modificaArticoloForm.capacita.$invalid">Numero non valido!</span>
+                </div>
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':modificaArticoloForm.udm.$invalid && !modificaArticoloForm.udm.$pristine}">
+                    <p>UDM*:</p>                    
+                    <select required name="udm" 
+                        ng-model="transient.editArticolo.UDM" class="form-control input-sm">
+                     <option value="">{{labels.select_empty_value}}</option>
+                     <option ng-repeat="udmItem in listaUDM" 
+                     ng-selected="udmItem.ID_UDM == transient.editArticolo.UDM"
+                     value="{{udmItem.ID_UDM}}">{{udmItem.DESCRIZIONE}}</option>
+                    </select>
+                </div>              
+            </div>
+
+            <div class="row">                  
+                <div class="col-sm-12 col-md-12 form-group">
+                    <p>Note:</p>                    
+                     <textarea class="form-control" rows="3"
+                            ng-model="transient.editArticolo.NOTE" id="newArticolo.note">
+                    </textarea> 
+                </div>
+                           
+            </div>
+
+        </fieldset>
+    </form>
+    <div class="row">
+        <div class="col-sm-12">
+            * Compilare tutti i campi con asterisco per abilitare il salva
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelEditArticoloButton()">Chiudi</button>
+    <button type="button" class="btn btn-primary" ng-click="modifyArticoloArticoloButton()" type="submit" ng-disabled="modificaArticoloForm.$invalid">Salva</button>
+</div>

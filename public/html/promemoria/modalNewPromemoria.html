@@ -1,0 +1,49 @@
+<div class="modal-header" id="modalnewpromemoria">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancelNewPromemoriaButton()">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Aggiungi un nuovo Promemoria</h4>
+</div>
+<div class="modal-body">
+    <form role="form" name="newPromemoriaForm" novalidate>
+        <fieldset>
+            <div class="row">
+                <div class="form-group col-sm-12 col-md-5" ng-class="{'has-error':!newPromemoriaForm.expirationDate.$pristine && newPromemoriaForm.expirationDate.$error.required}">
+                    <p>Data scadenza:</p>
+                    <!--<input type="text" class="form-control form-control-sm input-mini-xs" show-button-bar="false"
+                           uib-datepicker-popup="dd/MM/yyyy"  placeholder="dd/MM/yyyy"
+                           ng-model="transient.newPromemoria.nota.expirationDate" is-open="date3.opened" ng-click="date3.opened=true"
+                           datepicker-options="datePickerOptions" name="expirationDate" required 
+                           close-text="Close"  />-->
+
+                    <div class="input-group" locale="it" moment-picker="transient.newPromemoria.nota.expirationDate" format="DD/MM/YYYY HH:mm" start-view="month">
+                        <input type="text" readonly name="expirationDate" id="expirationDate" 
+                        ng-model="transient.newPromemoria.nota.expirationDate" class="form-control" >
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="col-sm-12 col-md-5 form-group" ng-class="{'has-error':!newPromemoriaForm.utenteTo.$pristine && newPromemoriaForm.utenteTo.$error.required}">
+                    <p>Destinatario Promemoria:</p>
+                    <select required name="utenteTo" ng-model="transient.newPromemoria.nota.utenteTo" class="form-control input-sm select2-multiple">
+                        <option ng-repeat="user in usersList" value="{{user.IDUTENTE}}">{{user.USERNAME}}</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12 form-group" ng-class="{'has-error':newPromemoriaForm.nota.$error.required && !newPromemoriaForm.nota.$pristine}">
+                    <p>Descrizione promemoria:</p>                    
+                     <textarea class="form-control" placeholder="inserire un promemoria" required rows="3"
+                            ng-model="transient.newPromemoria.nota.nota" id="newPromemoria.nota">
+                    </textarea> 
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelNewPromemoriaButton()">Chiudi</button>
+    <button type="button" class="btn btn-primary" ng-disabled="newPromemoriaForm.$invalid" ng-click="createNewPromemoriaButton()" type="submit">Salva</button>
+</div>

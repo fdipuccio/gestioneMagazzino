@@ -1,0 +1,92 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancelNewFatturaButton()">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Generazione Fattura</h4>
+</div>
+<div class="modal-body">
+        <fieldset>
+            <div class="row">
+                
+                <div class="col-md-12 profile-info" ng-if="clienteModel">
+                    <h1 class="font-green sbold uppercase">{{clienteModel.NOME}}</h1>
+                    <p> sede: {{clienteModel.INDIRIZZO}} {{clienteModel.CITTA}} {{clienteModel.CAP}} ({{clienteModel.PROVINCIA}})
+                        </p>
+                    <p>
+                        <a href="javascript:;"> {{clienteModel.MAIL}} </a>
+                    </p>
+                    <ul class="list-inline">
+                        <li>
+                            <i class="fa fa-map-marker"></i> {{clienteModel.NAZIONE}} </li>
+                        <li>
+                            <i class="fa fa-phone"></i> {{clienteModel.TELEFONO}} </li>
+                        <li ng-if="clienteModel.FAX">
+                            <i class="fa fa-fax"></i> {{clienteModel.FAX}} </li>
+                        <li ng-if="clienteModel.PARTITA_IVA">
+                            <i class="fa fa-file-text-o"></i> {{clienteModel.PARTITA_IVA}} </li>
+                        <li ng-if="clienteModel.CODICE_FISCALE">
+                            <i class="fa fa-cc"></i> {{clienteModel.CODICE_FISCALE}} </li>
+                    </ul>
+
+                </div>
+            </div>  
+        </fieldset>
+    <hr>
+    <div class="row">
+        <div class="col-md-8 input-group find-class-art-manut ">
+            <div class="panel panel-default" ng-show="temp.contractDetails.length > 0">
+                <div class="panel-heading">
+                            Articoli in Contratto
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                
+                    <table datatable="ng" 
+                    dt-options="dtOptionsListaArticoli" dt-column-defs="dtColumnDefsListaArticoli"
+                    dt-instance="dtInstanceListaArticoli"
+                    width="100%" class="table table-striped table-bordered table-hover dtResponsive" id="dataTables-listaArticoli">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Codice</th>            
+                                <th>Descrizione</th>  
+                                <th>Quantità</th> 
+                                <th>Prezzo</th>
+                                <th>IVA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="odd gradeX" ng-repeat="articolo in temp.contractDetails">   
+                                <td style="text-align:center">
+                                    <input type="checkbox" class="icheck" checked="" ng-model="articolo.checked" 
+                                    ng-click="selectArt(articolo, $index)"
+                                    >
+                                </td>
+                                <td>{{articolo.codiceArticolo}}</td>
+                                <td>{{articolo.descArticolo}}</td>
+                                <td>                                                                
+                                    <input class="form-control input-sm" style="width:70%;height: 30px" type="number" min="0" max="999999" blocco-max-value allow-only-numbers name="articolo-qty-$index"                                        
+                                    id="id-articolo-qty-$index" style="width:65%"
+                                    ng-model="temp.contractDetails[$index].qty"
+                                    
+                                    ng-change="">
+                                
+                                </td>          
+                                <td>{{articolo.articoloPrice | currency: "€" : 2}}</td> 
+                                <td>{{articolo.articoloDescIva}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- /.table-responsive -->
+                
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelNewFatturaButton()">Chiudi</button>
+    <button type="button" class="btn btn-primary" ng-click="createNewFatturaButton()">Genera</button>    
+</div>

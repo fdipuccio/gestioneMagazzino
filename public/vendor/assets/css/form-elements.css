@@ -1,0 +1,36 @@
+
+button.btn1 {
+	min-width: 105px;
+	height: 40px;
+    margin: 0;
+    padding: 0 20px;
+    vertical-align: middle;
+    border: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 40px;
+    color: #fff;
+    -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+    text-shadow: none;
+    -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+    -o-transition: all .3s; -moz-transition: all .3s; -webkit-transition: all .3s; -ms-transition: all .3s; transition: all .3s;
+}
+
+button.btn1:hover { opacity: 0.6; color: #fff; }
+button.btn1:active { outline: 0; opacity: 0.6; color: #fff; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+button.btn1:focus,
+button.btn1:active:focus,
+button.btn1.active:focus { outline: 0; opacity: 0.6; color: #fff; }
+
+button.btn1.btn-next,
+button.btn1.btn-next:focus,
+button.btn1.btn-next:active:focus, button.btn.btn-next.active:focus { background: #337ab7; }
+
+button.btn1.btn-submit,
+button.btn1.btn-submit:focus,
+button.btn1.btn-submit:active:focus, button.btn.btn-submit.active:focus { background: #337ab7; }
+
+button.btn1.btn-previous,
+button.btn1.btn-previous:focus,
+button.btn1.btn-previous:active:focus, button.btn.btn-previous.active:focus { background: #bbb; }

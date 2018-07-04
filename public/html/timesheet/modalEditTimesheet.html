@@ -1,0 +1,108 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancelNewTimesheetButton()">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Dettaglio Timesheet</h4>
+</div>
+<div class="modal-body">
+    <form role="form" name="editTimesheetForm" novalidate> 
+        <fieldset>
+            <div class="row">            
+                <div class="col-sm-12 col-md-4 form-group">
+                    <p>Data:</p>
+                    <div class="input-group" locale="it" moment-picker="persistent.editTimesheet.date" min-date="minDate" max-date="maxDate" format="DD/MM/YYYY" start-view="month">
+                        <input type="text" disabled readonly name="dateTS" id="dateTS" 
+                        ng-model="persistent.editTimesheet.date" class="form-control" >
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-3 form-group">
+                    <p>Trasferta:</p>
+                    <toggle-switch ng-model="persistent.editTimesheet.trasferta"></toggle-switch>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-4 form-group">
+                    <p>Attività:</p>
+                    <select name="task" ng-model="persistent.editTimesheet.hour.task" class="form-control input-md"
+                        ng-options="taskItem.id as taskItem.code for taskItem in tasksList" ng-model="persistent.editTimesheet.hour.task">  
+                        <option value="">{{labels.select_empty_value}}</option>
+                    </select>
+
+                </div>  
+                <div class="col-sm-12 col-md-2 form-group">
+                    <p>Inzio:</p>
+                    <div class="input-group" locale="it" moment-picker="persistent.editTimesheet.hour.in" format="HH:mm" start-view="month">
+                        <input type="text" required readonly name="inTS" id="inTS" 
+                        ng-model="persistent.editTimesheet.hour.in" class="form-control" >
+                        <span class="input-group-addon">
+                            <i class="fa fa-clock-o"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-2 form-group">
+                    <p>Fine:</p>
+                    <div class="input-group" required locale="it" moment-picker="persistent.editTimesheet.hour.out" format="HH:mm" start-view="month">
+                        <input type="text" required readonly name="outTS" id="outTS" 
+                        ng-model="persistent.editTimesheet.hour.out" class="form-control" >
+                        <span class="input-group-addon">
+                            <i class="fa fa-clock-o"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-2 form-group">
+                    <p>&nbsp;</p>
+                    <button type="button" class="btn btn-primary" ng-click="addTaskToDayEditTimesheetButton()" type="submit" ng-disabled="editTimesheetForm.$invalid">Aggiungi</button>
+                </div>
+                
+            </div>
+        </fieldset>
+    </form>
+
+    <hr>
+    
+    <div ng-if="carichi.hours.length>0" class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                            Elenco Task del giorno {{persistent.editTimesheet.date}}
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                
+                    <table  class="table table-striped table-bordered table-advance" id="dataTables-tasks">
+                        <thead>
+                            <tr>    
+                                <th>Attività</th>                            
+                                <th>Inizio</th>  
+                                <th>Fine</th>                                                                      
+                                <th>Totale</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="odd gradeX" ng-repeat="hour in carichi.hours">
+                                <td>{{hour.taskCode}}</td>
+                                <td>{{hour.in}}</td>
+                                <td>{{hour.out}}</td>
+                                <td>{{hour.totH}}</td>
+                                <td class="text-center">                                           
+                                    <i class="glyphicon glyphicon-trash" ng-click="removeTask(hour.task)"></i>                                        
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- /.table-responsive -->
+                
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelNewTimesheetButton()">Chiudi</button>
+    <button type="button" class="btn btn-primary" ng-click="updateTimesheetButton()" type="submit" ng-disabled="invalidTotOre">Salva</button>
+</div>

@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="mypaa" type="NodeJSRemoteDebug" factoryName="Node.js Remote Debug" editBeforeRun="true">
+    <node-js-remote-debug />
+    <method />
+  </configuration>
+</component>

@@ -1,0 +1,47 @@
+<div class="modal-header" id="modalappuntamentoforn">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancelNewAppuntamentoFornButton()">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Aggiungi un nuovo Appuntamento</h4>
+</div>
+<div class="modal-body">
+    <form role="form" name="newAppuntamentoFornForm" novalidate>
+        <fieldset>
+            <div class="row">
+                <div class="form-group col-sm-12 col-md-5" ng-class="{'has-error':!newAppuntamentoFornForm.startDate.$pristine && newAppuntamentoFornForm.startDate.$error.required}">
+                    <p>Data Inizio Appuntamento:</p>
+
+                    <div class="input-group" locale="it" moment-picker="transient.newAppuntamentoForn.appuntamento.startDate" format="DD/MM/YYYY HH:mm" start-view="month">
+                        <input type="text" required readonly name="startDate" id="startDate" 
+                        ng-model="transient.newAppuntamentoForn.appuntamento.startDate" class="form-control" >
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group col-sm-12 col-md-5" ng-class="{'has-error':!newAppuntamentoFornForm.endDate.$pristine && newAppuntamentoFornForm.endDate.$error}">
+                    <p>Data Fine Appuntamento:</p>
+
+                    <div class="input-group" locale="it" moment-picker="transient.newAppuntamentoForn.appuntamento.endDate" format="DD/MM/YYYY HH:mm" start-view="month">
+                        <input type="text" readonly name="endDate" id="endDate" 
+                        ng-model="transient.newAppuntamentoForn.appuntamento.endDate" class="form-control" >
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12 form-group" ng-class="{'has-error':newAppuntamentoFornForm.descrizione.$error.required && !newAppuntamentoFornForm.descrizione.$pristine}">
+                    <p>Descrizione:</p>                    
+                     <textarea class="form-control" placeholder="inserire un appuntamento" required rows="3"
+                            ng-model="transient.newAppuntamentoForn.appuntamento.descrizione" id="newAppuntamentoForn.descrizione">
+                    </textarea> 
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelNewAppuntamentoFornButton()">Chiudi</button>
+    <button type="button" class="btn btn-primary" ng-disabled="newAppuntamentoFornForm.$invalid" ng-click="createNewAppuntamentoFornButton()" type="submit">Salva</button>
+</div>
