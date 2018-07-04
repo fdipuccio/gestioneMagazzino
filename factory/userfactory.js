@@ -42,7 +42,7 @@ userfactory.readUser = function(req, res, connection,cb){
 
 userfactory.getUserById = function(id,connection, cb){
     gestionaleLogger.logger.debug('userfactory-getUserById');
-    //var sql ='SELECT * FROM users LEFT JOIN role ON role.user_id = users.id  where users.id = '+connection.escape(id);
+    var sql ='SELECT * FROM us_utenti where idutente = '+connection.escape(id);
     gestionaleLogger.logger.debug('sql',sql);
     connection.query({sql: sql }, function (err, rows) {
         // error handling
@@ -110,12 +110,12 @@ userfactory.getUserByName = function(username, connection,cb){
 
 };
 
-userfactory.adduser = function(username,password,email,idprofilo,enabled,force_change_pwd,connection,cb){
+userfactory.adduser = function(username,password,email,enabled,force_change_pwd,connection,cb){
     gestionaleLogger.logger.debug('userfactory-adduser');
 // to do check se esiste	   
-    strInsert="insert into us_utenti (username,password,email,idprofilo,enabled,force_change_pwd ) values (?,MD5(?),?,?,?,?);";
+    strInsert="insert into us_utenti (username,password,email,enabled,force_change_pwd ) values (?,MD5(?),?,?,?,?);";
     gestionaleLogger.logger.debug('strInsert : ',strInsert);
-    connection.query(strInsert,[username,password,email,idprofilo,enabled,force_change_pwd],function(err,results) {
+    connection.query(strInsert,[username,password,email,enabled,force_change_pwd],function(err,results) {
         if (err) {
             gestionaleLogger.logger.error('userfactory.adduser - Internal error: ', err);
             return cb('KO',null);
@@ -126,13 +126,12 @@ userfactory.adduser = function(username,password,email,idprofilo,enabled,force_c
     });
 };
 
-userfactory.updateuser = function(idutente,username,password,email,idprofilo,enabled,force_change_pwd, token, expirationToken ,connection,cb){
+userfactory.updateuser = function(idutente,username,password,email,enabled,force_change_pwd, token, expirationToken ,connection,cb){
     gestionaleLogger.logger.debug('userfactory-updateuser');
     var updtStr="update us_utenti set ";
     updtStr+=(username!=undefined)?" username ="+connection.escape(username)+",":"";
     updtStr+=(password!=undefined)?" password =MD5("+connection.escape(password)+"),":"";
     updtStr+=(email!=undefined)?" email ="+connection.escape(email)+",":"";
-    updtStr+=(idprofilo!=undefined)?" idprofilo ="+connection.escape(idprofilo)+",":"";
     updtStr+=(enabled!=undefined)?" enabled ="+connection.escape(enabled)+",":"";
     updtStr+=(force_change_pwd!=undefined)?" force_change_pwd ="+connection.escape(force_change_pwd)+",":"";
     updtStr+=(token!=undefined || token==null)?" RESET_PASSWORD_TOKEN ="+connection.escape(token)+",":" RESET_PASSWORD_TOKEN=null,";
