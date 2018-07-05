@@ -22,22 +22,7 @@ $locationProvider.html5Mode({
             })
             .when('/home', {
                 templateUrl : 'html/home/home.html'                
-            })
-            // route for the azienda page
-            .when('/azienda', {
-                templateUrl : 'html/azienda/azienda.html'                
-            })
-            // route for the clienti page
-            .when('/clienti', {
-                templateUrl : 'html/clienti/clienti.html'                
-            })
-            .when('/clienti/dettaglioCliente/:idCliente', {
-                templateUrl : 'html/clienti/dettaglioCliente.html'                
-            })
-            // route for the contratti page
-            .when('/contrattiManutenzione', {
-                templateUrl : 'html/clienti/contrattiClienti.html'                
-            })
+            })            
             .when('/articoli', {
                 templateUrl : 'html/articoli/articoli.html'                
             })
@@ -45,62 +30,8 @@ $locationProvider.html5Mode({
             .when('/users', {
                 templateUrl : 'html/users/users.html'               
             })		
-            // route for the fatture page
-            .when('/fatture', {
-                templateUrl : 'html/fatture/fatture.html'                
-            })
-            .when('/fatture/inserisciFattura/:tipoFattura', {
-                templateUrl : 'html/fatture/newFattura.html'                
-            })
-            .when('/fatture/dettaglioFattura/:idFattura', {
-                templateUrl : 'html/fatture/dettaglioFattura.html'                
-            })
-            .when('/fatture/modificaFattura/:idFattura', {
-                templateUrl : 'html/fatture/modificaFattura.html'                
-            })
-            // route for the primanota page
-            .when('/primanota', {
-                templateUrl : 'html/primanota/primanota.html',
-                controller  : 'PrimanotaController'
-            })
-            // route for the scadenzario page
-            .when('/scadenzario', {
-                templateUrl : 'html/scadenzario/scadenzario.html',
-                controller  : 'ScadenzarioController'
-            })
-            // route for the modalità pagamento e conti page
-            .when('/modpagamentoconti', {
-                templateUrl : 'html/modpagamentoconti/modpagamentoconti.html',
-                controller  : 'ModPagamentoContiController'
-            })
-            // route for the fornitori page
-            .when('/fornitori', {
-                templateUrl : 'html/fornitori/fornitori.html'                
-            })
             .when('/errore', {
                 templateUrl : 'html/errorPage.html'                
-            })
-             .when('/fatture-acquisto', {
-                templateUrl : 'html/fatture-fornitori/fattureFornitori.html'                
-            })
-            .when('/fatture-acquisto/inserisciFattura/:tipoFattura', {
-                templateUrl : 'html/fatture-fornitori/nuovaFatturaFornitore.html'                
-            })
-            .when('/fatture-acquisto/modificaFattura/:idFattura', {
-                templateUrl : 'html/fatture-fornitori/modificaFatturaFornitore.html'                
-            })
-            .when('/fatture-acquisto/dettaglioFattura/:idFattura', {
-                templateUrl : 'html/fatture-fornitori/dettaglioFatturaFornitore.html'                
-            })
-            .when('/fornitori/dettaglioFornitore/:idFornitore', {
-                templateUrl : 'html/fornitori/dettaglioFornitore.html'                
-            })
-            .when('/dipendenti', {
-                templateUrl : 'html/dipendenti/dipendenti.html'                
-            })
-            .when('/timesheet', {
-                templateUrl : 'html/timesheet/timesheet.html',
-                controller  : 'TimesheetController'
             })
             .otherwise({
                      redirectTo: '/'      
