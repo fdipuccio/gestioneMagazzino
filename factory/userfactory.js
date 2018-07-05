@@ -3,7 +3,23 @@ var pool = require('../connection/connection.js'); // db is pool
 var func = require('../connection/convertToNested.js');
 var gestionaleLogger = require("../utility/gestionaleLogger");
 
+var nestingOptions = [
+    { tableName : 'us_profili', pkey: 'ID'},
+    { tableName : 'us_utenti', pkey: 'IDUTENTE', fkeys:[{table:'us_profili',col:'IDPROFILO'}]}
 
+];
+
+userfactory.readProfili = function(req, res, connection,cb){
+    gestionaleLogger.logger.debug('userfactory');
+    connection.query('SELECT * from us_profili;',function(err, results) {
+        if (err) {
+            gestionaleLogger.logger.error('userfactory.readProfili - Internal error: ', err);
+            return cb(err);
+        }else {
+            return cb(null,results)
+        }
+    });
+};
 
 userfactory.searchUtenti = function(filter, connection,cb){
     gestionaleLogger.logger.debug('userfactory-searchUtenti');
@@ -23,7 +39,10 @@ userfactory.searchUtenti = function(filter, connection,cb){
         }
         else {
             gestionaleLogger.logger.debug('rows',rows);
-            return cb(null,rows)
+            // nestedRows = func.convertToNested(rows, nestingOptions);
+            nestedRows=rows;
+            gestionaleLogger.logger.debug(nestedRows);
+            return cb(null,nestedRows)
         }
     });
 };
@@ -42,9 +61,10 @@ userfactory.readUser = function(req, res, connection,cb){
 
 userfactory.getUserById = function(id,connection, cb){
     gestionaleLogger.logger.debug('userfactory-getUserById');
-    var sql ='SELECT * FROM us_utenti where idutente = '+connection.escape(id);
+    //var sql ='SELECT * FROM users LEFT JOIN role ON role.user_id = users.id  where users.id = '+connection.escape(id);
+    var sql ='SELECT * FROM us_utenti where  idutente = '+connection.escape(id);
     gestionaleLogger.logger.debug('sql',sql);
-    connection.query({sql: sql }, function (err, rows) {
+    connection.query({sql: sql, nestTables: true}, function (err, rows) {
         // error handling
         if (err){
             gestionaleLogger.logger.error('userfactory.getUserById - Internal error: ', err);
@@ -52,7 +72,10 @@ userfactory.getUserById = function(id,connection, cb){
         }
         else {
             gestionaleLogger.logger.debug('rows',rows);
-            return cb(null,rows)
+            // nestedRows = func.convertToNested(rows, nestingOptions);
+            nestedRows=rows;
+            gestionaleLogger.logger.debug(nestedRows);
+            return cb(null,nestedRows)
         }
     });
 };
@@ -61,7 +84,7 @@ userfactory.getUserByEmail = function(email,connection, cb){
     gestionaleLogger.logger.debug('userfactory-getUserByEmail');
     var sql ='SELECT * FROM us_utenti where  EMAIL = '+connection.escape(email);
     gestionaleLogger.logger.debug('sql',sql);
-    connection.query({sql: sql}, function (err, rows) {
+    connection.query({sql: sql, nestTables: false}, function (err, rows) {
         // error handling
         if (err){
             gestionaleLogger.logger.error('userfactory.getUserByEmail - Internal error: ', err);
@@ -69,7 +92,9 @@ userfactory.getUserByEmail = function(email,connection, cb){
         }
         else {
             gestionaleLogger.logger.debug('rows',rows);
-            return cb(null,rows)
+            nestedRows=rows;
+            gestionaleLogger.logger.debug(nestedRows);
+            return cb(null,nestedRows)
         }
     });
 };
@@ -110,12 +135,12 @@ userfactory.getUserByName = function(username, connection,cb){
 
 };
 
-userfactory.adduser = function(username,password,email,enabled,force_change_pwd,connection,cb){
+userfactory.adduser = function(username,password,email,idprofilo,enabled,force_change_pwd,connection,cb){
     gestionaleLogger.logger.debug('userfactory-adduser');
 // to do check se esiste	   
-    strInsert="insert into us_utenti (username,password,email,enabled,force_change_pwd ) values (?,MD5(?),?,?,?,?);";
+    strInsert="insert into us_utenti (username,password,email,idprofilo,enabled,force_change_pwd ) values (?,MD5(?),?,?,?,?);";
     gestionaleLogger.logger.debug('strInsert : ',strInsert);
-    connection.query(strInsert,[username,password,email,enabled,force_change_pwd],function(err,results) {
+    connection.query(strInsert,[username,password,email,idprofilo,enabled,force_change_pwd],function(err,results) {
         if (err) {
             gestionaleLogger.logger.error('userfactory.adduser - Internal error: ', err);
             return cb('KO',null);
@@ -126,12 +151,13 @@ userfactory.adduser = function(username,password,email,enabled,force_change_pwd,
     });
 };
 
-userfactory.updateuser = function(idutente,username,password,email,enabled,force_change_pwd, token, expirationToken ,connection,cb){
+userfactory.updateuser = function(idutente,username,password,email,idprofilo,enabled,force_change_pwd, token, expirationToken ,connection,cb){
     gestionaleLogger.logger.debug('userfactory-updateuser');
     var updtStr="update us_utenti set ";
     updtStr+=(username!=undefined)?" username ="+connection.escape(username)+",":"";
     updtStr+=(password!=undefined)?" password =MD5("+connection.escape(password)+"),":"";
     updtStr+=(email!=undefined)?" email ="+connection.escape(email)+",":"";
+    updtStr+=(idprofilo!=undefined)?" idprofilo ="+connection.escape(idprofilo)+",":"";
     updtStr+=(enabled!=undefined)?" enabled ="+connection.escape(enabled)+",":"";
     updtStr+=(force_change_pwd!=undefined)?" force_change_pwd ="+connection.escape(force_change_pwd)+",":"";
     updtStr+=(token!=undefined || token==null)?" RESET_PASSWORD_TOKEN ="+connection.escape(token)+",":" RESET_PASSWORD_TOKEN=null,";

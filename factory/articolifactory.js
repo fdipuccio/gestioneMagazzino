@@ -1,5 +1,51 @@
 var articolifactory = require('./articolifactory');
-var ARTICOLI_QUERY = "SELECT ART.ID_ARTICOLO ,ART.ID_CATEGORIA,C.NOME_CATEGORIA DESC_CATEGORIA ,ART.CODICE_ARTICOLO ,ART.CODICE_BARRE ,ART.TIPOLOGIA ,ART.DESCRIZIONE ,ART.PREZZO ,ART.VALUTA ,ART.IVA , I.VALORE VALORE_IVA ,ART.PESO ,ART.VOLUME ,ART.CAPACITA ,ART.ULTIMO_PREZZO ,ART.DATA_ULTIMO_ACQUIST ,ART.DATA_INS ,ART.DATA_MOD ,ART.UDM ,ART.NDDT_RICEVUTO , CONVERT(ART.NOTE USING UTF8) AS NOTE, (IFNULL(Q.QTY, 0) - IFNULL(Q.QTY_RISERVATA,0)) QTY, q.ID_MAGAZZINO, q.ID_QTY_MAGAZZINO  FROM QTY_MAGAZZINO Q RIGHT JOIN AN_ARTICOLI ART ON Q.ID_ARTICOLO = ART.ID_ARTICOLO JOIN AN_IVA_APPLICATA I ON ART.IVA = I.CODICE JOIN AN_CAT_ARTICOLI C ON ART.ID_CATEGORIA = C.ID_CATEGORIA WHERE  ART.DELETED = 0 ";
+var ARTICOLI_QUERY = "SELECT ART.ID_ARTICOLO , " + 
+                        " ART.ID_CATEGORIA, " + 
+                        " C.NOME_CATEGORIA DESC_CATEGORIA , " + 
+                        " ART.CODICE_ARTICOLO , " + 
+                        " ART.CODICE_BARRE , " + 
+                        " ART.TIPOLOGIA , " + 
+                        " ART.DESCRIZIONE , " + 
+                        " ART.LUNGHEZZA , " +
+                        " L.DESCRIZIONE UDM_LUNGHEZZA , " +
+                        " ART.QTY_SCATOLA , " +
+                        " Q.DESCRIZIONE UDM_QTY_SCATOLA , " +
+                        " ART.TIMER_SCADENZA_HH , " +
+                        " ART.MINIMO_MAGAZZINO , " +
+                        " ART.DIAMETRO , " +
+                        " L.DESCRIZIONE UDM_DIAMETRO , " +
+                        " ART.MARCA , " +
+                        " C.DESCRIZIONE COLORE , " +
+                        " ART.PESO , " + 
+                        " P.DESCRIZIONE UDM_PESO , " +
+                        " ART.VOLUME , " + 
+                        " V.DESCRIZIONE UDM_VOLUME , " +
+                        " ART.CAPACITA , " + 
+                        " CP.DESCRIZIONE UDM_CAPACITA , " +
+                        " ART.PREZZO , " + 
+                        " ART.VALUTA , " + 
+                        " ART.IVA , " + 
+                        " I.VALORE VALORE_IVA , " + 
+                        " ART.DATA_INS , " + 
+                        " ART.DATA_MOD , " + 
+                        " ART.UDM , " + 
+                        " CONVERT(ART.NOTE USING UTF8) AS NOTE,  " + 
+                        " (IFNULL(Q.QTY, 0) - IFNULL(Q.QTY_RISERVATA,0)) QTY, " + 
+                        "  q.ID_MAGAZZINO, " + 
+                        "  q.ID_QTY_MAGAZZINO   " + 
+                        " FROM QTY_MAGAZZINO Q RIGHT  " + 
+                        "   JOIN AN_ARTICOLI ART ON Q.ID_ARTICOLO = ART.ID_ARTICOLO  " + 
+                        "   JOIN AN_IVA_APPLICATA I ON ART.IVA = I.CODICE  " + 
+                        "   JOIN AN_UDM_LUNGHEZZA L ON L.ID_UDM = ART.UDM_LUNGHEZZA  " + 
+                        "   JOIN AN_UDM_DIAMETRO D ON D.ID_UDM = ART.UDM_DIAMETRO  " + 
+                        "   JOIN AN_COLORE C ON C.ID_COLORE = ART.COLORE  " + 
+                        "   JOIN AN_UDM_PESO P ON P.ID_UDM = ART.UDM_PESO  " + 
+                        "   JOIN AN_UDM_QTY_SCATOLA Q ON Q.ID_UDM = ART.UDM_QTY_SCATOLA  " + 
+                        "   JOIN AN_UDM_VOLUME V ON V.ID_UDM = ART.UDM_VOLUME  " + 
+                        "   JOIN AN_UDM_CAPACITA CP ON CP.ID_UDM = ART.UDM_CAPACITA  " + 
+                        "   JOIN AN_CAT_ARTICOLI C ON ART.ID_CATEGORIA = C.ID_CATEGORIA  " + 
+                        " WHERE  ART.DELETED = 0 ";
+                        
 var gestionaleLogger = require("../utility/gestionaleLogger");
 
 
@@ -104,9 +150,21 @@ articolifactory.readArticoliByCategory = function(idCategory, connection,cb){
     });
 };
 
+
+//adeguare
 articolifactory.advancedsearch = function(filter, ivaProdotto, ivaServizio, connection,cb){
     gestionaleLogger.logger.debug('articolifactory::advancedsearch');
-    var articoliQuery = "SELECT A.ID_ARTICOLO, A.ID_CATEGORIA,C.NOME_CATEGORIA DESC_CATEGORIA, A.CODICE_ARTICOLO, A.DESCRIZIONE, ifnull(F_GET_PREZZO_ARTICOLO_CLIENTE('IMME', A.CODICE_ARTICOLO,"+connection.escape(filter.idCliente)+"), a.prezzo) prezzo, A.UDM, CASE A.TIPOLOGIA WHEN 'PRODOTTO' THEN ";
+    var articoliQuery = "SELECT A.ID_ARTICOLO, " + 
+                            " A.ID_CATEGORIA, " + 
+                            " C.NOME_CATEGORIA DESC_CATEGORIA, " + 
+                            " A.CODICE_ARTICOLO,  " + 
+                            " A.DESCRIZIONE,  " + 
+                            " ifnull(F_GET_PREZZO_ARTICOLO_CLIENTE('IMME', A.CODICE_ARTICOLO,"+connection.escape(filter.idCliente)+"), a.prezzo) prezzo,  " + 
+                            " A.UDM,  " + 
+                            " CASE A.TIPOLOGIA  " + 
+                            "   WHEN 'PRODOTTO' THEN ";
+    
+    
     if(ivaProdotto!=undefined){
         articoliQuery += connection.escape(ivaProdotto);
     }else{
@@ -121,7 +179,16 @@ articolifactory.advancedsearch = function(filter, ivaProdotto, ivaServizio, conn
         articoliQuery += " I.VALORE ";
     }
         
-    articoliQuery +=  " END AS IVA, I.codice  AS CODICE_IVA , (IFNULL(Q.QTY, 0) - IFNULL(Q.QTY_RISERVATA,0)) QTY, q.ID_MAGAZZINO, Q.ID_QTY_MAGAZZINO FROM QTY_MAGAZZINO Q RIGHT JOIN AN_ARTICOLI A ON Q.ID_ARTICOLO = A.ID_ARTICOLO JOIN AN_IVA_APPLICATA I ON A.IVA = I.CODICE  JOIN AN_CAT_ARTICOLI C ON A.ID_CATEGORIA = C.ID_CATEGORIA WHERE A.DELETED = 0 ";
+    articoliQuery +=  " END AS IVA,   " + 
+                        " I.codice  AS CODICE_IVA ,  " + 
+                        " (IFNULL(Q.QTY, 0) - IFNULL(Q.QTY_RISERVATA,0)) QTY,  " + 
+                        " q.ID_MAGAZZINO,  " + 
+                        " Q.ID_QTY_MAGAZZINO   " + 
+                        " FROM QTY_MAGAZZINO Q   " + 
+                        "   RIGHT JOIN AN_ARTICOLI A ON Q.ID_ARTICOLO = A.ID_ARTICOLO   " + 
+                        "   JOIN AN_IVA_APPLICATA I ON A.IVA = I.CODICE    " + 
+                        "   JOIN AN_CAT_ARTICOLI C ON A.ID_CATEGORIA = C.ID_CATEGORIA   " + 
+                        " WHERE A.DELETED = 0 ";
 
     if(filter!=undefined){
         if(filter.code!=undefined){
@@ -147,13 +214,60 @@ articolifactory.advancedsearch = function(filter, ivaProdotto, ivaServizio, conn
 
 
 
-articolifactory.addArticolo = function(idCategoria,codiceArticolo,codiceBarre,descrizione,prezzo,iva,peso,tipologia,volume,ultimoPrezzo,dataUltimoAcquist,udm,nddtRicevuto,note,capacita,valuta,connection,cb){
+articolifactory.addArticolo = function(articolo,connection,cb){
     gestionaleLogger.logger.debug('articolifactory::addArticolo');
-    strInsert="INSERT INTO AN_ARTICOLI (ID_CATEGORIA,CODICE_ARTICOLO,CODICE_BARRE,DESCRIZIONE,PREZZO,IVA,PESO,TIPOLOGIA, VOLUME," +
-                    "ULTIMO_PREZZO,DATA_ULTIMO_ACQUIST,UDM,NDDT_RICEVUTO,NOTE,CAPACITA,VALUTA) " +
-                " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+    strInsert = "INSERT INTO AN_ARTICOLI (ID_CATEGORIA, " + 
+                                        " CODICE_ARTICOLO , " + 
+                                        " CODICE_BARRE, " + 
+                                        " DESCRIZIONE, " + 
+                                        " LUNGHEZZA, " + 
+                                        " UDM_LUNGHEZZA, " + 
+                                        " QTY_SCATOLA, " + 
+                                        " UDM_QTY_SCATOLA, " + 
+                                        " TIMER_SCADENZA_HH, " + 
+                                        " MINIMO_MAGAZZINO, " + 
+                                        " DIAMETRO, " + 
+                                        " UDM_DIAMETRO, " + 
+                                        " MARCA, " + 
+                                        " COLORE, " + 
+                                        " PREZZO , " + 
+                                        " VALUTA, " + 
+                                        " IVA , " + 
+                                        " PESO , " + 
+                                        " UDM_PESO, " + 
+                                        " VOLUME , " + 
+                                        " UDM_VOLUME, " + 
+                                        " CAPACITA, " + 
+                                        " UDM_CAPACITA, " + 
+                                        " UDM, " + 
+                                        " NOTE) " +
+                " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
     gestionaleLogger.logger.debug('strInsert : ',strInsert);
-    connection.query(strInsert,[idCategoria,codiceArticolo,codiceBarre,descrizione,prezzo,iva,peso,tipologia,volume,ultimoPrezzo,dataUltimoAcquist,udm,nddtRicevuto,note,capacita,valuta],function(err, results) {
+    connection.query(strInsert,[articolo.idCategoria,
+                                articolo.codiceArticolo,
+                                articolo.codiceBarre,
+                                articolo.descrizione,
+                                articolo.lunghezza, 
+                                articolo.udmLunghezza, 
+                                articolo.qtyInScatola, 
+                                articolo.udmQtyInScatola, 
+                                articolo.timerScadenza,
+                                articolo.minimoMagazzino, 
+                                articolo.diametro, 
+                                articolo.udmDiametro, 
+                                articolo.marca, 
+                                articolo.colore, 
+                                articolo.prezzo, 
+                                articolo.valuta, 
+                                articolo.iva, 
+                                articolo.peso, 
+                                articolo.udmPeso,
+                                articolo.volume, 
+                                articolo.udmVolume, 
+                                articolo.capacita, 
+                                articolo.udmCapacita, 
+                                articolo.udm, 
+                                articolo.note],function(err, results) {
         if (err) {
             gestionaleLogger.logger.error('articolifactory.addArticolo - Internal error: ', err);
             return cb('KO');
@@ -164,26 +278,36 @@ articolifactory.addArticolo = function(idCategoria,codiceArticolo,codiceBarre,de
     });
 };
 
-articolifactory.updateArticolo = function(idCategoria,capacita, codiceArticolo,codiceBarre,descrizione,prezzo,iva,peso,tipologia,volume,ultimoPrezzo,dataUltimoAcquist,udm,nddtRicevuto,note,idArticolo,valuta,connection,cb){
+articolifactory.updateArticolo = function(articolo,connection,cb){
     gestionaleLogger.logger.debug('articolifactory::updateArticolo');
      
     var updtStr="UPDATE AN_ARTICOLI SET ";
-    updtStr+=(idCategoria!=undefined)?" ID_CATEGORIA ="+connection.escape(idCategoria)+",":"";
-    updtStr+=(codiceArticolo!=undefined )?" CODICE_ARTICOLO ="+connection.escape(codiceArticolo)+",":"";
-    updtStr+=(codiceBarre!=undefined || codiceBarre==null)?" CODICE_BARRE ="+connection.escape(codiceBarre)+",":"";
-    updtStr+=(descrizione!=undefined)?" DESCRIZIONE ="+connection.escape(descrizione)+",":"";
-    updtStr+=(prezzo!=undefined || prezzo==null)?" PREZZO ="+connection.escape(prezzo)+",":"";
-    updtStr+=(iva!=undefined)?" IVA ="+connection.escape(iva)+",":"";
-    updtStr+=(peso!=undefined || peso==null)?" PESO ="+connection.escape(peso)+",":"";
-    updtStr+=(tipologia!=undefined )?" TIPOLOGIA ="+connection.escape(tipologia)+",":"";
-    updtStr+=(volume!=undefined || volume==null)?" VOLUME ="+connection.escape(volume)+",":"";
-    updtStr+=(capacita!=undefined || capacita==null)?" CAPACITA ="+connection.escape(capacita)+",":"";    
-    updtStr+=(ultimoPrezzo!=undefined || ultimoPrezzo==null)?" ULTIMO_PREZZO ="+connection.escape(ultimoPrezzo)+",":"";
-    updtStr+=(dataUltimoAcquist!=undefined || dataUltimoAcquist==null)?" DATA_ULTIMO_ACQUIST ="+connection.escape(dataUltimoAcquist)+",":"";
-    updtStr+=(udm!=undefined)?" UDM ="+connection.escape(udm)+",":"";
-    updtStr+=(nddtRicevuto!=undefined || nddtRicevuto==null)?" NDDT_RICEVUTO ="+connection.escape(nddtRicevuto)+",":"";
-    updtStr+=(note!=undefined || note==null)?" NOTE ="+connection.escape(note)+",":"";
-    updtStr+=(valuta!=undefined )?" VALUTA ="+connection.escape(valuta)+",":"";
+    updtStr+=(articolo.idCategoria!=undefined)?" ID_CATEGORIA ="+connection.escape(articolo.idCategoria)+",":"";
+    updtStr+=(articolo.codiceArticolo!=undefined )?" CODICE_ARTICOLO ="+connection.escape(articolo.codiceArticolo)+",":"";
+    updtStr+=(articolo.codiceBarre!=undefined || codiceBarre==null)?" CODICE_BARRE ="+connection.escape(articolo.codiceBarre)+",":"";
+    updtStr+=(articolo.descrizione!=undefined)?" DESCRIZIONE ="+connection.escape(articolo.descrizione)+",":"";
+    updtStr+=(articolo.lunghezza!=undefined || articolo.lunghezza==null)?" LUNGHEZZA ="+connection.escape(articolo.lunghezza)+",":"";
+    updtStr+=(articolo.udmLunghezza!=undefined || articolo.udmLunghezza==null)?" UDM_LUNGHEZZA ="+connection.escape(articolo.udmLunghezza)+",":"";
+    updtStr+=(articolo.qtyInScatola!=undefined || articolo.qtyInScatola==null)?" QTY_SCATOLA ="+connection.escape(articolo.qtyInScatola)+",":"";
+    updtStr+=(articolo.udmQtyInScatola!=undefined || articolo.udmQtyInScatola==null)?" UDM_QTY_SCATOLA ="+connection.escape(articolo.udmQtyInScatola)+",":"";
+    updtStr+=(articolo.timerScadenza!=undefined || articolo.timerScadenza==null)?" TIMER_SCADENZA_HH ="+connection.escape(articolo.timerScadenza)+",":"";
+    updtStr+=(articolo.minimoMagazzino!=undefined || articolo.minimoMagazzino==null)?" MINIMO_MAGAZZINO ="+connection.escape(articolo.minimoMagazzino)+",":"";
+    updtStr+=(articolo.diametro!=undefined || articolo.diametro==null)?" DIAMETRO ="+connection.escape(articolo.diametro)+",":"";
+    updtStr+=(articolo.udmDiametro!=undefined || articolo.udmDiametro==null)?" UDM_DIAMETRO ="+connection.escape(articolo.udmDiametro)+",":"";
+    updtStr+=(articolo.marca!=undefined || articolo.marca==null)?" UDM_DIAMETRO ="+connection.escape(articolo.marca)+",":"";
+    updtStr+=(articolo.colore!=undefined || articolo.colore==null)?" COLORE ="+connection.escape(articolo.colore)+",":"";
+    updtStr+=(articolo.prezzo!=undefined || articolo.prezzo==null)?" PREZZO ="+connection.escape(articolo.prezzo)+",":"";
+    updtStr+=(articolo.valuta!=undefined )?" VALUTA ="+connection.escape(articolo.valuta)+",":"";
+    updtStr+=(articolo.iva!=undefined)?" IVA ="+connection.escape(articolo.iva)+",":"";
+    updtStr+=(articolo.peso!=undefined || articolo.peso==null)?" PESO ="+connection.escape(articolo.peso)+",":"";
+    updtStr+=(articolo.udmPeso!=undefined || articolo.udmPeso==null)?" UDM_PESO ="+connection.escape(articolo.udmPeso)+",":"";
+    updtStr+=(articolo.volume!=undefined || articolo.volume==null)?" VOLUME ="+connection.escape(articolo.volume)+",":"";
+    updtStr+=(articolo.udmVolume!=undefined || articolo.udmVolume==null)?" UDM_VOLUME ="+connection.escape(articolo.udmVolume)+",":"";
+    updtStr+=(articolo.capacita!=undefined || articolo.capacita==null)?" CAPACITA ="+connection.escape(articolo.capacita)+",":"";    
+    updtStr+=(articolo.udmCapacita!=undefined || articolo.udmCapacita==null)?" UDM_CAPACITA ="+connection.escape(articolo.udmCapacita)+",":"";    
+    updtStr+=(articolo.udm!=undefined)?" UDM ="+connection.escape(articolo.udm)+",":"";
+    updtStr+=(articolo.note!=undefined || articolo.note==null)?" NOTE ="+connection.escape(articolo.note)+",":"";
+    updtStr+=" DATA_MOD = CURRENT_TIMESTAMP, ";
     updtStr= updtStr.substring(0, updtStr.length - 1);// elimino l'ultima vigola :)
     updtStr+= " WHERE ID_ARTICOLO ="+connection.escape(idArticolo);
     gestionaleLogger.logger.debug('updtStr',updtStr);
