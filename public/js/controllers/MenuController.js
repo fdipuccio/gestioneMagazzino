@@ -1,6 +1,6 @@
 angular.module("gestionaleApp")
-.controller("MenuController", ['$scope','$uibModal','PromemoriaService','UserService','AziendaService','$rootScope','LoginService','$sessionStorage','$location',
- function ($scope,$uibModal,PromemoriaService,UserService,AziendaService,$rootScope,LoginService,$sessionStorage,$location) {
+.controller("MenuController", ['$scope','$uibModal','UserService','$rootScope','LoginService','$sessionStorage','$location',
+ function ($scope,$uibModal,UserService,$rootScope,LoginService,$sessionStorage,$location) {
 	 'use strict';
 
 	$scope.transient = {};
