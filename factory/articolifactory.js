@@ -379,20 +379,7 @@ function gestioneFiltriArticoli(filter, sql, connection){
     if(filter.magazzino){
        retVal += " AND q.ID_MAGAZZINO ="+connection.escape(filter.magazzino)+" "; 
     }
-
     
-
-
-
-
-    
-    /*"  q.ID_QTY_MAGAZZINO   " + 
-        sql += " AND ( "+
-        " UPPER(ART.CODICE_ARTICOLO) LIKE concat('%', UPPER("+connection.escape(filter)+") , '%') OR " +
-        " UPPER(ART.DESCRIZIONE) LIKE concat('%', UPPER("+connection.escape(filter)+") , '%') OR " +
-        " UPPER(ART.CODICE_BARRE) LIKE concat('%', UPPER("+connection.escape(filter)+") , '%')  " +
-    " )";*/
-
     return retVal;
     
     }
