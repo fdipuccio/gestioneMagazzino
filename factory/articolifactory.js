@@ -71,11 +71,7 @@ articolifactory.searchArticoli= function (filter, connection,cb){
     var sql = ARTICOLI_QUERY;
 
     if(filter){
-        sql += " AND ( "+
-                    " UPPER(ART.CODICE_ARTICOLO) LIKE concat('%', UPPER("+connection.escape(filter)+") , '%') OR " +
-                    " UPPER(ART.DESCRIZIONE) LIKE concat('%', UPPER("+connection.escape(filter)+") , '%') OR " +
-                    " UPPER(ART.CODICE_BARRE) LIKE concat('%', UPPER("+connection.escape(filter)+") , '%')  " +
-	        " )";
+        sql += gestioneFiltriArticoli(filter, sql);
     }
 
     gestionaleLogger.logger.debug('sql',sql);
@@ -338,6 +334,123 @@ articolifactory.deleteArticolo = function(id,connection,cb){
         }
     });
 };
+
+
+
+
+
+
+function gestioneFiltriArticoli(filter, sql){
+    var retVal = sql;
+
+    if(filter.categoria){
+        retVal += " AND ART.ID_CATEGORIA ="+connection.escape(filter.categoria)+" ";
+    }
+
+    if(filter.codiceArticolo){
+        retVal += " AND UPPER(ART.CODICE_ARTICOLO) LIKE concat('%', UPPER("+connection.escape(filter.codiceArticolo)+") , '%') ";
+    }
+
+    if(filter.codiceBarre){
+        retVal += " AND ART.CODICE_BARRE ="+connection.escape(filter.codiceBarre)+" ";
+    }
+
+    if(filter.descrizione){
+        retVal += " AND UPPER(ART.DESCRIZIONE) LIKE concat('%', UPPER("+connection.escape(filter.descrizione)+") , '%') ";
+    }
+
+    if(filter.lunghezza){
+        retVal += " AND ART.LUNGHEZZA ="+connection.escape(filter.lunghezza)+" ";
+    }
+
+    if(filter.qtyScatola){
+        retVal += " AND ART.QTY_SCATOLA ="+connection.escape(filter.qtyScatola)+" ";
+    }
+
+    if(filter.timerScadenza){
+        retVal += " AND ART.TIMER_SCADENZA_HH ="+connection.escape(filter.timerScadenza)+" ";
+    }
+    
+    if(filter.minimoMagazzino){
+       // " ART.MINIMO_MAGAZZINO , " + 
+    }
+    
+    if(filter.diametro){
+       // " ART.DIAMETRO , " + 
+    }
+    
+    if(filter.marca){
+        //" ART.MARCA , " + 
+    }
+
+    if(filter.colore){ //id
+        //" ART.COLORE , " + 
+    }
+    
+    if(filter.peso){
+        //" ART.PESO , " + 
+    }
+ 
+    if(filter.volume){
+        //" ART.VOLUME , " + 
+    }
+
+    if(filter.capacita){
+        //" ART.CAPACITA , " + 
+    }
+
+    if(filter.prezzo){
+        //" ART.PREZZO , " + 
+    }
+
+    if(filter.valuta){
+        //" ART.VALUTA , " + 
+    }
+
+    if(filter.iva){
+        //" ART.IVA , " + 
+    }
+
+    if(filter.dataInserimento){
+        //" ART.DATA_INS , " + 
+    }
+
+    if(filter.dataModifica){
+        //" ART.DATA_MOD , " + 
+    }
+
+    if(filter.udm){
+        //" ART.UDM , " + 
+    }
+
+    if(filter.note){
+        //" ART.NOTE , " + 
+    }
+
+    if(filter.qty){
+       // " (IFNULL(Q.QTY, 0) - IFNULL(Q.QTY_RISERVATA,0)) QTY, " + 
+    }
+
+    if(filter.magazzino){
+       // "  q.ID_MAGAZZINO, " +
+    }
+
+    
+
+
+
+
+    
+    /*"  q.ID_QTY_MAGAZZINO   " + 
+        sql += " AND ( "+
+        " UPPER(ART.CODICE_ARTICOLO) LIKE concat('%', UPPER("+connection.escape(filter)+") , '%') OR " +
+        " UPPER(ART.DESCRIZIONE) LIKE concat('%', UPPER("+connection.escape(filter)+") , '%') OR " +
+        " UPPER(ART.CODICE_BARRE) LIKE concat('%', UPPER("+connection.escape(filter)+") , '%')  " +
+    " )";*/
+
+    return retVal;
+    
+    }
 
  
 module.exports = articolifactory;
