@@ -184,98 +184,21 @@
 
 
 <script type="text/javascript" src="./js/module/module.js"></script> 
-
+<!--  services -->
 <script type="text/javascript" src="./js/direttive/commonDirettive.js"></script>
-
 <script type="text/javascript" src="./js/filters/commonFilters.js"></script>
-
 <script type="text/javascript" src="./js/service/userServices.js"></script>
-
-<script type="text/javascript" src="./js/service/fattureServices.js"></script>
-
 <script type="text/javascript" src="./js/service/loginServices.js"></script>
-
 <script type="text/javascript" src="./js/service/commonServices.js"></script>
-
 <script type="text/javascript" src="./js/service/articoliServices.js"></script>
-
-<script type="text/javascript" src="./js/service/clienteServices.js"></script>
-
-<script type="text/javascript" src="./js/service/primanotaServices.js"></script>
-
-<script type="text/javascript" src="./js/service/modPagamentoContiService.js"></script>
-
-<script type="text/javascript" src="./js/service/aziendaServices.js"></script>
-
-<script type="text/javascript" src="./js/service/emailServices.js"></script>
-
-<script type="text/javascript" src="./js/service/scadenzarioServices.js"></script>
-
-<script type="text/javascript" src="./js/service/promemoriaServices.js"></script>
-
-<script type="text/javascript" src="./js/service/fatturatiServices.js"></script>
-
-<script type="text/javascript" src="./js/service/fornitoreServices.js"></script>
-
-<script type="text/javascript" src="./js/service/fattureFornitoriServices.js"></script>
-
-<script type="text/javascript" src="./js/service/dipendenteServices.js"></script>
-
-<script type="text/javascript" src="./js/service/timesheetServices.js"></script>
-
 <script type="text/javascript" src="./js/utility/stringUtility.js"></script>
-
+<!-- controllers -->
 <script type="text/javascript" src="./js/controllers/UserController.js"></script>
-
-<script type="text/javascript" src="./js/controllers/FattureController.js"></script>
-<script type="text/javascript" src="./js/controllers/PagamentoFattureController.js"></script>
-<script type="text/javascript" src="./js/controllers/PagamentoMassivoFattureController.js"></script>
-<script type="text/javascript" src="./js/controllers/NuovaFatturaController.js"></script>
-
-<script type="text/javascript" src="./js/controllers/DettaglioFatturaController.js"></script>
-
-<script type="text/javascript" src="./js/controllers/ModificaFatturaController.js"></script>
-
 <script type="text/javascript" src="./js/controllers/LoginController.js"></script>
-
-<script type="text/javascript" src="./js/controllers/ClienteController.js"></script>
-<script type="text/javascript" src="./js/controllers/DettaglioClienteController.js"></script>
-
-<script type="text/javascript" src="./js/controllers/NuovoClienteController.js"></script>
-<script type="text/javascript" src="./js/controllers/ModificaClienteController.js"></script>
-<script type="text/javascript" src="./js/controllers/ClienteContiController.js"></script>
-<script type="text/javascript" src="./js/controllers/ClienteIndirizziController.js"></script>
-
 <script type="text/javascript" src="./js/controllers/MenuController.js"></script>
-
-<script type="text/javascript" src="./js/controllers/PrimanotaController.js"></script> 
-
 <script type="text/javascript" src="./js/controllers/HomeController.js"></script>
-<script type="text/javascript" src="./js/controllers/AziendaController.js"></script>
-
 <script type="text/javascript" src="./js/controllers/ArticoliController.js"></script>
 <script type="text/javascript" src="./js/controllers/NuovoArticoloController.js"></script>
-<script type="text/javascript" src="./js/controllers/ModPagamentoContiController.js"></script>
-<script type="text/javascript" src="./js/controllers/ScadenzarioController.js"></script>
-<script type="text/javascript" src="./js/controllers/ContrattiClienteController.js"></script>
-<script type="text/javascript" src="./js/controllers/FornitoreController.js"></script>
-<script type="text/javascript" src="./js/controllers/NuovoFornitoreController.js"></script>
-<script type="text/javascript" src="./js/controllers/ModificaFornitoreController.js"></script>
-
-<script type="text/javascript" src="./js/controllers/FattureFornitoriController.js"></script>
-<script type="text/javascript" src="./js/controllers/NuovaFatturaFornitoreController.js"></script>
-<script type="text/javascript" src="./js/controllers/ModificaFatturaFornitoreController.js"></script>
-<script type="text/javascript" src="./js/controllers/DettaglioFatturaFornitoreController.js"></script>
-<script type="text/javascript" src="./js/controllers/PagamentoFatturaFornitoreController.js"></script>
-<script type="text/javascript" src="./js/controllers/PagamentoMassivoFattureFornitoreController.js"></script>
-
-<script type="text/javascript" src="./js/controllers/NotaCreditoController.js"></script>
-<script type="text/javascript" src="./js/controllers/DettaglioFornitoreController.js"></script>
-<script type="text/javascript" src="./js/controllers/DipendenteController.js"></script>
-<script type="text/javascript" src="./js/controllers/NuovoDipendenteController.js"></script>
-<script type="text/javascript" src="./js/controllers/ModificaDipendenteController.js"></script>
-<script type="text/javascript" src="./js/controllers/TimesheetController.js"></script>
-
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
@@ -331,7 +254,7 @@
                 <!-- END HEADER INNER -->
                 <div class="text-center hidden-xs">
                     <div class="" style="margin-top:  20px; color: white; font-size: 25px;">
-                    Gestionale Contabilità - {{labels.ragioneSociale}}
+                    Gestionale Magazzino - {{labels.ragioneSociale}}
                     </div>
                 </div>
             </div>
@@ -348,7 +271,7 @@
                     <div class="page-sidebar navbar-collapse collapse">
                         <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
                             <li class="heading">
-                                <h3 class="uppercase">Gestione Contabilità</h3>
+                                <h3 class="uppercase">Gestione Magazzino</h3>
                             </li>
                             <!-- gestire al click il selected del menù (start active) -->
                             <li class="nav-item " ng-repeat="item in userMenu.menuItems">
@@ -389,7 +312,7 @@
             <!-- BEGIN FOOTER -->
             <div class="page-footer col-md-12" style="background-color: #f3f5f9 !important;">
                 <hr>
-                <div class="page-footer-inner col-md-12"> 2018 &copy {{labels.ragioneSociale}} - {{datiazienda.EMAIL}} - {{datiazienda.TELEFONO}}
+                <div class="page-footer-inner col-md-12"> 2018 &copy {{labels.ragioneSociale}} <!-- - {{datiazienda.EMAIL}} - {{datiazienda.TELEFONO}} -->
                 </div>
                 <div class="scroll-to-top">
                     <i class="icon-arrow-up"></i>

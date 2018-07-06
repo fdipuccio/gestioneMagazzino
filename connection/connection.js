@@ -2,8 +2,8 @@ var mysql = require('mysql');
 var connectionpool = mysql.createPool({
 	connectionLimit:20,
     host     : 'localhost',
-    user     : 'gestionale',
-	password : 'gestionale',
+    user     : 'root',
+	password : 'password',
 	port: 3306,
 	database: 'gestMagazzino'
 });
