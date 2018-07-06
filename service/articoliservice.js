@@ -34,8 +34,8 @@ articoliservice.searchArticoli= function(filter, cb){
             articolidao.searchArticoli(filter, connection, function(err, data){
                 if (err){
                     retObj.status='KO';
-                    retObj.code=err[0]!=undefined?err[0]:'FAT008';
-                    retObj.message=err[1]!=undefined?err[1]:'Errore recupero Categorie';
+                    retObj.code=err[0]!=undefined?err[0]:'ART008';
+                    retObj.message=err[1]!=undefined?err[1]:'Errore recupero Articoli';
                     return cb(retObj,null);}
                 retObj.status='OK';
                 retObj.articoli=data;

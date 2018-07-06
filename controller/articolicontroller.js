@@ -13,7 +13,7 @@ articolicontroller.readArticoli = function(req, res, cb){
 
 articolicontroller.searchArticoli = function(req, res, cb){
     gestionaleLogger.logger.debug('articolicontroller- searchArticoli');
-    var filter = req.body.filter.searchkey;
+    var filter = req.body.filter;
     articoliservice.searchArticoli(filter, function(err, data){
           if (err) return cb(err);
 			return cb(null,data)

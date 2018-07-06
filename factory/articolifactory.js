@@ -9,13 +9,13 @@ var ARTICOLI_QUERY = "SELECT ART.ID_ARTICOLO , " +
                         " ART.LUNGHEZZA , " +
                         " L.DESCRIZIONE UDM_LUNGHEZZA , " +
                         " ART.QTY_SCATOLA , " +
-                        " Q.DESCRIZIONE UDM_QTY_SCATOLA , " +
+                        " QS.DESCRIZIONE UDM_QTY_SCATOLA , " +
                         " ART.TIMER_SCADENZA_HH , " +
                         " ART.MINIMO_MAGAZZINO , " +
                         " ART.DIAMETRO , " +
                         " L.DESCRIZIONE UDM_DIAMETRO , " +
                         " ART.MARCA , " +
-                        " C.DESCRIZIONE COLORE , " +
+                        " CL.DESCRIZIONE COLORE , " +
                         " ART.PESO , " + 
                         " P.DESCRIZIONE UDM_PESO , " +
                         " ART.VOLUME , " + 
@@ -33,16 +33,16 @@ var ARTICOLI_QUERY = "SELECT ART.ID_ARTICOLO , " +
                         " (IFNULL(Q.QTY, 0) - IFNULL(Q.QTY_RISERVATA,0)) QTY, " + 
                         "  q.ID_MAGAZZINO, " + 
                         "  q.ID_QTY_MAGAZZINO   " + 
-                        " FROM QTY_MAGAZZINO Q RIGHT  " + 
-                        "   JOIN AN_ARTICOLI ART ON Q.ID_ARTICOLO = ART.ID_ARTICOLO  " + 
+                        " FROM AN_ARTICOLI ART  " + 
+                        "   LEFT JOIN QTY_MAGAZZINO Q  ON Q.ID_ARTICOLO = ART.ID_ARTICOLO  " + 
                         "   JOIN AN_IVA_APPLICATA I ON ART.IVA = I.CODICE  " + 
-                        "   JOIN AN_UDM_LUNGHEZZA L ON L.ID_UDM = ART.UDM_LUNGHEZZA  " + 
-                        "   JOIN AN_UDM_DIAMETRO D ON D.ID_UDM = ART.UDM_DIAMETRO  " + 
-                        "   JOIN AN_COLORE C ON C.ID_COLORE = ART.COLORE  " + 
-                        "   JOIN AN_UDM_PESO P ON P.ID_UDM = ART.UDM_PESO  " + 
-                        "   JOIN AN_UDM_QTY_SCATOLA Q ON Q.ID_UDM = ART.UDM_QTY_SCATOLA  " + 
-                        "   JOIN AN_UDM_VOLUME V ON V.ID_UDM = ART.UDM_VOLUME  " + 
-                        "   JOIN AN_UDM_CAPACITA CP ON CP.ID_UDM = ART.UDM_CAPACITA  " + 
+                        "   LEFT JOIN AN_UDM_LUNGHEZZA L ON L.ID_UDM = ART.UDM_LUNGHEZZA  " + 
+                        "   LEFT JOIN AN_UDM_DIAMETRO D ON D.ID_UDM = ART.UDM_DIAMETRO  " + 
+                        "   JOIN AN_COLORE CL ON CL.ID_COLORE = ART.COLORE  " + 
+                        "   LEFT JOIN AN_UDM_PESO P ON P.ID_UDM = ART.UDM_PESO  " + 
+                        "   LEFT JOIN AN_UDM_QTY_SCATOLA QS ON QS.ID_UDM = ART.UDM_QTY_SCATOLA  " + 
+                        "   LEFT JOIN AN_UDM_VOLUME V ON V.ID_UDM = ART.UDM_VOLUME  " + 
+                        "   LEFT JOIN AN_UDM_CAPACITA CP ON CP.ID_UDM = ART.UDM_CAPACITA  " + 
                         "   JOIN AN_CAT_ARTICOLI C ON ART.ID_CATEGORIA = C.ID_CATEGORIA  " + 
                         " WHERE  ART.DELETED = 0 ";
                         
@@ -71,7 +71,7 @@ articolifactory.searchArticoli= function (filter, connection,cb){
     var sql = ARTICOLI_QUERY;
 
     if(filter){
-        sql += gestioneFiltriArticoli(filter, sql);
+        sql = gestioneFiltriArticoli(filter, sql, connection);
     }
 
     gestionaleLogger.logger.debug('sql',sql);
@@ -147,69 +147,6 @@ articolifactory.readArticoliByCategory = function(idCategory, connection,cb){
 };
 
 
-//adeguare
-articolifactory.advancedsearch = function(filter, ivaProdotto, ivaServizio, connection,cb){
-    gestionaleLogger.logger.debug('articolifactory::advancedsearch');
-    var articoliQuery = "SELECT A.ID_ARTICOLO, " + 
-                            " A.ID_CATEGORIA, " + 
-                            " C.NOME_CATEGORIA DESC_CATEGORIA, " + 
-                            " A.CODICE_ARTICOLO,  " + 
-                            " A.DESCRIZIONE,  " + 
-                            " ifnull(F_GET_PREZZO_ARTICOLO_CLIENTE('IMME', A.CODICE_ARTICOLO,"+connection.escape(filter.idCliente)+"), a.prezzo) prezzo,  " + 
-                            " A.UDM,  " + 
-                            " CASE A.TIPOLOGIA  " + 
-                            "   WHEN 'PRODOTTO' THEN ";
-    
-    
-    if(ivaProdotto!=undefined){
-        articoliQuery += connection.escape(ivaProdotto);
-    }else{
-        articoliQuery += " I.VALORE ";
-    }
-    
-    articoliQuery += " WHEN 'SERVIZIO' THEN ";
-    
-    if(ivaServizio!=undefined){
-        articoliQuery += connection.escape(ivaServizio);
-    }else{
-        articoliQuery += " I.VALORE ";
-    }
-        
-    articoliQuery +=  " END AS IVA,   " + 
-                        " I.codice  AS CODICE_IVA ,  " + 
-                        " (IFNULL(Q.QTY, 0) - IFNULL(Q.QTY_RISERVATA,0)) QTY,  " + 
-                        " q.ID_MAGAZZINO,  " + 
-                        " Q.ID_QTY_MAGAZZINO   " + 
-                        " FROM QTY_MAGAZZINO Q   " + 
-                        "   RIGHT JOIN AN_ARTICOLI A ON Q.ID_ARTICOLO = A.ID_ARTICOLO   " + 
-                        "   JOIN AN_IVA_APPLICATA I ON A.IVA = I.CODICE    " + 
-                        "   JOIN AN_CAT_ARTICOLI C ON A.ID_CATEGORIA = C.ID_CATEGORIA   " + 
-                        " WHERE A.DELETED = 0 ";
-
-    if(filter!=undefined){
-        if(filter.code!=undefined){
-            articoliQuery += " AND UPPER(A.CODICE_ARTICOLO) LIKE UPPER(concat('%',"+connection.escape(filter.code)+",'%') ) ";        
-        }
-        if(filter.descrizione!=undefined){
-            articoliQuery += " AND UPPER(A.DESCRIZIONE) LIKE  UPPER(concat('%',"+connection.escape(filter.descrizione)+",'%') ) ";   
-        }
-    }
-
-    articoliQuery += ";";
-    connection.query(articoliQuery,function(err, results) {
-        if (err) {
-            gestionaleLogger.logger.error('articolifactory.advancedsearch - Internal error: ', err);
-            return cb(err);
-        }else {
-            return cb(null,results)
-        }
-    });
-}
-
-
-
-
-
 articolifactory.addArticolo = function(articolo,connection,cb){
     gestionaleLogger.logger.debug('articolifactory::addArticolo');
     strInsert = "INSERT INTO AN_ARTICOLI (ID_CATEGORIA, " + 
@@ -237,7 +174,7 @@ articolifactory.addArticolo = function(articolo,connection,cb){
                                         " UDM_CAPACITA, " + 
                                         " UDM, " + 
                                         " NOTE) " +
-                " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
+                " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
     gestionaleLogger.logger.debug('strInsert : ',strInsert);
     connection.query(strInsert,[articolo.idCategoria,
                                 articolo.codiceArticolo,
@@ -336,11 +273,7 @@ articolifactory.deleteArticolo = function(id,connection,cb){
 };
 
 
-
-
-
-
-function gestioneFiltriArticoli(filter, sql){
+function gestioneFiltriArticoli(filter, sql, connection){
     var retVal = sql;
 
     if(filter.categoria){
@@ -352,7 +285,7 @@ function gestioneFiltriArticoli(filter, sql){
     }
 
     if(filter.codiceBarre){
-        retVal += " AND ART.CODICE_BARRE ="+connection.escape(filter.codiceBarre)+" ";
+        retVal += " AND UPPER(ART.CODICE_BARRE) LIKE concat('%', UPPER("+connection.escape(filter.codiceBarre)+") , '%') ";
     }
 
     if(filter.descrizione){
@@ -372,43 +305,49 @@ function gestioneFiltriArticoli(filter, sql){
     }
     
     if(filter.minimoMagazzino){
-       // " ART.MINIMO_MAGAZZINO , " + 
+       retVal += " AND ART.MINIMO_MAGAZZINO ="+connection.escape(filter.minimoMagazzino)+" ";
     }
     
     if(filter.diametro){
-       // " ART.DIAMETRO , " + 
+       retVal += " AND ART.DIAMETRO ="+connection.escape(filter.diametro)+" ";
     }
     
     if(filter.marca){
-        //" ART.MARCA , " + 
+        retVal += " AND UPPER(ART.MARCA) LIKE concat('%', UPPER("+connection.escape(filter.marca)+") , '%') ";
     }
 
     if(filter.colore){ //id
-        //" ART.COLORE , " + 
+        retVal += " AND ART.COLORE ="+connection.escape(filter.colore)+" ";
     }
     
     if(filter.peso){
-        //" ART.PESO , " + 
+        retVal += " AND ART.PESO ="+connection.escape(filter.peso)+" ";
     }
  
     if(filter.volume){
-        //" ART.VOLUME , " + 
+        retVal += " AND ART.VOLUME ="+connection.escape(filter.volume)+" ";
     }
 
     if(filter.capacita){
-        //" ART.CAPACITA , " + 
+        retVal += " AND ART.CAPACITA ="+connection.escape(filter.capacita)+" ";
     }
 
     if(filter.prezzo){
-        //" ART.PREZZO , " + 
+        if(filter.prezzo.min && !filter.prezzo.max){
+            retVal += " AND ART.PREZZO >= " + connection.escape(filter.prezzo.min);
+        }else if(!filter.prezzo.min && filter.prezzo.max){
+            retVal += " AND ART.PREZZO <= " + connection.escape(filter.prezzo.max);
+        }else{
+            retVal += " AND ( ART.PREZZO BETWEEN " + connection.escape(filter.prezzo.min) + " AND " + connection.escape(filter.prezzo.max) + " ) ";
+        }
     }
 
     if(filter.valuta){
-        //" ART.VALUTA , " + 
+        retVal += " AND ART.VALUTA ="+connection.escape(filter.valuta)+" ";
     }
 
     if(filter.iva){
-        //" ART.IVA , " + 
+        retVal += " AND ART.IVA ="+connection.escape(filter.iva)+" "; 
     }
 
     if(filter.dataInserimento){
@@ -420,19 +359,25 @@ function gestioneFiltriArticoli(filter, sql){
     }
 
     if(filter.udm){
-        //" ART.UDM , " + 
+        retVal += " AND ART.UDM ="+connection.escape(filter.udm)+" "; 
     }
 
     if(filter.note){
-        //" ART.NOTE , " + 
+        retVal += " AND UPPER(CONVERT(ART.NOTE USING UTF8)) LIKE concat('%', UPPER("+connection.escape(filter.note)+") , '%') "; 
     }
 
     if(filter.qty){
-       // " (IFNULL(Q.QTY, 0) - IFNULL(Q.QTY_RISERVATA,0)) QTY, " + 
+       if(filter.qty.min && !filter.qty.max){
+            retVal += " AND (IFNULL(Q.QTY, 0) - IFNULL(Q.QTY_RISERVATA,0)) <= " + connection.escape(filter.qty.max);
+       }else if(!filter.qty.min && filter.qty.max){
+            retVal += " AND (IFNULL(Q.QTY, 0) - IFNULL(Q.QTY_RISERVATA,0)) >= " + connection.escape(filter.qty.min);
+       }else{
+            retVal += " AND ( (IFNULL(Q.QTY, 0) - IFNULL(Q.QTY_RISERVATA,0)) BETWEEN " + connection.escape(filter.qty.min) + " AND " + connection.escape(filter.qty.max) + " ) ";
+       }
     }
 
     if(filter.magazzino){
-       // "  q.ID_MAGAZZINO, " +
+       retVal += " AND q.ID_MAGAZZINO ="+connection.escape(filter.magazzino)+" "; 
     }
 
     
