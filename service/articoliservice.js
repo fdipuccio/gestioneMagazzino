@@ -168,15 +168,15 @@ articoliservice.advancedsearch = function(filter, ivaProdotto, ivaServizio, cb){
 }
 
 
-articoliservice.addArticolo = function(idCategoria,codiceArticolo,codiceBarre,descrizione,prezzo,iva,peso,tipologia,volume,ultimoPrezzo,dataUltimoAcquist,udm,nddtRicevuto,note,capacita,valuta,cb){
+articoliservice.addArticolo = function(articolo,cb){
     gestionaleLogger.logger.debug('articoliservice- addarticoli');
     retObj={}
     var ret="";
     transaction.inTransaction(pool, function(connection, next) {
-       articolidao.getArticoloByCode(codiceArticolo,connection,function(err,data){  
+       articolidao.getArticoloByCode(articolo.codiceArticolo,connection,function(err,data){  
         if(err)  return next (['ART001','Problemi connessione alla Base Dati']);
 		  if(data && data.length>0)  return next (['ART002','Articolo in uso']);
-	    articolidao.addArticolo(idCategoria,codiceArticolo,codiceBarre,descrizione,prezzo,iva,peso,tipologia,volume,ultimoPrezzo,dataUltimoAcquist,udm,nddtRicevuto,note,capacita,valuta,connection,function(erraddArticolo,data){
+	    articolidao.addArticolo(articolo,connection,function(erraddArticolo,data){
             if(erraddArticolo) return next(['ART001','Problemi connessione alla Base Dati']);
             ret=data;
             return next(null);
@@ -195,10 +195,10 @@ articoliservice.addArticolo = function(idCategoria,codiceArticolo,codiceBarre,de
     });
 }
     	
-articoliservice.updateArticolo = function(idCategoria,capacita,codiceArticolo,codiceBarre,descrizione,prezzo,iva,peso,tipologia,volume,ultimoPrezzo,dataUltimoAcquist,udm,nddtRicevuto,note,idArticolo,valuta,cb){
+articoliservice.updateArticolo = function(articolo,cb){
     gestionaleLogger.logger.debug('articoliservice- updateArticolo');
     transaction.inTransaction(pool, function(connection, next) {
-        articolidao.updateArticolo(idCategoria,capacita,codiceArticolo,codiceBarre,descrizione,prezzo,iva,peso,tipologia,volume,ultimoPrezzo,dataUltimoAcquist,udm,nddtRicevuto,note,idArticolo,valuta,connection,function(error, data){
+        articolidao.updateArticolo(articolo,connection,function(error, data){
             if(error) return next('Transcation Error');
             return next(null);
             });
@@ -210,7 +210,7 @@ articoliservice.updateArticolo = function(idCategoria,capacita,codiceArticolo,co
                 retObj.message=err[1]!=undefined?err[1]:'Errore Update Articoli';
                 return cb(retObj,null);}
             retObj.status='OK';
-            retObj.IdArticoloUpdated=idArticolo;
+            retObj.IdArticoloUpdated=articolo.idArticolo;
             return cb(null,retObj);
                 gestionaleLogger.logger.debug("All done, transaction ended and connection released");           
         });

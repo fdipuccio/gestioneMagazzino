@@ -36,6 +36,8 @@ articolidao.readArticoliByCategory = function(idCategory, connection,cb){
 	  });
 }
 
+
+
 articolidao.advancedsearch = function(filter, ivaProdotto, ivaServizio, connection, cb){
 	gestionaleLogger.logger.debug('articolidao  advancedsearch');
 	articolifactory.advancedsearch(filter, ivaProdotto, ivaServizio, connection,function(err, data){
@@ -63,16 +65,16 @@ articolidao.getArticoloByCode = function(code,connection,cb){
 
 
 
-articolidao.addArticolo = function(idCategoria,codiceArticolo,codiceBarre,descrizione,prezzo,iva,peso,tipologia,volume,ultimoPrezzo,dataUltimoAcquist,udm,nddtRicevuto,note,capacita,valuta,connection,cb){
+articolidao.addArticolo = function(articolo,connection,cb){
 	gestionaleLogger.logger.debug('articolidao-addArticolo');
-	articolifactory.addArticolo(idCategoria,codiceArticolo,codiceBarre,descrizione,prezzo,iva,peso,tipologia,volume,ultimoPrezzo,dataUltimoAcquist,udm,nddtRicevuto,note,capacita,valuta,connection,function(err,data){
+	articolifactory.addArticolo(articolo,connection,function(err,data){
 			return cb(err, data)
     });
 }	
 		
-articolidao.updateArticolo = function(idCategoria,capacita,codiceArticolo,codiceBarre,descrizione,prezzo,iva,peso,tipologia,volume,ultimoPrezzo,dataUltimoAcquist,udm,nddtRicevuto,note,idArticolo,valuta,connection,cb){
+articolidao.updateArticolo = function(articolo,connection,cb){
 	gestionaleLogger.logger.debug('articolidao-updateArticolo');
-	  articolifactory.updateArticolo(idCategoria,capacita,codiceArticolo,codiceBarre,descrizione,prezzo,iva,peso,tipologia,volume,ultimoPrezzo,dataUltimoAcquist,udm,nddtRicevuto,note,idArticolo,valuta,connection,function(error,data){
+	  articolifactory.updateArticolo(articolo,connection,function(error,data){
 			return cb(error, data)
         });
 }
