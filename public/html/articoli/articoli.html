@@ -39,21 +39,26 @@
                         width="100%" class="table table-striped table-bordered table-hover dtResponsive" id="dataTables-articoli">
                             <thead>
                                 <tr>    
-                                    <th><i class="fa fa-cube"></i> Codice Articolo</th>   
-                                    <th><i class="fa fa-barcode"></i> Codice a barre</th>       
-                                    <th><i class="fa fa-pencil-square"></i> Descrizione</th>  
-                                    <th><i class="fa fa-exchange"></i> Tipologia</th> 
-                                    <th><i class="fa fa-google-wallet"></i> Categoria</th>                       
+                                    <th><i class="fa fa-barcode"></i> Codice a barre</th>
+                                    <!--<th><i class="fa fa-cube"></i> Codice Articolo</th>  -->                                           
+                                    <th><i class="fa fa-pencil-square"></i> Nome</th>                                    
+                                    <th><i class="fa fa-google-wallet"></i> Categoria</th>
+                                    <th><i class="fa fa-google-wallet"></i> Lunghezza</th>
+                                    <th><i class="fa fa-google-wallet"></i> Qty Scatola</th>
+                                    <th><i class="fa fa-google-wallet"></i> GG Scadenza</th>
+                                    <th><i class="fa fa-google-wallet"></i> # Min</th>                        
                                     <th><i class="fa fa-cogs"></i> Azioni</th>                          
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr class="odd gradeX" ng-repeat="articolo in articoli">
-                                    <td>{{articolo.CODICE_ARTICOLO}}</td>
                                     <td>{{articolo.CODICE_BARRE}}</td>
-                                    <td>{{articolo.DESCRIZIONE}}</td>
-                                    <td>{{articolo.TIPOLOGIA}}</td>     
+                                   <!-- <td>{{articolo.CODICE_ARTICOLO}}</td> -->                                   
+                                    <td>{{articolo.NOME}}</td>
                                     <td>{{articolo.DESC_CATEGORIA}}</td> 
+                                    <td>{{articolo.qtyInScatola}}</td>     
+                                    <td>{{articolo.timerScadenza}}</td>
+                                     <td>{{articolo.minimoMagazzino}}</td>
                                     <td class="text-center">
                                         <div class="btn-group hidden-xs">
                                             <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Azioni

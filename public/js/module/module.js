@@ -53,6 +53,22 @@ gestionaleApp.config(['dynamicNumberStrategyProvider', function(dynamicNumberStr
   });
 }]);
 
+gestionaleApp.config(['dynamicNumberStrategyProvider', function(dynamicNumberStrategyProvider){
+  dynamicNumberStrategyProvider.addStrategy('numeroPositivo', {
+    numInt: 10,
+    numFract: 0,
+    numSep: ',',
+    numPos: true,
+    numNeg: false,
+    numRound: 'round',
+    numThousand: true,
+    numFixed:true
+    //,numAppend: ' €'
+  });
+}]);
+
+
+
 gestionaleApp.run(function($rootScope, $location, $http) {
 
   $rootScope.handleResponse = function (response){      

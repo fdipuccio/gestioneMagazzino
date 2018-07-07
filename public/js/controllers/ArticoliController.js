@@ -16,12 +16,14 @@ angular.module("gestionaleApp")
 	$scope.sezioneRichiamante = "articoli";
 	$scope.dtOptions = DTOptionsBuilder.newOptions().withOption('responsive', true).withLanguageSource('//cdn.datatables.net/plug-ins/1.10.16/i18n/Italian.json');
 	$scope.dtColumnDefs = [          
-		DTColumnDefBuilder.newColumnDef(0).withOption('width', '16%'),
-		DTColumnDefBuilder.newColumnDef(1).withOption('width', '15%'),
-		DTColumnDefBuilder.newColumnDef(2).withOption('width', '30%'),
-		DTColumnDefBuilder.newColumnDef(3).withOption('width', '16%'),
-		DTColumnDefBuilder.newColumnDef(4).withOption('width', '17%'),
-		DTColumnDefBuilder.newColumnDef(5).notSortable().withOption('width', '6%')
+		DTColumnDefBuilder.newColumnDef(0).withOption('width', '25%'),
+		DTColumnDefBuilder.newColumnDef(1).withOption('width', '25%'),
+		DTColumnDefBuilder.newColumnDef(2).withOption('width', '9%'),
+		DTColumnDefBuilder.newColumnDef(3).withOption('width', '9%'),
+		DTColumnDefBuilder.newColumnDef(4).withOption('width', '9%'),
+		DTColumnDefBuilder.newColumnDef(5).withOption('width', '9%'),
+		DTColumnDefBuilder.newColumnDef(5).withOption('width', '9%'),
+		DTColumnDefBuilder.newColumnDef(7).notSortable().withOption('width', '6%')
 	];
 	$scope.filters = {};
 	$scope.filters.filter = {};
@@ -129,7 +131,7 @@ angular.module("gestionaleApp")
 
 	//init page
 	//$scope.getArticoliList();
-	$scope.getCategorieArticoliList();
+	//$scope.getCategorieArticoliList();
 	
 	//private functions
 	

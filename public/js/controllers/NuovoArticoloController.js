@@ -7,12 +7,11 @@ angular.module("gestionaleApp")
 	$scope.articoli = [];		
 	$scope.transient = {};
 	$scope.transient.newArticolo = {};	
-	$scope.transient.newArticolo.idCategoria = "-1";//default nessuna categoria 	
-	$scope.transient.newArticolo.valuta = 'EUR'; //default eur
-	$scope.listaIvaApplicata = $sessionStorage.listaIvaApplicata;
-	$scope.listaUDM = $sessionStorage.listaUDM;
-	$scope.listaValute = $sessionStorage.listaValute;
-	$scope.listaCategorie = [];
+	$scope.transient.newArticolo.idCategoria = "";//default nessuna categoria 
+	$scope.listaQtyScatola = $sessionStorage.listaQtyScatola;
+	$scope.listaUdmDiametro = $sessionStorage.listaUdmDiametro;
+	$scope.listaUdmLunghezza = $sessionStorage.listaUdmLunghezza;
+	$scope.listaCategorie = $sessionStorage.listaCategorie;
 	$scope.listaTipologie = [{'DESCRIZIONE':'PRODOTTO'},{'DESCRIZIONE':'SERVIZIO'}];
 
 	// START PUBLIC FUNCTIONS
@@ -51,7 +50,7 @@ angular.module("gestionaleApp")
 
 	//init page
 	
-	$scope.getCategorieArticoliList();
+	//$scope.getCategorieArticoliList();
 	
 	//private functions
 	function createNewArticolo($uibModalInstance){

@@ -105,12 +105,16 @@ angular.module("gestionaleApp").factory('ArticoliService', function($http) {
             createArticolo : function(newArticolo){
                 var p_body = {};                
                 
+                p_body.articolo = newArticolo;
+
+
+
             	var tempUrl = '/articoli/addarticolo';                	
             	
             	 return $http({
                	     method: 'POST',
                      url: tempUrl,
-                     data:  newArticolo      	  
+                     data:  p_body      	  
                });  
             	
             },

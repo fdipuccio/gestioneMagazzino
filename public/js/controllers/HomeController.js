@@ -17,12 +17,66 @@ function ($scope,CommonService,rootScope,$sessionStorage) {
 				$sessionStorage.listaDiametro = response.data;
 	    	}    	
       });		
-          */
+		  */
+		  
+	  	$sessionStorage.listaUdmDiametro = [{"DESCRIZIONE":"mm"}];
+
 	}	
   
 
-	if($sessionStorage.listaDiametro === undefined || $sessionStorage.listaDiametro === null){
+	$scope.getListaLunghezza = function (){
+    //invocazione service
+    /*
+		CommonService.getListaDiametro().then(function(response) {  
+	    	if(response!=null && response.statusText == "OK" && response.data != null){
+				$sessionStorage.listaDiametro = response.data;
+	    	}    	
+      });		
+		  */
+		  
+	  	$sessionStorage.listaUdmLunghezza = [{"DESCRIZIONE":"cm"}];
+
+	}
+
+	$scope.getListaCategorie = function (){
+    //invocazione service
+    /*
+		CommonService.getListaDiametro().then(function(response) {  
+	    	if(response!=null && response.statusText == "OK" && response.data != null){
+				$sessionStorage.listaDiametro = response.data;
+	    	}    	
+      });		
+		  */
+		  
+	  	$sessionStorage.listaCategorie = [{"ID_CATEGORIA":"1","NOME_CATEGORIA":"CAT1"}];
+
+	}
+
+	$scope.getListaQtyScatola = function (){
+    //invocazione service
+    /*
+		CommonService.getListaDiametro().then(function(response) {  
+	    	if(response!=null && response.statusText == "OK" && response.data != null){
+				$sessionStorage.listaDiametro = response.data;
+	    	}    	
+      });		
+		  */
+		  
+	  	$sessionStorage.listaQtyScatola = [{"DESCRIZIONE":"litri"}];
+
+	}
+
+	if($sessionStorage.listaUdmDiametro === undefined || $sessionStorage.listaUdmDiametro === null){
 		$scope.getListaDiametro();	
+	}
+	if($sessionStorage.listaUdmLunghezza === undefined || $sessionStorage.listaUdmLunghezza === null){
+		$scope.getListaLunghezza();	
+	}
+	if($sessionStorage.listaCategorie === undefined || $sessionStorage.listaCategorie === null){
+		$scope.getListaCategorie();	
+	}
+	if($sessionStorage.listaQtyScatola === undefined || $sessionStorage.listaQtyScatola === null){
+		$scope.getListaQtyScatola();	
 	}
 	
   
