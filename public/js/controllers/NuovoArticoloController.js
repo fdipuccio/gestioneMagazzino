@@ -11,7 +11,7 @@ angular.module("gestionaleApp")
 	$scope.listaQtyScatola = $sessionStorage.listaQtyScatola;
 	$scope.listaUdmDiametro = $sessionStorage.listaUdmDiametro;
 	$scope.listaUdmLunghezza = $sessionStorage.listaUdmLunghezza;
-	$scope.listaCategorie = $sessionStorage.listaCategorie;
+	$scope.listaCategorie = [];
 	$scope.listaTipologie = [{'DESCRIZIONE':'PRODOTTO'},{'DESCRIZIONE':'SERVIZIO'}];
 
 	// START PUBLIC FUNCTIONS
@@ -50,7 +50,7 @@ angular.module("gestionaleApp")
 
 	//init page
 	
-	//$scope.getCategorieArticoliList();
+	$scope.getCategorieArticoliList();
 	
 	//private functions
 	function createNewArticolo($uibModalInstance){
@@ -62,11 +62,8 @@ angular.module("gestionaleApp")
 				console.log("articolo creato");  
 				$uibModalInstance.dismiss('cancel'); 
 				if($scope.sezioneRichiamante == 'articoli'){
-					$scope.getArticoliList(); 
-				} else if($scope.sezioneRichiamante == 'nuovaFattura'){
-				$scope.openModalRicercaArticolo($scope.transient.newArticolo.codiceArticolo);
-				$scope.eseguiRicercaAvanzata();
-				}
+					$scope.getAdvSearchArticoliList(); 
+				} 
 						
 	    	} else {
 				if(handleResponseResult.errorCode == 'ART002'){

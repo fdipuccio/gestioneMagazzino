@@ -34,7 +34,7 @@
                     <select required name="tipologia" 
                         ng-model="transient.newArticolo.udmLunghezza" class="form-control input-sm">
                         <option value="">{{labels.select_empty_value}}</option>
-                        <option ng-repeat="tipolItem in listaUdmLunghezza" value="{{tipolItem.DESCRIZIONE}}">{{tipolItem.DESCRIZIONE}}</option>
+                        <option ng-repeat="tipolItem in listaUdmLunghezza" value="{{tipolItem.ID_UDM}}">{{tipolItem.DESCRIZIONE}}</option>
                     </select>
                 </div>
                 <div class="col-sm-12 col-md-4 form-group" ng-class="{'has-error':newArticoloForm.lunghezza.$invalid && !newArticoloForm.lunghezza.$pristine}">
@@ -51,7 +51,7 @@
                     <select required name="tipologia" 
                         ng-model="transient.newArticolo.udmDiametro" class="form-control input-sm">
                         <option value="">{{labels.select_empty_value}}</option>
-                        <option ng-repeat="tipolItem in listaUdmDiametro" value="{{tipolItem.DESCRIZIONE}}">{{tipolItem.DESCRIZIONE}}</option>
+                        <option ng-repeat="tipolItem in listaUdmDiametro" value="{{tipolItem.ID_UDM}}">{{tipolItem.DESCRIZIONE}}</option>
                     </select>
                 </div>    
                 <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':newArticoloForm.diametro.$invalid && !newArticoloForm.diametro.$pristine}">
@@ -65,7 +65,7 @@
                     <select required name="tipologia" 
                         ng-model="transient.newArticolo.udmQtyInScatola" class="form-control input-sm">
                         <option value="">{{labels.select_empty_value}}</option>
-                        <option ng-repeat="tipolItem in listaQtyScatola" value="{{tipolItem.DESCRIZIONE}}">{{tipolItem.DESCRIZIONE}}</option>
+                        <option ng-repeat="tipolItem in listaQtyScatola" value="{{tipolItem.ID_UDM}}">{{tipolItem.DESCRIZIONE}}</option>
                     </select>
                 </div>    
                 <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':newArticoloForm.qtyInScatola.$invalid && !newArticoloForm.qtyInScatola.$pristine}">
