@@ -11,8 +11,7 @@ angular.module("gestionaleApp")
 	$scope.listaIvaApplicata = $sessionStorage.listaIvaApplicata;
 	$scope.listaUDM = $sessionStorage.listaUDM;
 	$scope.listaValute = $sessionStorage.listaValute;
-	$scope.listaCategorie = [];
-	$scope.listaTipologie = [{'DESCRIZIONE':'PRODOTTO'},{'DESCRIZIONE':'SERVIZIO'}];
+	$scope.listaCategorie = $sessionStorage.listaCategorie;	
 	$scope.sezioneRichiamante = "articoli";
 	$scope.dtOptions = DTOptionsBuilder.newOptions().withOption('responsive', true).withLanguageSource('//cdn.datatables.net/plug-ins/1.10.16/i18n/Italian.json');
 	$scope.dtColumnDefs = [          
@@ -22,7 +21,7 @@ angular.module("gestionaleApp")
 		DTColumnDefBuilder.newColumnDef(3).withOption('width', '9%'),
 		DTColumnDefBuilder.newColumnDef(4).withOption('width', '9%'),
 		DTColumnDefBuilder.newColumnDef(5).withOption('width', '9%'),
-		DTColumnDefBuilder.newColumnDef(5).withOption('width', '9%'),
+		DTColumnDefBuilder.newColumnDef(6).withOption('width', '9%'),
 		DTColumnDefBuilder.newColumnDef(7).notSortable().withOption('width', '6%')
 	];
 	$scope.filters = {};

@@ -11,26 +11,10 @@ angular.module("gestionaleApp")
 	$scope.listaQtyScatola = $sessionStorage.listaQtyScatola;
 	$scope.listaUdmDiametro = $sessionStorage.listaUdmDiametro;
 	$scope.listaUdmLunghezza = $sessionStorage.listaUdmLunghezza;
-	$scope.listaCategorie = [];
+	$scope.listaCategorie = $sessionStorage.listaCategorie;
 	$scope.listaTipologie = [{'DESCRIZIONE':'PRODOTTO'},{'DESCRIZIONE':'SERVIZIO'}];
 
 	// START PUBLIC FUNCTIONS
-
-	
-	
-	//funzione che recupera la lista di tutti le categorie
-	$scope.getCategorieArticoliList = function (){
-		//invocazione service
-		ArticoliService.getCategorieArticoliList().then(function(response) {
-			
-			var handleResponseResult = $scope.handleResponse(response);  
-	    	if(handleResponseResult.next){
-				$scope.listaCategorie = response.data.categorie;						
-	    	} else {
-				toastr.error("Errore: "+ handleResponseResult.errorCode + " - GESTIONE ERRORE DA FARE!!!" );
-			}	    	  	
-	    });		
-	}
 
 	$scope.createNewArticoloButton = function () {
 				createNewArticolo($uibModalInstance);
