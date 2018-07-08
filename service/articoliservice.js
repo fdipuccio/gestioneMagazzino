@@ -1,5 +1,6 @@
 var articoliservice = require('./articoliservice')
 var articolidao = require('../dao/articolidao')
+var articolimapper = require('../mapper/articolimapper')
 var pool = require('../connection/connection.js'); // db is pool
 var transaction = require('../connection/transactionUtils.js'); // transaction management
 var gestionaleLogger = require("../utility/gestionaleLogger");
@@ -36,9 +37,10 @@ articoliservice.searchArticoli= function(filter, cb){
                     retObj.status='KO';
                     retObj.code=err[0]!=undefined?err[0]:'ART008';
                     retObj.message=err[1]!=undefined?err[1]:'Errore recupero Articoli';
-                    return cb(retObj,null);}
+                    return cb(retObj,null);
+                }
                 retObj.status='OK';
-                retObj.articoli=data;
+                retObj.articoli=articolimapper.OUT(data);
                 return cb(null,retObj);
         });
     });
@@ -114,23 +116,6 @@ articoliservice.getArticoloByCode = function(code, cb){
 }
 
 
-articoliservice.getArticoloByCode = function(code, cb){
-    gestionaleLogger.logger.debug('articoliservice- getArticoloByCode');
-    retObj={}
-    transaction.getConnection(pool,function(connection) {  
-	    articolidao.getArticoloByCode(code, connection, function(err, data){
-            if (err){
-                retObj.status='KO';
-                retObj.code=err[0]!=undefined?err[0]:'FAT008';
-                retObj.message=err[1]!=undefined?err[1]:'Errore recupero Articolo';
-                return cb(retObj,null);}
-            retObj.status='OK';
-            retObj.articolo=data;
-            return cb(null,retObj);
-        });
-    });
-}
-
 articoliservice.getArticoloById = function(id, cb){
     transaction.getConnection(pool,function(connection) {
         retObj={}
@@ -148,24 +133,6 @@ articoliservice.getArticoloById = function(id, cb){
     });
 }
 
-
-
-articoliservice.advancedsearch = function(filter, ivaProdotto, ivaServizio, cb){
-    retObj={}
-    gestionaleLogger.logger.debug('articoliservice- advancedsearch');
-    transaction.getConnection(pool,function(connection) {  
-	    articolidao.advancedsearch(filter, ivaProdotto, ivaServizio, connection, function(err, data){
-            if (err){
-                retObj.status='KO';
-                retObj.code=err[0]!=undefined?err[0]:'FAT008';
-                retObj.message=err[1]!=undefined?err[1]:'Errore recupero Articoli';
-                return cb(retObj,null);}
-            retObj.status='OK';
-            retObj.articoli=data;
-            return cb(null,retObj);
-        });
-    });
-}
 
 
 articoliservice.addArticolo = function(articolo,cb){

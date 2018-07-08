@@ -22,9 +22,14 @@ udmfactory.getUdmById = function(id, connection,cb){
 
 
 
-udmfactory.getUdms = function(connection,cb){
+udmfactory.getUdms = function(udmType, connection,cb){
     gestionaleLogger.logger.debug('udmfactory::getUdms');
-    var sql ='SELECT * FROM AN_UDM ';
+    var sql ="";
+    if(udmType){
+        sql =  "SELECT ID_UDM, DESCRIZIONE FROM AN_UDM WHERE UDM_TYPE =  " + connection.escape(udmType);
+    }else{
+        sql =  "SELECT MIN(ID_UDM) ID_UDM, DESCRIZIONE FROM AN_UDM GROUP BY DESCRIZIONE";
+    }
     gestionaleLogger.logger.debug('sql',sql);
     connection.query(sql, function (err, rows) {
         if (err){
@@ -38,105 +43,6 @@ udmfactory.getUdms = function(connection,cb){
     });    
 };
 
-
-udmfactory.getVolumeUdms = function(connection,cb){
-    gestionaleLogger.logger.debug('udmfactory::getVolumeUdms');
-    var sql ='SELECT * FROM AN_UDM_VOLUME ';
-    gestionaleLogger.logger.debug('sql',sql);
-    connection.query(sql, function (err, rows) {
-        if (err){
-            gestionaleLogger.logger.error('udmfactory.getVolumeUdms - Internal error: ', err);
-            return cb(err);
-        }
-        else {
-            gestionaleLogger.logger.debug('rows',rows);
-            return cb(null,rows)
-        }
-    });    
-};
-
-udmfactory.getPesoUdms = function(connection,cb){
-    gestionaleLogger.logger.debug('udmfactory::getPesoUdms');
-    var sql ='SELECT * FROM AN_UDM_PESO ';
-    gestionaleLogger.logger.debug('sql',sql);
-    connection.query(sql, function (err, rows) {
-        if (err){
-            gestionaleLogger.logger.error('udmfactory.getPesoUdms - Internal error: ', err);
-            return cb(err);
-        }
-        else {
-            gestionaleLogger.logger.debug('rows',rows);
-            return cb(null,rows)
-        }
-    });    
-};
-
-
-udmfactory.getQtyScatolaUdms = function(connection,cb){
-    gestionaleLogger.logger.debug('udmfactory::getQtyScatolaUdms');
-    var sql ='SELECT * FROM AN_UDM_QTY_SCATOLA ';
-    gestionaleLogger.logger.debug('sql',sql);
-    connection.query(sql, function (err, rows) {
-        if (err){
-            gestionaleLogger.logger.error('udmfactory.getQtyScatolaUdms - Internal error: ', err);
-            return cb(err);
-        }
-        else {
-            gestionaleLogger.logger.debug('rows',rows);
-            return cb(null,rows)
-        }
-    });    
-};
-
-
-udmfactory.getLunghezzaUdms = function(connection,cb){
-    gestionaleLogger.logger.debug('udmfactory::getLunghezzaUdms');
-    var sql ='SELECT * FROM AN_UDM_LUNGHEZZA ';
-    gestionaleLogger.logger.debug('sql',sql);
-    connection.query(sql, function (err, rows) {
-        if (err){
-            gestionaleLogger.logger.error('udmfactory.getLunghezzaUdms - Internal error: ', err);
-            return cb(err);
-        }
-        else {
-            gestionaleLogger.logger.debug('rows',rows);
-            return cb(null,rows)
-        }
-    });    
-};
-
-udmfactory.getCapacitaUdms = function(connection,cb){
-    gestionaleLogger.logger.debug('udmfactory::getCapacitaUdms');
-    var sql ='SELECT * FROM AN_UDM_CAPACITA ';
-    gestionaleLogger.logger.debug('sql',sql);
-    connection.query(sql, function (err, rows) {
-        if (err){
-            gestionaleLogger.logger.error('udmfactory.getCapacitaUdms - Internal error: ', err);
-            return cb(err);
-        }
-        else {
-            gestionaleLogger.logger.debug('rows',rows);
-            return cb(null,rows)
-        }
-    });    
-};
-
-
-udmfactory.getDiametroUdms = function(connection,cb){
-    gestionaleLogger.logger.debug('udmfactory::getDiametroUdms');
-    var sql ='SELECT * FROM AN_UDM_DIAMETRO ';
-    gestionaleLogger.logger.debug('sql',sql);
-    connection.query(sql, function (err, rows) {
-        if (err){
-            gestionaleLogger.logger.error('udmfactory.getDiametroUdms - Internal error: ', err);
-            return cb(err);
-        }
-        else {
-            gestionaleLogger.logger.debug('rows',rows);
-            return cb(null,rows)
-        }
-    });    
-};
 
 
 

@@ -36,13 +36,13 @@ var ARTICOLI_QUERY = "SELECT ART.ID_ARTICOLO , " +
                         " FROM AN_ARTICOLI ART  " + 
                         "   LEFT JOIN QTY_MAGAZZINO Q  ON Q.ID_ARTICOLO = ART.ID_ARTICOLO  " + 
                         "   JOIN AN_IVA_APPLICATA I ON ART.IVA = I.CODICE  " + 
-                        "   LEFT JOIN AN_UDM_LUNGHEZZA L ON L.ID_UDM = ART.UDM_LUNGHEZZA  " + 
-                        "   LEFT JOIN AN_UDM_DIAMETRO D ON D.ID_UDM = ART.UDM_DIAMETRO  " + 
+                        "   LEFT JOIN (SELECT * FROM AN_UDM WHERE UDM_TYPE = 'LUNGHEZZA') L ON L.ID_UDM = ART.UDM_LUNGHEZZA  " + 
+                        "   LEFT JOIN (SELECT * FROM AN_UDM WHERE UDM_TYPE = 'DIAMETRO') D ON D.ID_UDM = ART.UDM_DIAMETRO  " + 
                         "   JOIN AN_COLORE CL ON CL.ID_COLORE = ART.COLORE  " + 
-                        "   LEFT JOIN AN_UDM_PESO P ON P.ID_UDM = ART.UDM_PESO  " + 
-                        "   LEFT JOIN AN_UDM_QTY_SCATOLA QS ON QS.ID_UDM = ART.UDM_QTY_SCATOLA  " + 
-                        "   LEFT JOIN AN_UDM_VOLUME V ON V.ID_UDM = ART.UDM_VOLUME  " + 
-                        "   LEFT JOIN AN_UDM_CAPACITA CP ON CP.ID_UDM = ART.UDM_CAPACITA  " + 
+                        "   LEFT JOIN (SELECT * FROM AN_UDM WHERE UDM_TYPE = 'PESO') P ON P.ID_UDM = ART.UDM_PESO  " + 
+                        "   LEFT JOIN (SELECT * FROM AN_UDM WHERE UDM_TYPE = 'QTYSCATOLA') QS ON QS.ID_UDM = ART.UDM_QTY_SCATOLA  " + 
+                        "   LEFT JOIN (SELECT * FROM AN_UDM WHERE UDM_TYPE = 'VOLUME') V ON V.ID_UDM = ART.UDM_VOLUME  " + 
+                        "   LEFT JOIN (SELECT * FROM AN_UDM WHERE UDM_TYPE = 'CAPACITA') CP ON CP.ID_UDM = ART.UDM_CAPACITA  " + 
                         "   JOIN AN_CAT_ARTICOLI C ON ART.ID_CATEGORIA = C.ID_CATEGORIA  " + 
                         " WHERE  ART.DELETED = 0 ";
                         
@@ -119,19 +119,6 @@ articolifactory.getArticoloByCode = function(code,connection, cb){
     });
 };
 
-
-articolifactory.readArticoli = function(connection,cb){
-    gestionaleLogger.logger.debug('articolifactory::readArticoli');
-    var articoliQuery = ARTICOLI_QUERY;		
-    connection.query(articoliQuery,function(err, results) {
-        if (err) {
-            gestionaleLogger.logger.error('articolifactory.readArticoli - Internal error: ', err);
-            return cb(err);
-        }else {
-            return cb(null,results)
-        }
-    });
-};
 
 articolifactory.readArticoliByCategory = function(idCategory, connection,cb){
     gestionaleLogger.logger.debug('articolifactory::readArticoliByCategory');

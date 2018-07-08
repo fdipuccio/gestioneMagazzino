@@ -2,13 +2,6 @@ var articolidao = require('./articolidao')
 var articolifactory = require('../factory/articolifactory')
 var gestionaleLogger = require("../utility/gestionaleLogger");
 
-articolidao.readArticoli = function(connection,cb){
-	gestionaleLogger.logger.debug('articolidao  readArticoli');
-	  articolifactory.readArticoli(connection,function(err, data){
-          if (err) return cb(err);
-			return cb(null,data)
-        });
-}
 
 articolidao.searchArticoli = function(filter, connection,cb){
 	gestionaleLogger.logger.debug('articolidao  searchArticoli');
@@ -37,16 +30,6 @@ articolidao.readArticoliByCategory = function(idCategory, connection,cb){
 }
 
 
-
-articolidao.advancedsearch = function(filter, ivaProdotto, ivaServizio, connection, cb){
-	gestionaleLogger.logger.debug('articolidao  advancedsearch');
-	articolifactory.advancedsearch(filter, ivaProdotto, ivaServizio, connection,function(err, data){
-		if (err) return cb(err);
-		return cb(null,data)
-	});
-}
-
-
 articolidao.getArticoloById = function(id,connection,cb){
 	gestionaleLogger.logger.debug('articolidao-getArticoloById');
 	  articolifactory.getArticoloById(id,connection, function(err, data){
@@ -68,7 +51,7 @@ articolidao.getArticoloByCode = function(code,connection,cb){
 articolidao.addArticolo = function(articolo,connection,cb){
 	gestionaleLogger.logger.debug('articolidao-addArticolo');
 	articolifactory.addArticolo(articolo,connection,function(err,data){
-			return cb(err, data)
+		return cb(err, data)
     });
 }	
 		

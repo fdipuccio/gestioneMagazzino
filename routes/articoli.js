@@ -8,23 +8,21 @@ var gestionaleLogger = require("../utility/gestionaleLogger");
 
 router.get('/idArticolo/:idArticolo',accesscontrol.isLoggedIn, function(req, res, next) {
     articolicontroller.getArticoloById(req, res, function(err, data){
-        gestionaleLogger.logger.debug(data);
+        
         if (err) return next(err);
 			res.end(JSON.stringify(data));
     });
 });
 
 router.get('/code/:codeArticolo',accesscontrol.isLoggedIn, function(req, res, next) {
-    articolicontroller.getArticoloByCode(req, res, function(err, data){
-        gestionaleLogger.logger.debug(data);
+    articolicontroller.getArticoloByCode(req, res, function(err, data){        
         if (err) res.end(JSON.stringify(err));
         res.end(JSON.stringify(data));
     });
 });
 
 router.post('/search',accesscontrol.isLoggedIn, function(req, res, next) {
-    articolicontroller.searchArticoli(req, res, function(err, data){
-        gestionaleLogger.logger.debug(data);
+    articolicontroller.searchArticoli(req, res, function(err, data){        
         if (err) res.end(JSON.stringify(err));
         res.end(JSON.stringify(data));
     });
@@ -48,13 +46,6 @@ router.get('/categories/:idCategory',accesscontrol.isLoggedIn, function(req, res
     }); 
 });
 
-router.post('/advancedsearch',accesscontrol.isLoggedIn, function(req, res) {
-    gestionaleLogger.logger.debug('articoli::search: '+req.body);
-    articolicontroller.advancedsearch(req, res, function(data){
-        res.send(data);
-    }); 
-});
-
 
 router.post('/addArticolo',accesscontrol.isLoggedIn, function(req, res) {
     gestionaleLogger.logger.debug('addArticolo: '+req.body);
@@ -64,13 +55,6 @@ router.post('/addArticolo',accesscontrol.isLoggedIn, function(req, res) {
     });  
 });
 
-router.get('/',accesscontrol.isLoggedIn, function(req, res) {
-    articolicontroller.readArticoli(req, res, function(err,data){
-        gestionaleLogger.logger.debug('readArticoli',data);
-        if (err) return next(err);
-        res.end(JSON.stringify(data));
-    });
-});
 
 router.put('/updateArticolo/:idArticolo',accesscontrol.isLoggedIn,  function(req, res) {
     articolicontroller.updateArticolo(req, res, function(err,data){
