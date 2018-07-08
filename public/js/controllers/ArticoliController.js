@@ -88,6 +88,22 @@ angular.module("gestionaleApp")
 		});
  	 };
 
+	  //open modale di inserimento articolo
+	$scope.openModalCaricoArticolo = function () {
+		$scope.transient.newArticolo = {};
+		$uibModal.open({
+		templateUrl: './html/articoli/modalCaricoArticolo.html',
+		scope:$scope,	
+		backdrop:'static',
+		size: 'lg',	
+		controller: "CaricoQuantitaArticoloController"
+		}).result.catch(function(res) {
+			if (!(res === 'cancel' || res === 'escape key press')) {
+				throw res;
+			}
+		});
+ 	 };
+
 	  //apre popup di conferma cancellazione
 	$scope.askConfirmationDelete = function(p_id) {
     var message = "Sei sicuro di voler eliminare questo articolo?";

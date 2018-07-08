@@ -1,0 +1,66 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancelNewArticoloButton()">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Carico</h4>
+</div>
+<div class="modal-body">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-md-offset-4 form-group">
+            <p>Articolo: XX - Nome: YY - Marca: ZZ</p>
+            
+        </div>                                 
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-3 col-md-offset-4 form-group">
+            <p>Numero Scatoli*:</p>
+            <input class="form-control form-control-sm "  name="numeroPezzi" type="number" 
+            ng-model="transient.numeroScatoli" ng-maxlength="15">
+        </div>                                 
+    </div>
+
+    <hr>
+
+    <form role="form" name="newArticoloForm" novalidate> 
+        <fieldset>
+            <div class="row" ng-repeat="scatolo in transient.listaScatoli">
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':newArticoloForm.codiceBarre.$invalid && !newArticoloForm.codiceBarre.$pristine}">
+                    <p>Fornitore*:</p>
+                    <input class="form-control form-control-sm "  name="fornitore" type="text" 
+                    ng-model="scatolo.idFornitore" ng-maxlength="15">
+                </div>
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':newArticoloForm.nome.$invalid && !newArticoloForm.nome.$pristine}">
+                    <p>Data Scadenza*:</p>
+                    <input class="form-control form-control-sm "  name="nome" type="text" 
+                    ng-model="scatolo.dataScadenza" required>
+                </div> 
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':newArticoloForm.codiceBarre.$invalid && !newArticoloForm.codiceBarre.$pristine}">
+                    <p>Prezzo*:</p>
+                    <input class="form-control form-control-sm "  name="fornitore" type="text" 
+                    ng-model="scatolo.idFornitore" ng-maxlength="15">
+                </div>
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':newArticoloForm.nome.$invalid && !newArticoloForm.nome.$pristine}">
+                    <p>Colore*:</p>
+                    <input class="form-control form-control-sm "  name="nome" type="text" 
+                    ng-model="scatolo.dataScadenza" required>
+                </div>                 
+            </div>                  
+
+            
+            
+            
+
+            
+
+            
+
+        </fieldset>
+    </form>
+   
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelCaricoArticoloButton()">Chiudi</button>
+    <button type="button" class="btn btn-primary" ng-click="salvaCaricoArticoloButton()" type="submit" ng-disabled="newArticoloForm.$invalid">Salva</button>
+</div>

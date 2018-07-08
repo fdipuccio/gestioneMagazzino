@@ -1,30 +1,24 @@
 angular.module("gestionaleApp")
-.controller("NuovoArticoloController",
+.controller("CaricoQuantitaArticoloController",
  ['$scope','$uibModal','$uibModalInstance','filterFilter','$sessionStorage','ArticoliService','CommonService', 'DTOptionsBuilder', 'DTColumnDefBuilder',
  function ($scope, $uibModal, $uibModalInstance, filterFilter, $sessionStorage, ArticoliService, CommonService, DTOptionsBuilder, DTColumnDefBuilder) {
 	 'use strict';
 	$scope.model ={};	
-	$scope.articoli = [];		
+	$scope.articoli = [];
+	$scope.persistent = {};
+	$scope.persistent.idArticolo = "";		
 	$scope.transient = {};
-	$scope.transient.newArticolo = {};	
-	$scope.transient.newArticolo.idCategoria = "";//default nessuna categoria 
-	$scope.listaQtyScatola = $sessionStorage.listaQtyScatola;
-	$scope.listaUdmDiametro = $sessionStorage.listaUdmDiametro;
-	$scope.listaUdmLunghezza = $sessionStorage.listaUdmLunghezza;
-	$scope.listaCategorie = $sessionStorage.listaCategorie;
-	$scope.listaTipologie = [{'DESCRIZIONE':'PRODOTTO'},{'DESCRIZIONE':'SERVIZIO'}];
+	$scope.transient.numeroScatoli = 0;
+	$scope.transient.listaScatoli = [];
 
 	// START PUBLIC FUNCTIONS
 
 	$scope.createNewArticoloButton = function () {
 				createNewArticolo($uibModalInstance);
 			};		
-	$scope.cancelNewArticoloButton = function () {
+	$scope.cancelCaricoArticoloButton = function () {
 		//$uibModalInstance.close(false);
-		$uibModalInstance.dismiss('cancel');
-		if($scope.sezioneRichiamante == 'nuovaFattura'){
-			$scope.openModalRicercaArticolo();
-		}
+		$uibModalInstance.dismiss('cancel');		
 	};
 
 	
@@ -33,8 +27,8 @@ angular.module("gestionaleApp")
 	// END PUBLIC FUNCTIONS
 
 	//init page
-		
 	
+		
 	//private functions
 	function createNewArticolo($uibModalInstance){
 		console.log("createNewArticolo");	
@@ -58,5 +52,18 @@ angular.module("gestionaleApp")
 			}    	 
 		});
 	}
+
+
+	$scope.$watch("transient.numeroScatoli", function(newValue, oldValue) {
+ 		$scope.transient.listaScatoli = [];
+		
+		 for(var i = 0; i< newValue;i++){
+			 var scatolo = {};
+			
+			$scope.transient.listaScatoli.push(scatolo);
+		 }
+
+    
+});
 
 }]);
