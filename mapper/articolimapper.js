@@ -3,11 +3,15 @@ var articolimapper = require('./articolimapper')
 
 articolimapper.CATEGORIES_OUT = function(data){
     var categoriaModel = {};
+    var retVal = new Array();
     if(data){
+        categoriaModel = {};
         categoriaModel.id = data[0].ID.CATEGORIA;
         categoriaModel.nome = data[0].NOME_CATEGORIA;
         categoriaModel.descrizione = data[0].DESCRIZIONE; 
+        retVal.push(categoriaModel);
     }
+    return retVal;
 }
 
 

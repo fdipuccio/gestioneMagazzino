@@ -6,9 +6,8 @@ var gestionaleLogger = require("../utility/gestionaleLogger");
 
 
 
-router.get('/idArticolo/:idArticolo',accesscontrol.isLoggedIn, function(req, res, next) {
-    articolicontroller.getArticoloById(req, res, function(err, data){
-        
+router.get('/:idArticolo',accesscontrol.isLoggedIn, function(req, res, next) {
+    articolicontroller.getArticoloById(req, res, function(err, data){        
         if (err) return next(err);
 			res.end(JSON.stringify(data));
     });

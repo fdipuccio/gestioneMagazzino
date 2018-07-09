@@ -18,7 +18,7 @@ articoliservice.readArticoliCategories= function(cb){
                     retObj.message=err[1]!=undefined?err[1]:'Errore recupero Articoli';
                     return cb(retObj,null);}
                 retObj.status='OK';
-                retObj.categorie=data;
+                retObj.categorie=articolimapper.CATEGORIES_OUT(data);
                 return cb(null,retObj);
         });
     });
@@ -58,28 +58,15 @@ articoliservice.readArticoliByCategory = function(idCategory,cb){
                 if (err){
                     retObj.status='KO';
                     retObj.code=err[0]!=undefined?err[0]:'FAT008';
-                    retObj.message=err[1]!=undefined?err[1]:'Errore recupero Categorie per Articolo';
+                    retObj.message=err[1]!=undefined?err[1]:'Errore recupero Articoli per Categorie';
                     return cb(retObj,null);}
                 retObj.status='OK';
-                retObj.categorie=data;
+                if(!data || !data[0]){
+                    retObj.categorie = new Array();
+                }else{
+                    retObj.categorie=articolimapper.OUT_LISTA(data);   
+                }   
                 return cb(null,retObj);
-        });
-    });
-}
-
-articoliservice.readArticoli = function(cb){
-    gestionaleLogger.logger.debug('articoliservice-readArticoli');
-    var retObj = {};
-    transaction.getConnection(pool,function(connection) {                               
-        articolidao.readArticoli( connection, function(err, data){
-            if (err){
-                retObj.status='KO';
-                retObj.code=err[0]!=undefined?err[0]:'FAT008';
-                retObj.message=err[1]!=undefined?err[1]:'Errore recupero Articoli';
-                return cb(retObj,null);}
-            retObj.status='OK';
-            retObj.articoli=data;
-            return cb(null,retObj)
         });
     });
 }
@@ -97,7 +84,7 @@ articoliservice.getArticoloById = function(id, cb){
                 return cb(retObj,null);}
             retObj.status='OK';
             if(!data || !data[0]){
-                retObj.articolo = new Array();
+                retObj.articolo = null;
             }else{
                 retObj.articolo=articolimapper.OUT(data);   
             }    
@@ -127,23 +114,6 @@ articoliservice.getArticoloByCode = function(code, cb){
     });
 }
 
-
-articoliservice.getArticoloById = function(id, cb){
-    transaction.getConnection(pool,function(connection) {
-    var retObj={}
-	console.log('articoliservice- getArticoloById');
-      articolidao.getArticoloById(id,connection,function(err, data){
-        if (err){
-            retObj.status='KO';
-            retObj.code=err[0]!=undefined?err[0]:'FAT008';
-            retObj.message=err[1]!=undefined?err[1]:'Errore recupero Articolo';
-            return cb(retObj,null);}
-        retObj.status='OK';
-        retObj.articolo=data;
-        return cb(null,retObj);
-        });
-    });
-}
 
 
 
