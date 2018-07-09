@@ -10,7 +10,7 @@ var retObj={};
 articoliservice.readArticoliCategories= function(cb){
     gestionaleLogger.logger.debug('articoliservice-readArticoliCategories');
         transaction.getConnection(pool,function(connection) {
-            retObj={}
+            var retObj = {};
             articolidao.readArticoliCategories(connection, function(err, data){
                 if (err){
                     retObj.status='KO';
@@ -31,7 +31,7 @@ articoliservice.readArticoliCategories= function(cb){
 articoliservice.searchArticoli= function(filter, cb){
     gestionaleLogger.logger.debug('articoliservice-readArticoliCategories');
         transaction.getConnection(pool,function(connection) {
-            retObj={}
+            var retObj = {};
             articolidao.searchArticoli(filter, connection, function(err, data){
                 if (err){
                     retObj.status='KO';
@@ -40,14 +40,18 @@ articoliservice.searchArticoli= function(filter, cb){
                     return cb(retObj,null);
                 }
                 retObj.status='OK';
-                retObj.articoli=articolimapper.OUT(data);
+                if(!data || !data[0]){
+                    retObj.articoli = new Array();
+                }else{
+                    retObj.articoli=articolimapper.OUT_LISTA(data);   
+                }               
                 return cb(null,retObj);
         });
     });
 }
 
 articoliservice.readArticoliByCategory = function(idCategory,cb){
-                retObj={};
+    var retObj = {};
     gestionaleLogger.logger.debug('articoliservice-readArticoliByCategory');
         transaction.getConnection(pool,function(connection) {
             articolidao.readArticoliByCategory(idCategory, connection, function(err, data){
@@ -65,7 +69,7 @@ articoliservice.readArticoliByCategory = function(idCategory,cb){
 
 articoliservice.readArticoli = function(cb){
     gestionaleLogger.logger.debug('articoliservice-readArticoli');
-    retObj={}
+    var retObj = {};
     transaction.getConnection(pool,function(connection) {                               
         articolidao.readArticoli( connection, function(err, data){
             if (err){
@@ -83,7 +87,7 @@ articoliservice.readArticoli = function(cb){
 
 articoliservice.getArticoloById = function(id, cb){
     gestionaleLogger.logger.debug('articoliservice- getArticoloById');
-    retObj={}
+    var retObj={}
     transaction.getConnection(pool,function(connection) {  
 	    articolidao.getArticoloById(id, connection, function(err, data){
             if (err){
@@ -92,7 +96,11 @@ articoliservice.getArticoloById = function(id, cb){
                 retObj.message=err[1]!=undefined?err[1]:'Errore recupero Articolo';
                 return cb(retObj,null);}
             retObj.status='OK';
-            retObj.articolo=data;
+            if(!data || !data[0]){
+                retObj.articolo = new Array();
+            }else{
+                retObj.articolo=articolimapper.OUT(data);   
+            }    
             return cb(null,retObj);
         });
     });
@@ -100,7 +108,7 @@ articoliservice.getArticoloById = function(id, cb){
 
 articoliservice.getArticoloByCode = function(code, cb){
     gestionaleLogger.logger.debug('articoliservice- getArticoloByCode');
-    retObj={}
+    var retObj={}
     transaction.getConnection(pool,function(connection) {  
 	    articolidao.getArticoloByCode(code, connection, function(err, data){
             if (err){
@@ -109,7 +117,11 @@ articoliservice.getArticoloByCode = function(code, cb){
                 retObj.message=err[1]!=undefined?err[1]:'Errore recupero Articolo';
                 return cb(retObj,null);}
             retObj.status='OK';
-            retObj.articolo=data;
+            if(!data || !data[0]){
+                retObj.articolo = new Array();
+            }else{
+                retObj.articolo=articolimapper.OUT(data);   
+            } 
             return cb(null,retObj);
         });
     });
@@ -118,7 +130,7 @@ articoliservice.getArticoloByCode = function(code, cb){
 
 articoliservice.getArticoloById = function(id, cb){
     transaction.getConnection(pool,function(connection) {
-        retObj={}
+    var retObj={}
 	console.log('articoliservice- getArticoloById');
       articolidao.getArticoloById(id,connection,function(err, data){
         if (err){
@@ -137,7 +149,7 @@ articoliservice.getArticoloById = function(id, cb){
 
 articoliservice.addArticolo = function(articolo,cb){
     gestionaleLogger.logger.debug('articoliservice- addarticoli');
-    retObj={}
+    var retObj={}
     var ret="";
     transaction.inTransaction(pool, function(connection, next) {
        articolidao.getArticoloByCode(articolo.codiceArticolo,connection,function(err,data){  
@@ -162,10 +174,11 @@ articoliservice.addArticolo = function(articolo,cb){
     });
 }
     	
-articoliservice.updateArticolo = function(articolo,cb){
+articoliservice.updateArticolo = function(articolo,idArticolo,cb){
     gestionaleLogger.logger.debug('articoliservice- updateArticolo');
+    var retObj = {};
     transaction.inTransaction(pool, function(connection, next) {
-        articolidao.updateArticolo(articolo,connection,function(error, data){
+        articolidao.updateArticolo(articolo,idArticolo,connection,function(error, data){
             if(error) return next('Transcation Error');
             return next(null);
             });
@@ -177,7 +190,7 @@ articoliservice.updateArticolo = function(articolo,cb){
                 retObj.message=err[1]!=undefined?err[1]:'Errore Update Articoli';
                 return cb(retObj,null);}
             retObj.status='OK';
-            retObj.IdArticoloUpdated=articolo.idArticolo;
+            retObj.IdArticoloUpdated=idArticolo;
             return cb(null,retObj);
                 gestionaleLogger.logger.debug("All done, transaction ended and connection released");           
         });
@@ -185,6 +198,7 @@ articoliservice.updateArticolo = function(articolo,cb){
 
 articoliservice.deleteArticolo = function(id, cb){ 
     gestionaleLogger.logger.debug('articoliservice- deleteArticolo');
+    var retObj = {};
     transaction.inTransaction(pool, function(connection, next) {
 	    articolidao.deleteArticolo(id,connection,function(error, data){
             if(error) return next('Transcation Error');

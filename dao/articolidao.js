@@ -55,9 +55,9 @@ articolidao.addArticolo = function(articolo,connection,cb){
     });
 }	
 		
-articolidao.updateArticolo = function(articolo,connection,cb){
+articolidao.updateArticolo = function(articolo,idArticolo,connection,cb){
 	gestionaleLogger.logger.debug('articolidao-updateArticolo');
-	  articolifactory.updateArticolo(articolo,connection,function(error,data){
+	  articolifactory.updateArticolo(articolo,idArticolo,connection,function(error,data){
 			return cb(error, data)
         });
 }

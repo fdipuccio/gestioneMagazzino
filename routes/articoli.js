@@ -47,7 +47,7 @@ router.get('/categories/:idCategory',accesscontrol.isLoggedIn, function(req, res
 });
 
 
-router.post('/addArticolo',accesscontrol.isLoggedIn, function(req, res) {
+router.post('/',accesscontrol.isLoggedIn, function(req, res) {
     gestionaleLogger.logger.debug('addArticolo: '+req.body);
     articolicontroller.addArticolo(req, res, function(err,data){
         if (err) res.end(JSON.stringify(err));
@@ -56,7 +56,7 @@ router.post('/addArticolo',accesscontrol.isLoggedIn, function(req, res) {
 });
 
 
-router.put('/updateArticolo/:idArticolo',accesscontrol.isLoggedIn,  function(req, res) {
+router.put('/:idArticolo',accesscontrol.isLoggedIn,  function(req, res) {
     articolicontroller.updateArticolo(req, res, function(err,data){
         gestionaleLogger.logger.debug('updateArticolo '+req.body.id);
         if (err)  res.end(JSON.stringify(err));

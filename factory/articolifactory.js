@@ -198,7 +198,7 @@ articolifactory.addArticolo = function(articolo,connection,cb){
     });
 };
 
-articolifactory.updateArticolo = function(articolo,connection,cb){
+articolifactory.updateArticolo = function(articolo,idArticolo,connection,cb){
     gestionaleLogger.logger.debug('articolifactory::updateArticolo');
      
     var updtStr="UPDATE AN_ARTICOLI SET ";
@@ -214,7 +214,7 @@ articolifactory.updateArticolo = function(articolo,connection,cb){
     updtStr+=(articolo.minimoMagazzino!=undefined || articolo.minimoMagazzino==null)?" MINIMO_MAGAZZINO ="+connection.escape(articolo.minimoMagazzino)+",":"";
     updtStr+=(articolo.diametro!=undefined || articolo.diametro==null)?" DIAMETRO ="+connection.escape(articolo.diametro)+",":"";
     updtStr+=(articolo.udmDiametro!=undefined || articolo.udmDiametro==null)?" UDM_DIAMETRO ="+connection.escape(articolo.udmDiametro)+",":"";
-    updtStr+=(articolo.marca!=undefined || articolo.marca==null)?" UDM_DIAMETRO ="+connection.escape(articolo.marca)+",":"";
+    updtStr+=(articolo.marca!=undefined || articolo.marca==null)?" MARCA ="+connection.escape(articolo.marca)+",":"";
     updtStr+=(articolo.colore!=undefined || articolo.colore==null)?" COLORE ="+connection.escape(articolo.colore)+",":"";
     updtStr+=(articolo.prezzo!=undefined || articolo.prezzo==null)?" PREZZO ="+connection.escape(articolo.prezzo)+",":"";
     updtStr+=(articolo.valuta!=undefined )?" VALUTA ="+connection.escape(articolo.valuta)+",":"";
@@ -227,7 +227,7 @@ articolifactory.updateArticolo = function(articolo,connection,cb){
     updtStr+=(articolo.udmCapacita!=undefined || articolo.udmCapacita==null)?" UDM_CAPACITA ="+connection.escape(articolo.udmCapacita)+",":"";    
     updtStr+=(articolo.udm!=undefined)?" UDM ="+connection.escape(articolo.udm)+",":"";
     updtStr+=(articolo.note!=undefined || articolo.note==null)?" NOTE ="+connection.escape(articolo.note)+",":"";
-    updtStr+=" DATA_MOD = CURRENT_TIMESTAMP, ";
+    updtStr+=" DATA_MOD = CURRENT_TIMESTAMP,";
     updtStr= updtStr.substring(0, updtStr.length - 1);// elimino l'ultima vigola :)
     updtStr+= " WHERE ID_ARTICOLO ="+connection.escape(idArticolo);
     gestionaleLogger.logger.debug('updtStr',updtStr);

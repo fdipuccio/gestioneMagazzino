@@ -1,42 +1,51 @@
 var articolimapper = require('./articolimapper')
 
 
+articolimapper.CATEGORIES_OUT = function(data){
+    var categoriaModel = {};
+    if(data){
+        categoriaModel.id = data[0].ID.CATEGORIA;
+        categoriaModel.nome = data[0].NOME_CATEGORIA;
+        categoriaModel.descrizione = data[0].DESCRIZIONE; 
+    }
+}
+
 
 articolimapper.OUT = function(data){
     var articoloModel = {};
-    if(data[0]){
-        articoloModel.idArticolo = data[0].ID_ARTICOLO;
-        articoloModel.idCategoria = data[0].ID_CATEGORIA;
-        articoloModel.descCategoria = data[0].DESC_CATEGORIA;
-        articoloModel.codiceArticolo = data[0].CODICE_ARTICOLO;
-        articoloModel.codiceBarre = data[0].CODICE_BARRE;
-        articoloModel.descrizione = data[0].DESCRIZIONE;
-        articoloModel.lunghezza = data[0].LUNGHEZZA;
-        articoloModel.udmLunghezza = data[0].UDM_LUNGHEZZA;
-        articoloModel.qtyInScatola = data[0].QTY_SCATOLA;
-        articoloModel.udmQtyInScatola = data[0].UDM_QTY_SCATOLA;
-        articoloModel.timerScadenza = data[0].TIMER_SCADENZA_HH;
-        articoloModel.minimoMagazzino = data[0].MINIMO_MAGAZZINO;
-        articoloModel.diametro = data[0].DIAMETRO;
-        articoloModel.udmDiametro = data[0].UDM_DIAMETRO;
-        articoloModel.marca = data[0].MARCA;
-        articoloModel.colore = data[0].COLORE;
-        articoloModel.prezzo = data[0].PREZZO;
-        articoloModel.valuta = data[0].VALUTA;
-        articoloModel.iva = data[0].IVA;
-        articoloModel.valoreIva = data[0].VALORE_IVA;
-        articoloModel.peso = data[0].PESO;
-        articoloModel.udmPeso = data[0].UDM_PESO;
-        articoloModel.volume = data[0].VOLUME;
-        articoloModel.udmVolume = data[0].UDM_VOLUME;
-        articoloModel.capacita = data[0].CAPACITA;
-        articoloModel.udmCapacita = data[0].UDM_CAPACITA;
-        articoloModel.udm = data[0].UDM;
-        articoloModel.note = data[0].NOTE;
-        articoloModel.dataInserimento = data[0].DATA_INS;
-        articoloModel.dataModifica = data[0].DATA_MOD;
-        articoloModel.qty = data[0].QTY;
-        articoloModel.idMagazzino = data[0].ID_MAGAZZINO;
+    if(data){
+        articoloModel.idArticolo = data.ID_ARTICOLO;
+        articoloModel.idCategoria = data.ID_CATEGORIA;
+        articoloModel.descCategoria = data.DESC_CATEGORIA;
+        articoloModel.codiceArticolo = data.CODICE_ARTICOLO;
+        articoloModel.codiceBarre = data.CODICE_BARRE;
+        articoloModel.descrizione = data.DESCRIZIONE;
+        articoloModel.lunghezza = data.LUNGHEZZA;
+        articoloModel.udmLunghezza = data.UDM_LUNGHEZZA;
+        articoloModel.qtyInScatola = data.QTY_SCATOLA;
+        articoloModel.udmQtyInScatola = data.UDM_QTY_SCATOLA;
+        articoloModel.timerScadenza = data.TIMER_SCADENZA_HH;
+        articoloModel.minimoMagazzino = data.MINIMO_MAGAZZINO;
+        articoloModel.diametro = data.DIAMETRO;
+        articoloModel.udmDiametro = data.UDM_DIAMETRO;
+        articoloModel.marca = data.MARCA;
+        articoloModel.colore = data.COLORE;
+        articoloModel.prezzo = data.PREZZO;
+        articoloModel.valuta = data.VALUTA;
+        articoloModel.iva = data.IVA;
+        articoloModel.valoreIva = data.VALORE_IVA;
+        articoloModel.peso = data.PESO;
+        articoloModel.udmPeso = data.UDM_PESO;
+        articoloModel.volume = data.VOLUME;
+        articoloModel.udmVolume = data.UDM_VOLUME;
+        articoloModel.capacita = data.CAPACITA;
+        articoloModel.udmCapacita = data.UDM_CAPACITA;
+        articoloModel.udm = data.UDM;
+        articoloModel.note = data.NOTE;
+        articoloModel.dataInserimento = data.DATA_INS;
+        articoloModel.dataModifica = data.DATA_MOD;
+        articoloModel.qty = data.QTY;
+        articoloModel.idMagazzino = data.ID_MAGAZZINO;
     }
 
     return articoloModel;
@@ -44,7 +53,14 @@ articolimapper.OUT = function(data){
 
 
 articolimapper.OUT_LISTA = function(data){
-    return data;
+    var retVal = new Array();
+    if(data){
+        for(var i in data){
+            retVal.push(articolimapper.OUT(data[i])); 
+        }
+    }
+    
+    return retVal;
 }
 
 

@@ -57,7 +57,7 @@ articolicontroller.addArticolo = function(req, res, cb){
 
 articolicontroller.updateArticolo = function(req, res, cb){
     gestionaleLogger.logger.debug('updatearticoli- controller');
-    articoliservice.updateArticolo(req.body.articolo,function(err,data){
+    articoliservice.updateArticolo(req.body.articolo, req.params.idArticolo, function(err,data){
 	    return cb(err,data)
     });
 }
