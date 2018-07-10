@@ -86,7 +86,7 @@ articoliservice.getArticoloById = function(id, cb){
             if(!data || !data[0]){
                 retObj.articolo = null;
             }else{
-                retObj.articolo=articolimapper.OUT(data);   
+                retObj.articolo=articolimapper.OUT(data[0]);   
             }    
             return cb(null,retObj);
         });
@@ -107,7 +107,7 @@ articoliservice.getArticoloByCode = function(code, cb){
             if(!data || !data[0]){
                 retObj.articolo = new Array();
             }else{
-                retObj.articolo=articolimapper.OUT(data);   
+                retObj.articolo=articolimapper.OUT(data[0]);   
             } 
             return cb(null,retObj);
         });

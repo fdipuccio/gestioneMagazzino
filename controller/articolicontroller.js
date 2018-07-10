@@ -64,8 +64,8 @@ articolicontroller.updateArticolo = function(req, res, cb){
 
 articolicontroller.deleteArticolo = function(req, res, cb){
 	gestionaleLogger.logger.debug('deletearticoli- controller');
-    articoliservice.deleteArticolo(req.params.idArticolo,function(data){
-        return cb(data)
+    articoliservice.deleteArticolo(req.params.idArticolo,function(err, data){
+        return cb(err, data)
     });
 }
 

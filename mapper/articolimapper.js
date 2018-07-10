@@ -6,7 +6,7 @@ articolimapper.CATEGORIES_OUT = function(data){
     var retVal = new Array();
     if(data){
         categoriaModel = {};
-        categoriaModel.id = data[0].ID.CATEGORIA;
+        categoriaModel.id = data[0].ID_CATEGORIA;
         categoriaModel.nome = data[0].NOME_CATEGORIA;
         categoriaModel.descrizione = data[0].DESCRIZIONE; 
         retVal.push(categoriaModel);

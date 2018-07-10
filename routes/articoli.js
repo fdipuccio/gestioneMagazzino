@@ -6,7 +6,7 @@ var gestionaleLogger = require("../utility/gestionaleLogger");
 
 
 
-router.get('/:idArticolo',accesscontrol.isLoggedIn, function(req, res, next) {
+router.get('/:idArticolo(\\d+)',accesscontrol.isLoggedIn, function(req, res, next) {
     articolicontroller.getArticoloById(req, res, function(err, data){        
         if (err) return next(err);
 			res.end(JSON.stringify(data));
@@ -64,8 +64,9 @@ router.put('/:idArticolo',accesscontrol.isLoggedIn,  function(req, res) {
 });
 
 router.delete('/:idArticolo',accesscontrol.isLoggedIn, function (req, res) {
-    articolicontroller.deleteArticolo(req, res, function(data){
-        res.send(data);
+    articolicontroller.deleteArticolo(req, res, function(err, data){
+        if (err)  res.end(JSON.stringify(err));
+        res.end(JSON.stringify(data));
     });
 });
 
