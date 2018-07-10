@@ -6,20 +6,36 @@ var transaction = require('../connection/transactionUtils.js'); // transaction m
 
 magazzinoservice.getMagazzini = function(cb){
     gestionaleLogger.logger.debug('magazzinoservice- getMagazzini');
+    var retObj = {};
     transaction.getConnection(pool,function(connection) {
         magazzinodao.getMagazzini(connection, function(err, data){
-            if (err) return cb(err);
-            return cb(null,data)
+            if (err){
+                retObj.status='KO';
+                retObj.code=err[0]!=undefined?err[0]:'000';
+                retObj.message=err[1]!=undefined?err[1]:'Generic Error';
+                return cb(retObj,null);
+            }
+            retObj.status='OK';
+            retObj.magazzini=data;
+            return cb(null,retObj) 
         });
     });
 }
 
 magazzinoservice.getMagazzinoById = function(idMagazzino, cb){
     gestionaleLogger.logger.debug('magazzinoservice- getMagazzinoById');
+    var retObj = {};
     transaction.getConnection(pool,function(connection) {
         magazzinodao.getMagazzinoById(idMagazzino, connection, function(err, data){
-            if (err) return cb(err);
-            return cb(null,data)
+            if (err){
+                retObj.status='KO';
+                retObj.code=err[0]!=undefined?err[0]:'000';
+                retObj.message=err[1]!=undefined?err[1]:'Generic Error';
+                return cb(retObj,null);
+            }
+            retObj.status='OK';
+            retObj.magazzino=data;
+            return cb(null,retObj) 
         });
     });
 }
