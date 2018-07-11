@@ -87,22 +87,6 @@ articolifactory.searchArticoli= function (filter, connection,cb){
     });   
 }
 
-articolifactory.readArticoliCategories= function(connection, cb){
-    gestionaleLogger.logger.debug('articolifactory::readArticoliCategories');
-    var sql = 'SELECT * FROM an_cat_articoli WHERE DELETED = 0 AND VISIBILE = 1';
-    gestionaleLogger.logger.debug('sql',sql);
-    connection.query(sql, function (err, rows) {
-        if (err){
-            gestionaleLogger.logger.error('articolifactory.readArticoliCategories - Internal error: ', err);
-            return cb(err);
-        }
-        else {
-            gestionaleLogger.logger.debug('rows',rows);
-            return cb(null,rows)
-        }
-    });
-};
-
 articolifactory.getArticoloByCode = function(code,connection, cb){
     gestionaleLogger.logger.debug('articolifactory::getArticoloByCode');
     var sql = ARTICOLI_QUERY + ' AND UPPER(art.CODICE_ARTICOLO) = UPPER('+connection.escape(code)+')';

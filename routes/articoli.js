@@ -27,16 +27,6 @@ router.post('/search',accesscontrol.isLoggedIn, function(req, res, next) {
     });
 });
 
-
-router.get('/categories',accesscontrol.isLoggedIn, function(req, res) {
-    gestionaleLogger.logger.debug('articoli::search: '+req.body);
-    articolicontroller.readArticoliCategories(req, res, function(err,data){
-        if (err) return next(err);
-        res.end(JSON.stringify(data));
-    }); 
-});
-
-
 router.get('/categories/:idCategory',accesscontrol.isLoggedIn, function(req, res) {
     gestionaleLogger.logger.debug('articoli::search: '+req.body);
     articolicontroller.readArticoliByCategory(req, res, function(err,data){

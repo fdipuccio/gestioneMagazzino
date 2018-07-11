@@ -23,13 +23,6 @@ articolicontroller.getArticoloById = function(req, res, cb){
     });
 }
 
-articolicontroller.readArticoliCategories= function(req, res, cb){
-    gestionaleLogger.logger.debug('articolicontroller-readArticoliCategories');
-	articoliservice.readArticoliCategories(function(err, data){
-        if (err) return cb(err);
-        return cb(null,data)
-    });
-}
 
 articolicontroller.readArticoliByCategory = function(req, res, cb){
     gestionaleLogger.logger.debug('articolicontroller-readArticoliByCategory');

@@ -12,15 +12,6 @@ articolidao.searchArticoli = function(filter, connection,cb){
 }
 
 
-articolidao.readArticoliCategories = function(connection,cb){
-	gestionaleLogger.logger.debug('articolidao  readArticoliCategories');	
-	articolifactory.readArticoliCategories(connection,function(err, data){
-		if (err) return cb(err);
-		  return cb(null,data)
-	  });
-}
-
-
 articolidao.readArticoliByCategory = function(idCategory, connection,cb){
 	gestionaleLogger.logger.debug('articolidao  readArticoliByCategory');	
 	articolifactory.readArticoliByCategory(idCategory, connection,function(err, data){
