@@ -1,7 +1,7 @@
 angular.module("gestionaleApp")
 .controller("HomeController",
-['$scope','CommonService','ArticoliService','$rootScope','$sessionStorage', 
-function ($scope,CommonService,ArticoliService,rootScope,$sessionStorage) {
+['$scope','CommonService','ArticoliService','CategorieService','$rootScope','$sessionStorage', 
+function ($scope,CommonService,ArticoliService,CategorieService,rootScope,$sessionStorage) {
    'use strict';
 
 	 $scope.messaggio = "Accedi alle funzionalità tramite il menu sulla sinistra";
@@ -31,7 +31,7 @@ function ($scope,CommonService,ArticoliService,rootScope,$sessionStorage) {
 	//funzione che recupera la lista di tutti le categorie
 	$scope.getCategorieArticoliList = function (){
 		//invocazione service
-		ArticoliService.getCategorieArticoliList().then(function(response) {
+		CategorieService.getCategorieList().then(function(response) {
 			
 			var handleResponseResult = $scope.handleResponse(response);  
 	    	if(handleResponseResult.next){

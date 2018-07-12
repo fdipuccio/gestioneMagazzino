@@ -27,7 +27,8 @@ angular.module("gestionaleApp")
 			
 			var handleResponseResult = $scope.handleResponse(response);  
 	    	if(handleResponseResult.next){
-				$scope.listaCategorie = response.data.categorie;						
+				$scope.listaCategorie = response.data.categorie;
+				$sessionStorage.listaCategorie = $scope.listaCategorie						
 	    	} else {
 				toastr.error("Errore: "+ handleResponseResult.errorCode + " - GESTIONE ERRORE DA FARE!!!" );
 			}
