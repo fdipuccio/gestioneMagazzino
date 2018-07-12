@@ -57,7 +57,17 @@ angular.module("gestionaleApp").factory('CommonService', function($http) {
                	  url: tempUrl        	  
                });   
                         	
-            }                            
+			},
+			getListaColori : function(){         
+                           	
+            	var tempUrl = '/colori';                	
+            	
+            	 return $http({
+               	  method: 'GET',
+               	  url: tempUrl        	  
+               });   
+                        	
+            }                              
             
         }
     });

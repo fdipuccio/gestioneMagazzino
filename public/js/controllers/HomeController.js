@@ -51,6 +51,15 @@ function ($scope,CommonService,ArticoliService,rootScope,$sessionStorage) {
       	});
 	}
 
+	$scope.getListaColori = function (){
+    	//invocazione service    
+		CommonService.getListaColori().then(function(response) {  
+	    	if(response!=null && response.statusText == "OK" && response.data != null){
+				$sessionStorage.listaColori = response.data.colori;
+	    	}    	
+      	});
+	}
+
 	if($sessionStorage.listaUdmDiametro === undefined || $sessionStorage.listaUdmDiametro === null){
 		$scope.getListaDiametro();	
 	}
@@ -63,6 +72,9 @@ function ($scope,CommonService,ArticoliService,rootScope,$sessionStorage) {
 	}
 	if($sessionStorage.listaQtyScatola === undefined || $sessionStorage.listaQtyScatola === null){
 		$scope.getListaQtyScatola();	
+	}
+	if($sessionStorage.listaColori === undefined || $sessionStorage.listaColori === null){
+		$scope.getListaColori();	
 	}
 	
   

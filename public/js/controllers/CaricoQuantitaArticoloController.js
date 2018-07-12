@@ -55,7 +55,8 @@ angular.module("gestionaleApp")
 
 
 	$scope.$watch("transient.numeroScatoli", function(newValue, oldValue) {
- 		$scope.transient.listaScatoli = [];
+		 
+		$scope.transient.listaScatoli = [];
 		
 		 for(var i = 0; i< newValue;i++){
 			 var scatolo = {};

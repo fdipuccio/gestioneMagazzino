@@ -26,6 +26,9 @@ $locationProvider.html5Mode({
             .when('/articoli', {
                 templateUrl : 'html/articoli/articoli.html'                
             })
+            .when('/categorie', {
+                templateUrl : 'html/categorie/categorie.html'                
+            })
             // route for the users page
             .when('/users', {
                 templateUrl : 'html/users/users.html'               

@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancelNewCategoriaoButton()">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Inserisci Nuovo Categoria</h4>
+</div>
+<div class="modal-body">
+    <form role="form" name="newCategoriaForm" novalidate> 
+        <fieldset>
+            <div class="row">
+                <div class="col-sm-12 col-md-5 form-group" ng-class="{'has-error':newCategoriaForm.nome.$invalid && !newCategoriaForm.nome.$pristine}">
+                    <p>Nome*:</p>
+                    <input class="form-control form-control-sm "  name="nome" type="text" 
+                    ng-model="transient.newCategoria.nome" ng-maxlength="15">
+                </div>
+                <div class="col-sm-12 col-md-7 form-group" ng-class="{'has-error':newCategoriaForm.descrizione.$invalid && !newCategoriaForm.descrizione.$pristine}">
+                    <p>Descrizione*:</p>
+                    <input class="form-control form-control-sm "  name="nome" type="text" 
+                    ng-model="transient.newCategoria.descrizione" required ng-maxlength="70">
+                </div>                 
+            </div>                  
+
+            
+
+        </fieldset>
+    </form>
+   
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelNewCategoriaButton()">Chiudi</button>
+    <button type="button" class="btn btn-primary" ng-click="createNewCategoriaButton()" type="submit" ng-disabled="newCategoriaForm.$invalid">Salva</button>
+</div>

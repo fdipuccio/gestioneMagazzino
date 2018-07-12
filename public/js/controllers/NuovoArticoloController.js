@@ -12,6 +12,7 @@ angular.module("gestionaleApp")
 	$scope.listaUdmDiametro = $sessionStorage.listaUdmDiametro;
 	$scope.listaUdmLunghezza = $sessionStorage.listaUdmLunghezza;
 	$scope.listaCategorie = $sessionStorage.listaCategorie;
+	$scope.listaColori = $sessionStorage.listaColori;
 	$scope.listaTipologie = [{'DESCRIZIONE':'PRODOTTO'},{'DESCRIZIONE':'SERVIZIO'}];
 
 	// START PUBLIC FUNCTIONS

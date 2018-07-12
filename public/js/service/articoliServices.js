@@ -109,7 +109,7 @@ angular.module("gestionaleApp").factory('ArticoliService', function($http) {
 
 
 
-            	var tempUrl = '/articoli/addarticolo';                	
+            	var tempUrl = '/articoli';                	
             	
             	 return $http({
                	     method: 'POST',
@@ -129,16 +129,7 @@ angular.module("gestionaleApp").factory('ArticoliService', function($http) {
                      data:  editArticolo      	  
                });
             	
-            },
-            getCategorieArticoliList : function(){            	
-            	var tempUrl = '/articoli/categories';                	
-            	
-            	 return $http({
-               	  method: 'GET',
-               	  url: tempUrl        	  
-               });
-            	
-            },
+            },            
             getArticoloByCodiceAndFornitore : function(idFornitore,codice){            	
             	var tempUrl = '/articoli/code/'+encodeURIComponent(codice)+'/fornitore/'+idFornitore;                	
             	 return $http({
