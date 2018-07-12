@@ -6,17 +6,14 @@ var gestionaleLogger = require("../utility/gestionaleLogger");
 
 
 
-router.get('/:idSupplier',accesscontrol.isLoggedIn, function(req, res, next) {
-
+router.get('/:idFornitore',accesscontrol.isLoggedIn, function(req, res, next) {
   fornitoricontroller.getSupplierById(req, res, function(err, data){
-  //gestionaleLogger.logger.debug(data);
-          if (err)  res.end(JSON.stringify(err));
-			res.end(JSON.stringify(data));
-        });
-
+    if (err)  res.end(JSON.stringify(err));
+        res.end(JSON.stringify(data));
+    });
 });
 
-router.post('/addfornitori',accesscontrol.isLoggedIn, function(req, res) {
+router.post('/',accesscontrol.isLoggedIn, function(req, res) {
     gestionaleLogger.logger.debug('log',accesscontrol.isLoggedIn);
     fornitoricontroller.addSupplier(req, res, function(err,data){
         if (err) res.end(JSON.stringify(err));
@@ -24,16 +21,6 @@ router.post('/addfornitori',accesscontrol.isLoggedIn, function(req, res) {
     });
   
 });
-
-router.get('/',accesscontrol.isLoggedIn, function(req, res) {
-    fornitoricontroller.readSuppliers(req, res, function(err,data){
-        //gestionaleLogger.logger.debug('readSupplier',data);
-        if (err)  res.end(JSON.stringify(err));
-        res.end(JSON.stringify(data));
-    });
-
-});
-
 
 router.post('/advancedsearch',accesscontrol.isLoggedIn, function(req, res) {
     fornitoricontroller.advancedSearch(req, res, function(err,data){
@@ -43,21 +30,20 @@ router.post('/advancedsearch',accesscontrol.isLoggedIn, function(req, res) {
 });
 
 
-router.put('/updatefornitori/:idSupplier',accesscontrol.isLoggedIn,  function(req, res) {
+router.put('/:idFornitore',accesscontrol.isLoggedIn,  function(req, res) {
     fornitoricontroller.updateSupplier(req, res, function(err,data){
         if (err)  res.end(JSON.stringify(err));
         res.end(JSON.stringify(data));
     });
-
 });
 
 
 
-router.delete('/deletefornitori/:idSupplier',accesscontrol.isLoggedIn, function (req, res) {
+router.delete('/:idFornitore',accesscontrol.isLoggedIn, function (req, res) {
   fornitoricontroller.deleteSupplier(req, res, function(err,data){
         if (err)  res.end(JSON.stringify(err));
         res.end(JSON.stringify(data));
-        });
+    });
 });
 
 
