@@ -37,16 +37,16 @@ angular.module("gestionaleApp")
 
 	
 	//open modale di inserimento categoria
-	$scope.openModalNewCategoria = function () {
+	$scope.openModalNewColore = function () {
 		$scope.transient.newCategoria = {};	
 		$uibModal.open({
-		templateUrl: './html/categorie/modalNewCategoria.html',
+		templateUrl: './html/colori/modalNewColore.html',
 		scope:$scope,	
 		backdrop:'static',
 		size: 'lg',	
 		controller: function ($scope, $uibModalInstance) {
-			$scope.createNewCategoriaButton = function () {
-				creaCategoria($uibModalInstance);
+			$scope.createNewColoreButton = function () {
+				creaColore($uibModalInstance);
 				$uibModalInstance.dismiss('cancel');
 			};		
 			$scope.cancelDelete = function () {
@@ -143,16 +143,16 @@ $scope.openModalEditCategoria = function (idCategoria) {
 
 //private functions
 
-function creaCategoria($uibModalInstance){
-	console.log("aggiungiCategoria");	
+function creaColore($uibModalInstance){
+	console.log("aggiungiColore");	
 	//adding default values
-	CategorieService.createCategoria($scope.transient.newCategoria).then(function(response) { 
+	ColoriService.createColore($scope.transient.newColore).then(function(response) { 
 		
 		var handleResponseResult = $scope.handleResponse(response);  
 	    	if(handleResponseResult.next){
-				console.log("categoria inserita"); 
+				console.log("colore inserito"); 
 				$uibModalInstance.dismiss('cancel');				
-			$scope.getListaCategorie();						
+			$scope.getListaColori();						
 	    	} else {
 				toastr.error("Errore: "+ handleResponseResult.errorCode + " - GESTIONE ERRORE DA FARE!!!" );
 			}		    	
