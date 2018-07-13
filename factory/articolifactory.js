@@ -30,12 +30,12 @@ var ARTICOLI_QUERY = "SELECT ART.ID_ARTICOLO , " +
                         " ART.DATA_MOD , " + 
                         " ART.UDM , " + 
                         " CONVERT(ART.NOTE USING UTF8) AS NOTE,  " + 
-                        " (IFNULL(Q.QTY, 0) - IFNULL(Q.QTY_RISERVATA,0)) QTY, " + 
+                        " Q.QTY, " + 
                         "  q.ID_MAGAZZINO, " + 
                         "  q.ID_QTY_MAGAZZINO   " + 
                         " FROM AN_ARTICOLI ART  " + 
-                        "   LEFT JOIN QTY_MAGAZZINO Q  ON Q.ID_ARTICOLO = ART.ID_ARTICOLO  " + 
-                        "   JOIN AN_IVA_APPLICATA I ON ART.IVA = I.CODICE  " + 
+                        "   LEFT JOIN LG_QTY_MAGAZZINO Q  ON Q.ID_ARTICOLO = ART.ID_ARTICOLO  " + 
+                        "   LEFT JOIN AN_IVA_APPLICATA I ON ART.IVA = I.CODICE  " + 
                         "   LEFT JOIN (SELECT * FROM AN_UDM WHERE UDM_TYPE = 'LUNGHEZZA') L ON L.ID_UDM = ART.UDM_LUNGHEZZA  " + 
                         "   LEFT JOIN (SELECT * FROM AN_UDM WHERE UDM_TYPE = 'DIAMETRO') D ON D.ID_UDM = ART.UDM_DIAMETRO  " + 
                         "   JOIN AN_COLORE CL ON CL.ID_COLORE = ART.COLORE  " + 
