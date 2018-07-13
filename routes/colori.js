@@ -31,7 +31,7 @@ router.delete('/:idColore',accesscontrol.isLoggedIn, function(req, res, next) {
 
 router.post('/',accesscontrol.isLoggedIn, function(req, res, next) {
     gestionaleLogger.logger.debug('colori::postcolore');
-    coloricontroller.postcolore(req, res, function(err,data){
+    coloricontroller.postColore(req, res, function(err,data){
         if (err) return next(err);
         res.end(JSON.stringify(data));
     }); 
@@ -39,7 +39,7 @@ router.post('/',accesscontrol.isLoggedIn, function(req, res, next) {
 
 router.put('/:idColore',accesscontrol.isLoggedIn, function(req, res, next) {
     gestionaleLogger.logger.debug('colori::putcolore');
-    coloricontroller.putcolore(req, res, function(err,data){
+    coloricontroller.putColore(req, res, function(err,data){
         if (err) return next(err);
         res.end(JSON.stringify(data));
     }); 

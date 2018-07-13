@@ -18,7 +18,6 @@ colorimapper.COLORE_OUT = function(data){
 
     if(data){
         coloreModel.idColore=data.ID_COLORE;
-        coloreModel.codice=data.CODICE;
         coloreModel.descrizione=data.DESCRIZIONE;
     }
 

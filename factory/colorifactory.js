@@ -5,7 +5,7 @@ var gestionaleLogger = require("../utility/gestionaleLogger");
 
 colorifactory.getAll = function(connection,cb){
     gestionaleLogger.logger.debug('colorifactory::getAll');
-    var sql = "SELECT ID_COLORE, CODICE, DESCRIZIONE FROM AN_COLORE";
+    var sql = "SELECT ID_COLORE, DESCRIZIONE FROM AN_COLORE";
     gestionaleLogger.logger.debug('sql',sql);
     connection.query(sql, function (err, rows) {
         if (err){
@@ -20,7 +20,7 @@ colorifactory.getAll = function(connection,cb){
 
 colorifactory.getById = function(idColore,connection,cb){
     gestionaleLogger.logger.debug('colorifactory::getAll');
-    var sql = "SELECT SELECT ID_COLORE, CODICE, DESCRIZIONE FROM AN_COLORE WHERE ID_COLORE = " + connection.escape(idColore);
+    var sql = "SELECT ID_COLORE, DESCRIZIONE FROM AN_COLORE WHERE ID_COLORE = " + connection.escape(idColore);
     gestionaleLogger.logger.debug('sql',sql);
     connection.query(sql, function (err, rows) {
         if (err){
@@ -48,11 +48,11 @@ colorifactory.deleteById = function(idColore,connection,cb){
     });
 }
 
-colorifactory.postcolore = function(colore, connection,cb){
+colorifactory.postColore = function(colore, connection,cb){
     gestionaleLogger.logger.debug('colorifactory::postcolore');
-    var strInsert = "INSERT INTO AN_COLORE(ID_COLORE, CODICE, DESCRIZIONE) VALUES(?,?,?);"
+    var strInsert = "INSERT INTO AN_COLORE(ID_COLORE, DESCRIZIONE) VALUES(?,?);"
     gestionaleLogger.logger.debug('strInsert : ',strInsert);
-    connection.query(strInsert,[colore.idColore,colore.codice,colore.descrizione],function(err, results) {
+    connection.query(strInsert,[colore.idColore,colore.descrizione],function(err, results) {
         if (err) {
             gestionaleLogger.logger.error('colorifactory.postcolore - Internal error: ', err);
             return cb('KO');
@@ -63,11 +63,10 @@ colorifactory.postcolore = function(colore, connection,cb){
     });
 }
 
-colorifactory.putcolore = function(idColore, colore, connection,cb){
+colorifactory.putColore = function(idColore, colore, connection,cb){
     gestionaleLogger.logger.debug('colorifactory::putcolore');
     
    var updtStr="UPDATE AN_COLORE SET ";
-   updtStr+=(colore.codice!=undefined)?" CODICE ="+connection.escape(colore.codice)+",":"";
    updtStr+=(colore.descrizione!=undefined)?" DESCRIZIONE ="+connection.escape(colore.descrizione)+",":"";
    updtStr= updtStr.substring(0, updtStr.length - 1);// elimino l'ultima vigola :)
    updtStr+= " WHERE ID_COLORE ="+connection.escape(idColore);

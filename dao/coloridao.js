@@ -27,17 +27,17 @@ coloridao.deleteById = function(idColore,connection,cb){
   });
 }
 
-coloridao.postcolore = function(colore,connection,cb){
+coloridao.postColore = function(colore,connection,cb){
 	gestionaleLogger.logger.debug('coloridao  postcolore');
-	colorifactory.postcolore(colore, connection,function(err, data){
+	colorifactory.postColore(colore, connection,function(err, data){
     if (err) return cb(err);
 		return cb(null,data)
   });
 }
 
-coloridao.putcolore = function(idColore,colore,connection,cb){
+coloridao.putColore = function(idColore,colore,connection,cb){
 	gestionaleLogger.logger.debug('coloridao  putcolore');
-	colorifactory.putcolore(idColore, colore, connection,function(err, data){
+	colorifactory.putColore(idColore, colore, connection,function(err, data){
     if (err) return cb(err);
 		return cb(null,data)
   });

@@ -6,10 +6,10 @@
     <form role="form" name="newColoreForm" novalidate> 
         <fieldset>
             <div class="row">
-                <div class="col-sm-12 col-md-5 form-group" ng-class="{'has-error':newColoreForm.codice.$invalid && !newColoreForm.codice.$pristine}">
+                <div class="col-sm-12 col-md-5 form-group" ng-class="{'has-error':newColoreForm.idColore.$invalid && !newColoreForm.idColore.$pristine}">
                     <p>Codice*:</p>
-                    <input class="form-control form-control-sm "  name="codice" type="text" 
-                    ng-model="transient.newColore.codice" ng-maxlength="15">
+                    <input class="form-control form-control-sm "  name="idColore" type="text" 
+                    ng-model="transient.newColore.idColore" ng-maxlength="15">
                 </div>
                 <div class="col-sm-12 col-md-7 form-group" ng-class="{'has-error':newColoreForm.descrizione.$invalid && !newColoreForm.descrizione.$pristine}">
                     <p>Descrizione*:</p>

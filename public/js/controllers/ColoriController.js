@@ -36,9 +36,9 @@ angular.module("gestionaleApp")
 	
 
 	
-	//open modale di inserimento categoria
+	//open modale di inserimento colore
 	$scope.openModalNewColore = function () {
-		$scope.transient.newCategoria = {};	
+		$scope.transient.newColore = {};	
 		$uibModal.open({
 		templateUrl: './html/colori/modalNewColore.html',
 		scope:$scope,	
@@ -63,17 +63,17 @@ angular.module("gestionaleApp")
 
 	//apre popup di conferma cancellazione
 	$scope.askConfirmationDelete = function(p_id) {
-    var message = "Sei sicuro di voler eliminare questa categoria?";
+    var message = "Sei sicuro di voler eliminare questo colore?";
     var modalHtml = '<div class="modal-body">' + message + '</div>';
-    modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="confirmDeleteCategoria()">OK</button><button class="btn btn-warning" ng-click="cancelDelete()">Cancel</button></div>';
+    modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="confirmDeleteColore()">OK</button><button class="btn btn-warning" ng-click="cancelDelete()">Cancel</button></div>';
 
     $uibModal.open({
 		template: modalHtml,
 		scope:$scope,	
 		backdrop:'static',	
 		controller: function ($scope, $uibModalInstance) {
-			$scope.confirmDeleteCategoria = function () {
-				$scope.removeCategoria(p_id);
+			$scope.confirmDeleteColore = function () {
+				$scope.removeColore(p_id);
 				$uibModalInstance.dismiss('cancel');
 			};		
 			$scope.cancelDelete = function () {
@@ -89,12 +89,12 @@ angular.module("gestionaleApp")
   	};
 
 
-	$scope.removeCategoria = function (p_id){
-		console.log("removeCategoria = " + p_id);
-		CategorieService.removeCategoria(p_id).then(function(response) {  
+	$scope.removeColore = function (p_id){
+		console.log("removeColore = " + p_id);
+		ColoriService.removeColore(p_id).then(function(response) {  
 	    	if(response!=null && response.data != null){
-				console.log("categoria eliminata"); 
-				$scope.getListaCategorie(); 		
+				console.log("colore eliminato"); 
+				$scope.getListaColori(); 		
 	    	} else {
 				toastr.error("TODO - GESTIONE ERRORE");
 			}    	
@@ -105,15 +105,15 @@ angular.module("gestionaleApp")
 	
 	
 
-//open modale di modifica categoria
-$scope.openModalEditCategoria = function (idCategoria) {
+//open modale di modifica colore
+$scope.openModalEditColore = function (idColore) {
 
-	//recupero dettaglio categoria
-	CategorieService.getCategoriaById(idCategoria).then(function(response) {  
+	//recupero dettaglio colore
+	ColoriService.getColoreById(idColore).then(function(response) {  
 
 		var handleResponseResult = $scope.handleResponse(response);  
 	    	if(handleResponseResult.next){
-				$scope.transient.editCategoria = response.data.categoria[0];									
+				$scope.transient.editColore = response.data.colore;									
 	    	} else {
 				toastr.error("TODO - GESTIONE ERRORE");
 			}		    	
@@ -121,15 +121,15 @@ $scope.openModalEditCategoria = function (idCategoria) {
 
 	
 	$uibModal.open({
-	templateUrl: './html/categorie/modalEditCategoria.html',
+	templateUrl: './html/colori/modalEditColore.html',
 	scope:$scope,	
 	backdrop:'static',
 	size: 'lg',	
 	controller: function ($scope, $uibModalInstance) {
-		$scope.updateEditCategoriaButton = function () {
-			modifyCategoria($uibModalInstance);
+		$scope.updateEditColoreButton = function () {
+			modifyColore($uibModalInstance);
 		};		
-		$scope.cancelEditCategoriaButton = function () {
+		$scope.cancelEditColoreButton = function () {
 			//$uibModalInstance.close(false);
 			$uibModalInstance.dismiss('cancel');
 		};
@@ -159,16 +159,16 @@ function creaColore($uibModalInstance){
 	});
 }
 
-function modifyCategoria($uibModalInstance){
-	console.log("modifyCategoria");	
+function modifyColore($uibModalInstance){
+	console.log("modifyColore");	
 	//adding default values
-	CategorieService.editCategoria($scope.transient.editCategoria).then(function(response) { 
+	ColoriService.editColore($scope.transient.editColore).then(function(response) { 
 		
 		var handleResponseResult = $scope.handleResponse(response);  
 	    	if(handleResponseResult.next){
-				console.log("categoria modificata"); 
+				console.log("colore modificato"); 
 				$uibModalInstance.dismiss('cancel');
-			$scope.getListaCategorie();						
+			$scope.getListaColori();						
 	    	} else {
 				toastr.error("Errore: "+ handleResponseResult.errorCode + " - GESTIONE ERRORE DA FARE!!!" );
 			}		    	

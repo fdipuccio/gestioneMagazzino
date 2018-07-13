@@ -12,7 +12,7 @@ angular.module("gestionaleApp").factory('ColoriService', function($http) {
             createColore : function(newColore){
                 var p_body = {};                
                 
-                p_body.Colore = newColore;
+                p_body.colore = newColore;
 
 
 
@@ -27,7 +27,7 @@ angular.module("gestionaleApp").factory('ColoriService', function($http) {
             }, 
             removeColore : function(pId){
                   
-            	var tempUrl = '/colori/:'+pId;                	
+            	var tempUrl = '/colori/'+pId;                	
             	
             	 return $http({
                	     method: 'DELETE',
@@ -38,9 +38,9 @@ angular.module("gestionaleApp").factory('ColoriService', function($http) {
             },   
             editColore : function(editColore){
                   
-            	var tempUrl = '/colori/:'+editColore.idColore;                	
+            	var tempUrl = '/colori/'+editColore.idColore;                	
                 var p_body = {};     
-                p_body.Colore = editColore;
+                p_body.colore = editColore;
 
             	 return $http({
                	     method: 'PUT',
@@ -52,7 +52,7 @@ angular.module("gestionaleApp").factory('ColoriService', function($http) {
             },                      
             getColoreById : function(pId){
                   
-            	var tempUrl = '/colori/:'+pId;                	
+            	var tempUrl = '/colori/'+pId;                	
             	
             	 return $http({
                	     method: 'GET',
