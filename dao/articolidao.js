@@ -11,6 +11,14 @@ articolidao.searchArticoli = function(filter, connection,cb){
     });
 }
 
+articolidao.getAndamentoPrezzo = function(idArticolo, startDate, endDate, connection, cb){
+	gestionaleLogger.logger.debug('articolidao  getAndamentoPrezzo');
+	articolifactory.getAndamentoPrezzo(idArticolo, startDate, endDate, connection,function(err, data){
+        if (err) return cb(err);
+		return cb(null,data)
+    });
+}
+
 
 articolidao.readArticoliByCategory = function(idCategory, connection,cb){
 	gestionaleLogger.logger.debug('articolidao  readArticoliByCategory');	

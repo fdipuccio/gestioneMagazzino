@@ -60,4 +60,14 @@ router.delete('/:idArticolo',accesscontrol.isLoggedIn, function (req, res) {
     });
 });
 
+
+router.post('/andamentoprezzo',accesscontrol.isLoggedIn, function (req, res) {
+    articolicontroller.getAndamentoPrezzo(req, res, function(err, data){
+        if (err)  res.end(JSON.stringify(err));
+        res.end(JSON.stringify(data));
+    });
+});
+
+
+
 module.exports = router;

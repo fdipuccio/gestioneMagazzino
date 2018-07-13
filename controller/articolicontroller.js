@@ -14,6 +14,18 @@ articolicontroller.searchArticoli = function(req, res, cb){
 }
 
 
+articolicontroller.getAndamentoPrezzo = function(req, res, cb){
+    gestionaleLogger.logger.debug('articolicontroller- getAndamentoPrezzo');
+    var idArticolo=req.body.input.idArticolo;
+    var startDate=req.body.input.startDate;
+    var endDate = req.body.input.endDate;
+    articoliservice.getAndamentoPrezzo(idArticolo, startDate, endDate, function(err, data){
+          if (err) return cb(err);
+			return cb(null,data)
+    });
+}
+
+
 articolicontroller.getArticoloById = function(req, res, cb){
     gestionaleLogger.logger.debug('articolicontroller- getArticoloById');
 	var  idArticolo=req.params.idArticolo;

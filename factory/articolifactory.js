@@ -10,7 +10,7 @@ var ARTICOLI_QUERY = "SELECT ART.ID_ARTICOLO , " +
                         " L.DESCRIZIONE UDM_LUNGHEZZA , " +
                         " ART.QTY_SCATOLA , " +
                         " QS.DESCRIZIONE UDM_QTY_SCATOLA , " +
-                        " ART.TIMER_SCADENZA_HH , " +
+                        " ART.TIMER_SCADENZA_DD , " +
                         " ART.MINIMO_MAGAZZINO , " +
                         " ART.DIAMETRO , " +
                         " L.DESCRIZIONE UDM_DIAMETRO , " +
@@ -128,7 +128,7 @@ articolifactory.addArticolo = function(articolo,connection,cb){
                                         " UDM_LUNGHEZZA, " + 
                                         " QTY_SCATOLA, " + 
                                         " UDM_QTY_SCATOLA, " + 
-                                        " TIMER_SCADENZA_HH, " + 
+                                        " TIMER_SCADENZA_DD, " + 
                                         " MINIMO_MAGAZZINO, " + 
                                         " DIAMETRO, " + 
                                         " UDM_DIAMETRO, " + 
@@ -194,7 +194,7 @@ articolifactory.updateArticolo = function(articolo,idArticolo,connection,cb){
     updtStr+=(articolo.udmLunghezza!=undefined || articolo.udmLunghezza==null)?" UDM_LUNGHEZZA ="+connection.escape(articolo.udmLunghezza)+",":"";
     updtStr+=(articolo.qtyInScatola!=undefined || articolo.qtyInScatola==null)?" QTY_SCATOLA ="+connection.escape(articolo.qtyInScatola)+",":"";
     updtStr+=(articolo.udmQtyInScatola!=undefined || articolo.udmQtyInScatola==null)?" UDM_QTY_SCATOLA ="+connection.escape(articolo.udmQtyInScatola)+",":"";
-    updtStr+=(articolo.timerScadenza!=undefined || articolo.timerScadenza==null)?" TIMER_SCADENZA_HH ="+connection.escape(articolo.timerScadenza)+",":"";
+    updtStr+=(articolo.timerScadenza!=undefined || articolo.timerScadenza==null)?" TIMER_SCADENZA_DD ="+connection.escape(articolo.timerScadenza)+",":"";
     updtStr+=(articolo.minimoMagazzino!=undefined || articolo.minimoMagazzino==null)?" MINIMO_MAGAZZINO ="+connection.escape(articolo.minimoMagazzino)+",":"";
     updtStr+=(articolo.diametro!=undefined || articolo.diametro==null)?" DIAMETRO ="+connection.escape(articolo.diametro)+",":"";
     updtStr+=(articolo.udmDiametro!=undefined || articolo.udmDiametro==null)?" UDM_DIAMETRO ="+connection.escape(articolo.udmDiametro)+",":"";
@@ -227,6 +227,25 @@ articolifactory.updateArticolo = function(articolo,idArticolo,connection,cb){
     });
 };
 
+
+articolifactory.getAndamentoPrezzo = function(idArticolo, startDate, endDate, connection, cb){
+    gestionaleLogger.logger.debug('articolifactory-getAndamentoPrezzo');    
+    var sql = " select l.PREZZO_ACQUISTO, l.DATA_OPERAZIONE " +
+              "  from lg_lotti_magazzino l  " +
+              "  where l.ID_ARTICOLO =  " + connection.escape(idArticolo) +
+              "      and l.TIPO_OPERAZIONE = 'CARICO' " + 
+              "      and  DATE_FORMAT(l.DATA_OPERAZIONE,'%d/%m/%Y') between " + connection.escape(startDate) + 
+              "      AND " +  connection.escape(endDate);
+    connection.query(sql,function(error, results) {
+        if (error) {
+            gestionaleLogger.logger.error('articolifactory.getAndamentoPrezzo - Internal error: ', error);
+            return cb('KO',null);
+        }else {
+            return cb(null,results)
+        }
+    });
+             
+}
 
 
 articolifactory.deleteArticolo = function(id,connection,cb){
@@ -272,7 +291,7 @@ function gestioneFiltriArticoli(filter, sql, connection){
     }
 
     if(filter.timerScadenza){
-        retVal += " AND ART.TIMER_SCADENZA_HH ="+connection.escape(filter.timerScadenza)+" ";
+        retVal += " AND ART.TIMER_SCADENZA_DD ="+connection.escape(filter.timerScadenza)+" ";
     }
     
     if(filter.minimoMagazzino){

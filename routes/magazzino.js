@@ -46,6 +46,8 @@ router.delete('/:idMagazzino',accesscontrol.isLoggedIn, function(req, res,next) 
     });
 });
 
+
+
 module.exports = router;
 
 

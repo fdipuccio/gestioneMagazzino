@@ -28,7 +28,7 @@ articolimapper.OUT = function(data){
         articoloModel.udmLunghezza = data.UDM_LUNGHEZZA;
         articoloModel.qtyInScatola = data.QTY_SCATOLA;
         articoloModel.udmQtyInScatola = data.UDM_QTY_SCATOLA;
-        articoloModel.timerScadenza = data.TIMER_SCADENZA_HH;
+        articoloModel.timerScadenza = data.TIMER_SCADENZA_DD;
         articoloModel.minimoMagazzino = data.MINIMO_MAGAZZINO;
         articoloModel.diametro = data.DIAMETRO;
         articoloModel.udmDiametro = data.UDM_DIAMETRO;
@@ -53,6 +53,21 @@ articolimapper.OUT = function(data){
     }
 
     return articoloModel;
+}
+
+articolimapper.OUT_ANDAMENTO_PREZZI = function(data){
+    var retVal = new Array();
+    var elem = {};
+    if(data){
+        for(var i in data){
+            elem = {};
+            elem.data=data[i].DATA_OPERAZIONE;
+            elem.prezzo=data[i].PREZZO_ACQUISTO;
+            retVal.push(elem);
+        }
+    }
+    
+    return retVal;
 }
 
 
