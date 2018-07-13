@@ -230,12 +230,12 @@ articolifactory.updateArticolo = function(articolo,idArticolo,connection,cb){
 
 articolifactory.getAndamentoPrezzo = function(idArticolo, startDate, endDate, connection, cb){
     gestionaleLogger.logger.debug('articolifactory-getAndamentoPrezzo');    
-    var sql = " select l.PREZZO_ACQUISTO, l.DATA_OPERAZIONE " +
+    var sql = " select l.PREZZO_ACQUISTO, DATE_FORMAT(l.DATA_OPERAZIONE ,'%d/%m/%Y') DATA_OPERAZIONE " +
               "  from lg_lotti_magazzino l  " +
               "  where l.ID_ARTICOLO =  " + connection.escape(idArticolo) +
               "      and l.TIPO_OPERAZIONE = 'CARICO' " + 
-              "      and  DATE_FORMAT(l.DATA_OPERAZIONE,'%d/%m/%Y') between " + connection.escape(startDate) + 
-              "      AND " +  connection.escape(endDate);
+              "      and  l.DATA_OPERAZIONE between STR_TO_DATE(" + connection.escape(startDate) + ",'%e/%c/%Y %T') " + 
+              "      AND  STR_TO_DATE(" + connection.escape(endDate) + ",'%e/%c/%Y %T')";
     connection.query(sql,function(error, results) {
         if (error) {
             gestionaleLogger.logger.error('articolifactory.getAndamentoPrezzo - Internal error: ', error);
