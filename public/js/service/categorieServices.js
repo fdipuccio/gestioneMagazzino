@@ -27,7 +27,7 @@ angular.module("gestionaleApp").factory('CategorieService', function($http) {
             }, 
             removeCategoria : function(pId){
                   
-            	var tempUrl = '/categoriearticolo/:'+pId;                	
+            	var tempUrl = '/categoriearticolo/'+pId;                	
             	
             	 return $http({
                	     method: 'DELETE',
@@ -38,7 +38,7 @@ angular.module("gestionaleApp").factory('CategorieService', function($http) {
             },   
             editCategoria : function(editCategoria){
                   
-            	var tempUrl = '/categoriearticolo/:'+editCategoria.idCategoria;                	
+            	var tempUrl = '/categoriearticolo/'+editCategoria.idCategoria;                	
                 var p_body = {};     
                 p_body.categoria = editCategoria;
 
@@ -52,7 +52,7 @@ angular.module("gestionaleApp").factory('CategorieService', function($http) {
             },                      
             getCategoriaById : function(pId){
                   
-            	var tempUrl = '/categoriearticolo/:'+pId;                	
+            	var tempUrl = '/categoriearticolo/'+pId;                	
             	
             	 return $http({
                	     method: 'GET',

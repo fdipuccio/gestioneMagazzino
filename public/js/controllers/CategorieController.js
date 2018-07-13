@@ -115,7 +115,7 @@ $scope.openModalEditCategoria = function (idCategoria) {
 
 		var handleResponseResult = $scope.handleResponse(response);  
 	    	if(handleResponseResult.next){
-				$scope.transient.editCategoria = response.data.categoria[0];									
+				$scope.transient.editCategoria = response.data.categoria;									
 	    	} else {
 				toastr.error("TODO - GESTIONE ERRORE");
 			}		    	
