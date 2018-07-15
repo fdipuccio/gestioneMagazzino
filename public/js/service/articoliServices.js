@@ -152,5 +152,17 @@ angular.module("gestionaleApp").factory('ArticoliService', function($http) {
                });
             	
             },
+            caricoQuantitaArticolo : function(idArticolo, pLotto){        
+                var pbody = {};
+                pbody.lotto = pLotto;
+            	var tempUrl = '/articoli/carico/'+idArticolo;                	
+            	
+            	 return $http({
+               	  method: 'POST',
+                  url: tempUrl,
+                  data: pbody        	  
+               });
+            	
+            },
         }
     });
