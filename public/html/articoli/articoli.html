@@ -25,7 +25,7 @@
                         ng-model="filters.filter.idCategoria" class="form-control input-sm">
                         <option value="">{{labels.select_empty_value}}</option>
                         <option ng-repeat="catItem in listaCategorie"                        
-                        value="{{catItem.ID_CATEGORIA}}">{{catItem.NOME_CATEGORIA}}</option>
+                        value="{{catItem.idCategoria}}">{{catItem.nome}}</option>
                     </select>                    
                 </div>
 
@@ -56,25 +56,26 @@
                         dt-instance="dtInstance"
                         width="100%" class="table table-striped table-bordered table-hover dtResponsive" id="dataTables-articoli">
                             <thead>
-                                <tr>    
-                                    <th><i class="fa fa-barcode"></i> Codice a barre</th>
-                                    <!--<th><i class="fa fa-cube"></i> Codice Articolo</th>  -->                                           
+                                <tr>                                         
                                     <th><i class="fa fa-pencil-square"></i> Nome</th>                                    
                                     <th><i class="fa fa-google-wallet"></i> Categoria</th>
                                     <th><i class="fa fa-google-wallet"></i> Lunghezza</th>
                                     <th><i class="fa fa-google-wallet"></i> Qty Scatola</th>
+                                    <th><i class="fa fa-google-wallet"></i> Marca</th>
+                                    <th><i class="fa fa-google-wallet"></i> Colore</th>
                                     <th><i class="fa fa-google-wallet"></i> GG Scadenza</th>
                                     <th><i class="fa fa-google-wallet"></i> # Min</th>                        
                                     <th><i class="fa fa-cogs"></i> Azioni</th>                          
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="odd gradeX" ng-repeat="articolo in articoli">
-                                    <td>{{articolo.CODICE_BARRE}}</td>
-                                   <!-- <td>{{articolo.CODICE_ARTICOLO}}</td> -->                                   
-                                    <td>{{articolo.NOME}}</td>
-                                    <td>{{articolo.DESC_CATEGORIA}}</td> 
-                                    <td>{{articolo.qtyInScatola}}</td>     
+                                <tr class="odd gradeX" ng-repeat="articolo in articoli">                                                                                                         
+                                    <td>{{articolo.codiceArticolo}}</td>
+                                    <td>{{articolo.descCategoria}}</td>
+                                    <td>{{articolo.lunghezza}}</td>  
+                                    <td>{{articolo.qtyInScatola}}</td>  
+                                    <td>{{articolo.marca}}</td>   
+                                    <td>{{articolo.colore}}</td>      
                                     <td>{{articolo.timerScadenza}}</td>
                                      <td>{{articolo.minimoMagazzino}}</td>
                                     <td class="text-center">
