@@ -83,14 +83,21 @@
                                             <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Azioni
                                                 <i class="fa fa-angle-down"></i>
                                             </button>
-                                            <ul class="dropdown-menu dropdown-menu-li" style="min-width: 100px;" role="menu">
+                                            <ul class="dropdown-menu dropdown-menu-li" style="min-width: 100px;" role="menu">                                                
                                                 <li>
-                                                    <a href="javascript:;" ng-click="askConfirmationDelete(articolo.ID_ARTICOLO)">
-                                                        <i class="glyphicon glyphicon-trash"></i> Cancella </a>
+                                                    <a href="javascript:;" ng-click="openModalCaricoArticolo(articolo.idArticolo)">
+                                                        <i class="glyphicon glyphicon-edit"></i> Carico </a>
                                                 </li>
-                                                
                                                 <li>
-                                                    <a href="javascript:;" ng-click="openModalEditArticolo(articolo.ID_ARTICOLO)">
+                                                    <a href="javascript:;" ng-click="openModalScaricoArticolo(articolo.idArticolo)">
+                                                        <i class="glyphicon glyphicon-edit"></i> Scarico </a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" ng-click="askConfirmationDelete(articolo.idArticolo)">
+                                                        <i class="glyphicon glyphicon-trash"></i> Cancella </a>
+                                                </li>                                                
+                                                <li>
+                                                    <a href="javascript:;" ng-click="openModalEditArticolo(articolo.idArticolo)">
                                                         <i class="glyphicon glyphicon-edit"></i> Modifica </a>
                                                 </li>
                                             </ul>

@@ -5,7 +5,7 @@
 <div class="modal-body">
 
    <div class="search-bar bordered">
-        <div class="row" ng-if="transient.flagArticoloSelezionato">
+        <div class="row" ng-if="!transient.flagArticoloSelezionato && transient.paginaProvenienza=='home'">
             <div class="col-sm-12 col-md-9 form-group" >
                 <p>Codice a Barre:</p>                    
                 <input class="form-control form-control-sm"  name="transient.carico.filters.filtercodiceBarre" type="text" 
@@ -17,13 +17,13 @@
             </div>                
         </div>
         
-        <div class="row" ng-if="!transient.flagArticoloSelezionato">
+        <div class="row" ng-if="transient.flagArticoloSelezionato">
             <div class="col-sm-12 col-md-9 form-group" >
                 <p>Nome:{{persistent.articoloSelezionato.codiceArticolo}} </p> 
                 <p>Marca:{{persistent.articoloSelezionato.marca}}</p>
                 <p>Colore:{{persistent.articoloSelezionato.colore}}</p>                    
             </div>
-            <div class="col-sm-12 col-md-3 form-group" >
+            <div class="col-sm-12 col-md-3 form-group" ng-if="transient.paginaProvenienza=='home'">
                 <p>&nbsp;</p>                    
                     <button type="button" class="btn btn-primary" ng-click="resetArticoloSelezionato()" type="submit">Reset</button>
             </div>                
@@ -31,7 +31,7 @@
 
     </div>
 
-    <div id="divCarico" ng-if="!transient.flagArticoloSelezionato">
+    <div id="divCarico" ng-if="transient.flagArticoloSelezionato">
       
 
         <hr>
@@ -102,5 +102,5 @@
 </div>
     <div class="modal-footer" >
         <button type="button" class="btn btn-default" ng-click="cancelCaricoArticoloButton()">Chiudi</button>
-        <button type="button" class="btn btn-primary" ng-click="salvaCaricoArticoloButton()" type="submit" ng-disabled="newArticoloForm.$invalid" ng-if="!transient.flagArticoloSelezionato">Salva</button>
+        <button type="button" class="btn btn-primary" ng-click="salvaCaricoArticoloButton()" type="submit" ng-disabled="newArticoloForm.$invalid" ng-if="transient.flagArticoloSelezionato">Salva</button>
     </div>

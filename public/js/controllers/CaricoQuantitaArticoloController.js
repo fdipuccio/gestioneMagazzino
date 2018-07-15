@@ -14,8 +14,28 @@ angular.module("gestionaleApp")
 	$scope.transient.carico = {};
 	$scope.transient.carico.filters = {};
 	$scope.transient.carico.filters.filter = {};
-	$scope.transient.flagArticoloSelezionato = true;
+	$scope.transient.flagArticoloSelezionato = false;
 	$scope.transient.flagArticoliUguali = true;
+	
+	$scope.transient.paginaProvenienza = "home";
+
+	if($scope.$parent.transient.idArticoloDaLista){
+		$scope.transient.paginaProvenienza = "lista";
+
+		$scope.spinner.on();
+		ArticoliService.getArticoloById($scope.$parent.transient.idArticoloDaLista).then(function(response) { 
+			//invocazione service
+			var handleResponseResult = $scope.handleResponse(response);  
+	    	if(handleResponseResult.next){
+				$scope.persistent.articoloSelezionato = response.data.articolo;	
+				$scope.transient.flagArticoloSelezionato=true;		
+			} else {
+				toastr.error("Errore: "+ response.data.errMessage + " - GESTIONE ERRORE DA FARE!!!" );
+			}
+	    	$scope.spinner.off();  		
+		});
+	}
+
 	
 
 	// START PUBLIC FUNCTIONS
@@ -44,7 +64,7 @@ angular.module("gestionaleApp")
 			var handleResponseResult = $scope.handleResponse(response);  
 	    	if(handleResponseResult.next){
 				$scope.persistent.articoloSelezionato = response.data.articoli[0];
-				$scope.transient.flagArticoloSelezionato = false;
+				$scope.transient.flagArticoloSelezionato = true;
 			} else {
 				toastr.error("Errore: "+ response.data.errMessage + " - GESTIONE ERRORE DA FARE!!!" );
 			}
@@ -54,7 +74,7 @@ angular.module("gestionaleApp")
 
 	$scope.resetArticoloSelezionato = function(){
 		$scope.persistent.articoloSelezionato = {};
-		$scope.transient.flagArticoloSelezionato = true;
+		$scope.transient.flagArticoloSelezionato = false;
 		$scope.transient.numeroScatoli = 1;
 	}
 

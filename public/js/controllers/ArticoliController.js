@@ -13,6 +13,8 @@ angular.module("gestionaleApp")
 	$scope.listaValute = $sessionStorage.listaValute;
 	$scope.listaCategorie = $sessionStorage.listaCategorie;	
 	$scope.sezioneRichiamante = "articoli";
+	$scope.transient.idArticoloDaLista = undefined;
+
 	$scope.dtOptions = DTOptionsBuilder.newOptions().withOption('responsive', true).withLanguageSource('//cdn.datatables.net/plug-ins/1.10.16/i18n/Italian.json');
 	$scope.dtColumnDefs = [          
 		DTColumnDefBuilder.newColumnDef(0).withOption('width', '25%'),
@@ -74,6 +76,7 @@ angular.module("gestionaleApp")
 	}
 	//open modale di inserimento articolo
 	$scope.openModalNewArticolo = function () {
+		
 		$scope.transient.newArticolo = {};
 		$uibModal.open({
 		templateUrl: './html/articoli/modalNewArticolo.html',
@@ -89,7 +92,10 @@ angular.module("gestionaleApp")
  	 };
 
 	  //open modale di inserimento articolo
-	$scope.openModalCaricoArticolo = function () {
+	$scope.openModalCaricoArticolo = function (pIdArticolo) {
+		
+		$scope.transient.idArticoloDaLista = pIdArticolo;
+		
 		$scope.transient.newArticolo = {};
 		$uibModal.open({
 		templateUrl: './html/articoli/modalCaricoArticolo.html',

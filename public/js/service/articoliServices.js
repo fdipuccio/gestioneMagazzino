@@ -27,6 +27,15 @@ angular.module("gestionaleApp").factory('ArticoliService', function($http) {
                });
             	
             },
+            getArticoloById : function(idArticolo){            	
+            	var tempUrl = '/articoli/'+idArticolo;                	
+            	
+            	 return $http({
+               	  method: 'GET',
+               	  url: tempUrl        	  
+               });
+            	
+            },
             getArticoliByRicercaAvanzata : function(filterObj, ivaProd, ivaServ){        
                 var pbody = {};
                  pbody.filter = filterObj;	
@@ -65,16 +74,7 @@ angular.module("gestionaleApp").factory('ArticoliService', function($http) {
                });
               
             },
-            getArticoloById : function(idArticolo){        
-                
-           var tempUrl = '/articoli/idArticolo/'+idArticolo;                	
            
-            return $http({
-                method: 'GET',
-             url: tempUrl       	  
-                });
-                
-            },
             /*updateUser : function(editUser){            	
             	var tempUrl = '/users/updateuser/'+editUser.IDUTENTE;                	
                 
