@@ -164,5 +164,17 @@ angular.module("gestionaleApp").factory('ArticoliService', function($http) {
                });
             	
             },
+            scaricoQuantitaArticolo : function(idArticolo, pLotto){        
+                var pbody = {};
+                pbody.lotto = pLotto;
+            	var tempUrl = '/articoli/scarico/'+idArticolo;                	
+            	
+            	 return $http({
+               	  method: 'POST',
+                  url: tempUrl,
+                  data: pbody        	  
+               });
+            	
+            }
         }
     });

@@ -1,0 +1,65 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancelCaricoArticoloButton()">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Scarico</h4>
+</div>
+<div class="modal-body">
+
+   <div class="search-bar bordered">
+        <div class="row" ng-if="!transient.flagArticoloSelezionato && transient.paginaProvenienza=='home'">
+            <div class="col-sm-12 col-md-9 form-group" >
+                <p>Codice a Barre:</p>                    
+                <input class="form-control form-control-sm"  name="transient.carico.filters.filtercodiceBarre" type="text" 
+                ng-model="transient.carico.filters.filter.codiceBarre">
+            </div>
+            <div class="col-sm-12 col-md-3 form-group" >
+                <p>&nbsp;</p>                    
+                    <button type="button" class="btn btn-primary" ng-click="ricercaArticoloByCodiceBarre()" type="submit">Ricerca</button>
+            </div>                
+        </div>
+        
+        <div class="row" ng-if="transient.flagArticoloSelezionato">
+            <div class="col-sm-12 col-md-9 form-group" >
+                <p>Nome:{{persistent.articoloSelezionato.codiceArticolo}} </p> 
+                <p>Marca:{{persistent.articoloSelezionato.marca}}</p>
+                <p>Colore:{{persistent.articoloSelezionato.colore}}</p>                    
+            </div>
+            <div class="col-sm-12 col-md-3 form-group" ng-if="transient.paginaProvenienza=='home'">
+                <p>&nbsp;</p>                    
+                    <button type="button" class="btn btn-primary" ng-click="resetArticoloSelezionato()" type="submit">Reset</button>
+            </div>                
+        </div>
+
+    </div>
+
+    <div id="divCarico" ng-if="transient.flagArticoloSelezionato">
+      
+        <hr>
+        <p>Elenco Scatoli suggeriti</p>
+        <table ng-if="transient.listaScatoliScarico.length>0" class="table table-striped table-bordered table-advance table-hover">
+            <thead>
+                <tr>
+                    <th><i class="fa fa-calendar"> </i> </th>  
+                    <th><i class="fa fa-sticky-note-o"></i> Lotto</th>
+                    <th><i class="fa fa-calendar"></i> Data Scadenza</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="odd gradeX" ng-repeat="scatolo in transient.listaScatoliScarico">
+                    <td>
+                        <input class="form-control form-control-sm"  name="scatolo.selected" type="checkbox" 
+                        ng-model="scatolo.selected">
+                    </td>     
+                    <td>{{scatolo.lotto}}</td>  
+                    <td>{{scatolo.dataScadenza}}</td>                  
+                    
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+</div>
+</div>
+    <div class="modal-footer" >
+        <button type="button" class="btn btn-default" ng-click="cancelCaricoArticoloButton()">Chiudi</button>
+        <button type="button" class="btn btn-primary" ng-click="confermaScaricoArticoloButton()" type="submit" ng-disabled="newArticoloForm.$invalid" ng-if="transient.flagArticoloSelezionato">Conferma</button>
+    </div>

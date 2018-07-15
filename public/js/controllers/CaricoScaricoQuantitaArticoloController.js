@@ -1,5 +1,5 @@
 angular.module("gestionaleApp")
-.controller("CaricoQuantitaArticoloController",
+.controller("CaricoScaricoQuantitaArticoloController",
  ['$scope','$uibModal','$uibModalInstance','filterFilter','$sessionStorage','ArticoliService','CommonService','$filter',
  function ($scope, $uibModal, $uibModalInstance, filterFilter, $sessionStorage, ArticoliService, CommonService, $filter) {
 	 'use strict';
@@ -16,8 +16,10 @@ angular.module("gestionaleApp")
 	$scope.transient.carico.filters.filter = {};
 	$scope.transient.flagArticoloSelezionato = false;
 	$scope.transient.flagArticoliUguali = true;
+	$scope.transient.listaScatoliScarico = [];
 	
 	$scope.transient.paginaProvenienza = "home";
+	
 
 	if($scope.$parent.transient.idArticoloDaLista){
 		$scope.transient.paginaProvenienza = "lista";
@@ -29,12 +31,30 @@ angular.module("gestionaleApp")
 	    	if(handleResponseResult.next){
 				$scope.persistent.articoloSelezionato = response.data.articolo;	
 				$scope.transient.flagArticoloSelezionato=true;		
+
+				if($scope.$parent.transient.tipoOperazione == 'SCARICO'){
+					//TODO richiamre servizio per lista
+					$scope.transient.listaScatoliScarico = [];
+					var scatoloScarico = {};
+					scatoloScarico.selected = true;
+					scatoloScarico.lotto = "LT1";
+					scatoloScarico.dataScadenza = "01/08/2018";
+					$scope.transient.listaScatoliScarico.push(scatoloScarico);
+					var scatoloScarico1 = {};
+					scatoloScarico1.selected = false;
+					scatoloScarico1.lotto = "LT2";
+					scatoloScarico1.dataScadenza = "30/08/2018";
+					$scope.transient.listaScatoliScarico.push(scatoloScarico1);
+				}
+
 			} else {
 				toastr.error("Errore: "+ response.data.errMessage + " - GESTIONE ERRORE DA FARE!!!" );
 			}
 	    	$scope.spinner.off();  		
 		});
 	}
+
+	
 
 	
 
@@ -65,6 +85,20 @@ angular.module("gestionaleApp")
 	    	if(handleResponseResult.next){
 				$scope.persistent.articoloSelezionato = response.data.articoli[0];
 				$scope.transient.flagArticoloSelezionato = true;
+				if($scope.$parent.transient.tipoOperazione == 'SCARICO'){
+					//TODO richiamre servizio per lista
+					$scope.transient.listaScatoliScarico = [];
+					var scatoloScarico = {};
+					scatoloScarico.selected = true;
+					scatoloScarico.lotto = "LT1";
+					scatoloScarico.dataScadenza = "01/08/2018";
+					$scope.transient.listaScatoliScarico.push(scatoloScarico);
+					var scatoloScarico1 = {};
+					scatoloScarico1.selected = false;
+					scatoloScarico1.lotto = "LT2";
+					scatoloScarico1.dataScadenza = "30/08/2018";
+					$scope.transient.listaScatoliScarico.push(scatoloScarico1);
+				}
 			} else {
 				toastr.error("Errore: "+ response.data.errMessage + " - GESTIONE ERRORE DA FARE!!!" );
 			}
@@ -114,6 +148,27 @@ angular.module("gestionaleApp")
 	    	$scope.spinner.off();  		
 		});
 	}
+
+	$scope.confermaScaricoArticoloButton = function(){
+		var lotto = {};
+
+		lotto.operazione = "SCARICO";
+		lotto.qty = $scope.transient.numeroScatoli;
+		lotto.articoli = $scope.transient.listaScatoliScarico;		
+		lotto.dataOperazione = $filter('date')(new Date(), "dd/MM/yyyy");
+		$scope.spinner.on();	
+		ArticoliService.scaricoQuantitaArticolo($scope.persistent.articoloSelezionato.idArticolo, lotto).then(function(response) { 
+			//invocazione service
+			var handleResponseResult = $scope.handleResponse(response);  
+	    	if(handleResponseResult.next){
+				toastr.success("Scarico articolo registrato correttamente");
+			} else {
+				toastr.error("Errore: "+ response.data.errMessage + " - Errore nello scarico articoli" );
+			}
+	    	$scope.spinner.off();  		
+		});
+	}
+
 	/*
 	$scope.$watch("transient.numeroScatoli", function(newValue, oldValue) {
 		 console.log("newValue:" + newValue);

@@ -95,14 +95,35 @@ angular.module("gestionaleApp")
 	$scope.openModalCaricoArticolo = function (pIdArticolo) {
 		
 		$scope.transient.idArticoloDaLista = pIdArticolo;
-		
+		$scope.transient.tipoOperazione = "CARICO";
+
 		$scope.transient.newArticolo = {};
 		$uibModal.open({
 		templateUrl: './html/articoli/modalCaricoArticolo.html',
 		scope:$scope,	
 		backdrop:'static',
 		size: 'lg',	
-		controller: "CaricoQuantitaArticoloController"
+		controller: "CaricoScaricoQuantitaArticoloController"
+		}).result.catch(function(res) {
+			if (!(res === 'cancel' || res === 'escape key press')) {
+				throw res;
+			}
+		});
+ 	 };
+
+	    //open modale di inserimento articolo
+	$scope.openModalScaricoArticolo = function (pIdArticolo) {
+		
+		$scope.transient.idArticoloDaLista = pIdArticolo;
+		$scope.transient.tipoOperazione = "SCARICO";
+
+		$scope.transient.newArticolo = {};
+		$uibModal.open({
+		templateUrl: './html/articoli/modalScaricoArticolo.html',
+		scope:$scope,	
+		backdrop:'static',
+		size: 'lg',	
+		controller: "CaricoScaricoQuantitaArticoloController"
 		}).result.catch(function(res) {
 			if (!(res === 'cancel' || res === 'escape key press')) {
 				throw res;
