@@ -24,6 +24,7 @@ fornitoriservice.getSupplierById = function(id, cb){
     });
 }
 
+
 fornitoriservice.addSupplier =function(supplier, cb){
     var retObj={};
 	var idf;

@@ -12,6 +12,15 @@ fornitoricontroller.getSupplierById = function (req, res, cb) {
     });
 }
 
+
+fornitoricontroller.getSuppliers = function (req, res, cb) {
+    gestionaleLogger.logger.debug('fornitoricontroller- getSuppliers');
+    fornitoriservice.advancedSearch(undefined, function(err, data){
+        if (err) return cb(err);
+        return cb(null,data)
+    });
+}
+
 fornitoricontroller.addSupplier = function (req, res, cb) {
     gestionaleLogger.logger.debug('addSupplier- controller');
     fornitoriservice.addSupplier(req.body.fornitore, function (err, data) {

@@ -20,6 +20,52 @@ magazzinofactory.getMagazzini = function(connection, cb){
     });
 }
 
+
+
+magazzinofactory.caricoMagazzino = function(carico, connection, cb){
+    gestionaleLogger.logger.debug('magazzinofactory::caricoMagazzino');
+    var sql ="";
+    gestionaleLogger.logger.debug('sql',sql);
+    connection.query(sql, function (err, rows) {
+        if (err){
+            gestionaleLogger.logger.error('magazzinofactory.caricoMagazzino - Internal error: ', err);
+            return cb(err);
+        }
+        else {
+            return cb(null,rows)
+        }
+    });
+}
+
+magazzinofactory.scaricoMagazzino = function(scarico, connection, cb){
+    gestionaleLogger.logger.debug('magazzinofactory::scaricoMagazzino');
+    var sql ="";
+    gestionaleLogger.logger.debug('sql',sql);
+    connection.query(sql, function (err, rows) {
+        if (err){
+            gestionaleLogger.logger.error('magazzinofactory.scaricoMagazzino - Internal error: ', err);
+            return cb(err);
+        }
+        else {
+            return cb(null,rows)
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 magazzinofactory.getMagazzinoById = function(idMagazzino,connection, cb){
     gestionaleLogger.logger.debug('magazzinofactory::getMagazzinoById');
     var sql =" SELECT M.ID_MAGAZZINO, M.NOME_MAGAZZINO, M.INDIRIZZO, C.NOME COMUNE, CONVERT(M.NOTE USING UTF8) AS NOTE, C.COD_PROVINCIA, C.COD_REGIONE, C.CAP " +	

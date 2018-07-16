@@ -108,4 +108,57 @@ magazzinoservice.deleteMagazzino = function(idMagazzino, cb){
 
 
 
+
+
+
+
+
+
+
+magazzinoservice.caricoMagazzino = function(carico, cb){
+    gestionaleLogger.logger.debug('magazzinoservice- caricoMagazzino');
+    var retObj={}
+    var ret;
+    transaction.inTransaction(pool, function(connection, next) {
+        magazzinodao.caricoMagazzino(carico,connection,function(erraddMagazzino,data){
+            if(erraddMagazzino) return next(['MGZ004','Errore Carico magazzino']);
+            ret=data;
+            return next(null);
+        });
+        }, function(err) {
+            if (err){
+                retObj.status='KO';
+                retObj.code=err[0]!=undefined?err[0]:'MGZ004';
+                retObj.message=err[1]!=undefined?err[1]:'Errore Carico magazzino';
+                return cb(retObj,null);
+            }
+            retObj.status='OK';
+            return cb(null,retObj);            
+    });
+}
+
+magazzinoservice.scaricoMagazzino = function(scarico, cb){
+    gestionaleLogger.logger.debug('magazzinoservice- scaricoMagazzino');
+    var retObj={}
+    var ret;
+    transaction.inTransaction(pool, function(connection, next) {
+        magazzinodao.scaricoMagazzino(scarico,connection,function(erraddMagazzino,data){
+            if(erraddMagazzino) return next(['MGZ005','Errore Scarico magazzino']);
+            ret=data;
+            return next(null);
+        });
+        }, function(err) {
+            if (err){
+                retObj.status='KO';
+                retObj.code=err[0]!=undefined?err[0]:'MGZ005';
+                retObj.message=err[1]!=undefined?err[1]:'Errore Scarico magazzino';
+                return cb(retObj,null);
+            }
+            retObj.status='OK';
+            return cb(null,retObj);            
+    });
+}
+
+
+
 module.exports = magazzinoservice;

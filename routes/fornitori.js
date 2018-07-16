@@ -13,6 +13,13 @@ router.get('/:idFornitore',accesscontrol.isLoggedIn, function(req, res, next) {
     });
 });
 
+router.get('/',accesscontrol.isLoggedIn, function(req, res, next) {
+    fornitoricontroller.getSuppliers(req, res, function(err, data){
+      if (err)  res.end(JSON.stringify(err));
+          res.end(JSON.stringify(data));
+      });
+  });
+
 router.post('/',accesscontrol.isLoggedIn, function(req, res) {
     gestionaleLogger.logger.debug('log',accesscontrol.isLoggedIn);
     fornitoricontroller.addSupplier(req, res, function(err,data){

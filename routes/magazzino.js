@@ -47,6 +47,23 @@ router.delete('/:idMagazzino',accesscontrol.isLoggedIn, function(req, res,next) 
 });
 
 
+router.post('/carico',accesscontrol.isLoggedIn, function(req, res,next) {
+    magazzinocontroller.caricoMagazzino(req, res, function(err,data){
+        if (err) return next(err);
+        res.end(JSON.stringify(data));
+    });
+});
+
+router.post('/scarico',accesscontrol.isLoggedIn, function(req, res,next) {
+    magazzinocontroller.scaricoMagazzino(req, res, function(err,data){
+        if (err) return next(err);
+        res.end(JSON.stringify(data));
+    });
+});
+
+
+
+
 
 module.exports = router;
 
