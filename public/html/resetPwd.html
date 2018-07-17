@@ -51,7 +51,7 @@
                                 <div class="form-group" ng-class="{'has-error':!resetPwdForm.confirmnewpassword.$pristine && resetPwdForm.confirmnewpassword.$error.required}">
                                     <input class="form-control" required placeholder="Conferma Nuova Password" ng-model="confirmnewpassword" name="confirmnewpassword" type="password" value="">
                                 </div>
-                                <button type="submit" ng-disabled="resetPwdForm.$invalid" ng-click="resetPwd()">Reset Password</button>
+                                <button class="btn green col-md-offset-5" type="submit" ng-disabled="resetPwdForm.$invalid" ng-click="resetPwd()">Reset Password</button>
                             </fieldset>
                         </form>
                     </div>

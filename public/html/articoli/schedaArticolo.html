@@ -1,0 +1,742 @@
+<div id="wrapper" ng-controller="DettaglioClienteController">   
+    <div class="profile">
+        <div class="tabbable-line tabbable-full-width">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tab_1_1" data-toggle="tab"> Scheda Articolo </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_1_1">
+                    <div class="row">
+                        
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-5 profile-info">
+                                    <h1 class="font-green sbold uppercase">{{articolo.codiceArticolo}} {{articolo.descCategoria}}</h1>
+                                    <p> sede: {{clienteModel.INDIRIZZO}} {{clienteModel.CITTA}} {{clienteModel.CAP}} ({{clienteModel.PROVINCIA}})
+                                        </p>
+                                    <p>
+                                        <a href="javascript:;"> {{}} </a>
+                                    </p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <i class="fa fa-map-marker"></i> {{}} </li>
+                                        <li>
+                                            <i class="fa fa-phone"></i> {{}} </li>
+                                        <li ng-if="clienteModel.FAX">
+                                            <i class="fa fa-fax"></i> {{}} </li>
+                                        <li ng-if="clienteModel.PARTITA_IVA">
+                                            <i class="fa fa-file-text-o"></i> {{}} </li>
+                                        <li ng-if="clienteModel.CODICE_FISCALE">
+                                            <i class="fa fa-cc"></i> {{}} </li>
+                                    </ul>
+
+                                    <div class="portlet-body hideForContract">
+                                        <a href="javascript:;" ng-click="gotoNuovaFattura()" title="Inserisci nuova fattura" class="icon-btn">
+                                            <i class="fa fa-file-text-o"></i>
+                                            <div> Fatture </div>
+                                            <span class="badge badge-info"> 1 </span>
+                                        </a>
+                                        <a href="javascript:;" class="icon-btn" ng-click="openModalAddIndirizzo(clienteModel.ID, clienteModel.NOME)" title="Inserisci nuovo indirizzo">
+                                            <i class="fa fa-truck"></i>
+                                            <div> Indirizzi </div>
+                                            <span class="badge badge-success"> 2 </span>
+                                        </a>
+                                        <a href="javascript:;" class="icon-btn" ng-click="openModalAddConti(clienteModel.ID, clienteModel.NOME)" title="Inserisci nuovo conto">
+                                            <i class="fa fa-th-large"></i>
+                                            <div> Conti </div>
+                                            <span class="badge badge-info"> 1 </span>
+                                        </a>
+                                        <a href="javascript:;" ng-click="gotoNuovoContratto()" class="icon-btn" title="Inserisci nuovo contratto">
+                                            <i class="fa fa-th-list"></i>
+                                            <div> Contratti </div>
+                                            <span class="badge badge-success"> 3 </span>
+                                        </a>
+                                        <a href="javascript:;" ng-click="openModalNewAppuntamentoCli(clienteModel.ID)" title="Inserisci nuovo appuntamento" class="icon-btn">
+                                            <i class="fa fa-calendar"></i>
+                                            <div> Calendario </div>
+                                            <span class="badge badge-info"> 2 </span>
+                                        </a>
+                                        
+                                    </div>
+
+                                </div>
+
+                                <!--end col-md-4-->
+                                
+                                <div class="col-md-2 text-right hideForContract">
+                                    <button class="btn btn-primary btn-md" ng-click="gotoElencoClienti()"> <i class="fa fa-home"></i>
+                                        Torna alla lista Articoli
+                                    </button>
+                                </div>                                  
+                            </div>
+                            <!--end row-->
+							<div class="row">
+								<div class="col-md-5 hideForContract" id="chartCliente"></div>
+							</div>
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#tab_1_11" data-toggle="tab"> Fatture non pagate </a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab_1_55" data-toggle="tab"> Indirizzi </a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab_1_33" ng-click="getElencoConti()" data-toggle="tab"> Conti Correnti </a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab_1_44" data-toggle="tab"> Contratti di Manutenzione </a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab_1_22" data-toggle="tab"> Appuntamenti </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab_1_11">
+                                        <div class="portlet-body">
+                                            <table ng-if="indicatori.totale>0" class="table table-striped table-bordered table-advance table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th><i class="fa fa-hashtag"> </i> Numero</th>  
+                                                        <th><i class="fa fa-hourglass-half"></i> Stato</th>
+                                                        <th><i class="fa fa-calendar-times-o"> </i> Scadenza</th>    
+                                                        <th><i class="fa fa-building-o"> </i> Totale</th> 
+                                                        <th><i class="fa fa-building-o"> </i> Residuo</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="odd gradeX" ng-repeat="fattura in fatture" ng-click="gotoDettaglioFattura(fattura.ID_FATTURA)">
+                                                        <td>{{fattura.NUMERO}}/{{fattura.ANNO_RIF}}</td>     
+                                                        <td>{{fattura.STATO}}</td> 
+                                                        <td>{{fattura.DATA_SCADENZA | date : 'dd/MM/yyyy'}}</td>  
+                                                        <td class="text-column-import">{{fattura.TOTALE_FATTURA | currency: "€" : 2}}</td> 
+                                                        <td class="text-column-import">{{fattura.TOT_A_PAGARE | currency: "€" : 2}}</td> 
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            
+                                            <div ng-if="indicatori.totale==0" class="portlet-title">
+                                                <div class="caption">
+                                                    <i class=" fa fa-file-text-o font-green"></i>
+                                                    <span class="caption-subject font-green bold uppercase">nessuna fattura presente</span>
+                                                    <div class="caption-desc font-grey-cascade"> Per creare una fattura cliccare il pulsante <pre class="mt-code">Fatture</pre> in alto </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--tab-pane-->
+                                    <div class="tab-pane" id="tab_1_22">
+                                        <div class="portlet-body">
+                                            <table ng-if="appuntamenti.counterNotific>0" class="table table-striped table-bordered table-advance table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th><i class="fa fa-calendar"> </i> Data e Ora</th>  
+                                                        <th><i class="fa fa-sticky-note-o"></i> Appuntamento</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="odd gradeX" ng-repeat="appuntamento in appuntamenti">
+                                                        <td>{{appuntamento.START_DATE | date : 'dd/MM/yyyy hh:mm'}}</td>     
+                                                        <td>{{appuntamento.DESCRIZIONE}}</td> 
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div ng-if="appuntamenti.counterNotific==0" class="portlet-title">
+                                                <div class="caption">
+                                                    <i class=" fa fa-calendar font-green"></i>
+                                                    <span class="caption-subject font-green bold uppercase">nessun appuntamento presente</span>
+                                                    <div class="caption-desc font-grey-cascade"> Per creare un appuntamento cliccare il pulsante <pre class="mt-code">Calendario</pre> in alto </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab_1_33">
+                                        <div class="portlet-body">
+                                            <table ng-if="conti.counterNotific>0" class="table table-striped table-bordered table-advance table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th><i class="fa fa-hashtag"> </i> Iban</th>  
+                                                        <th><i class="fa fa-creative-commons"> </i> Numero Conto</th>  
+                                                        <th><i class="fa fa-sticky-note-o"></i> Conto</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="odd gradeX" ng-repeat="conto in conti">
+                                                        <td>{{conto.IBAN}}</td>
+                                                        <td>cc / {{conto.IBAN.substring(conto.IBAN.length-12, conto.IBAN.length)}}</td>
+                                                        <td>{{conto.BANCA}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div ng-if="conti.counterNotific==0" class="portlet-title">
+                                                <div class="caption">
+                                                    <i class=" fa fa-th-large font-green"></i>
+                                                    <span class="caption-subject font-green bold uppercase">nessun conto presente</span>
+                                                    <div class="caption-desc font-grey-cascade"> Per creare un conto cliccare il pulsante <pre class="mt-code">Conti</pre> in alto </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab_1_55">
+                                        <div class="portlet-body">
+                                            <table ng-if="indirizzi.counterNotific>0" class="table table-striped table-bordered table-advance table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th><i class="fa fa-bank"> </i> Città</th> 
+                                                        <th><i class="fa fa-truck"> </i> Indirizzo</th> 
+                                                        <th><i class="fa fa-hashtag"> </i> Cap</th> 
+                                                        <th><i class="fa fa-navicon"> </i> Provincia</th> 
+                                                        <th><i class="fa fa-sticky-note"> </i> Note</th> 
+                                                        <th><i class="fa fa-cogs"></i> Azioni</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="odd gradeX" ng-repeat="indirizzo in indirizzi">
+                                                        <td>{{indirizzo.CITTA}}</td>
+                                                        <td>{{indirizzo.INDIRIZZO}}</td>
+                                                        <td>{{indirizzo.CAP}}</td>
+                                                        <td>{{indirizzo.PROVINCIA}}</td>
+                                                        <td>{{indirizzo.NOTE_EXTRA_INDIRIZZO}}</td>
+                                                        <td class="text-center">
+                                                            <div class="btn-group hidden-xs">
+                                                                <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Azioni
+                                                                    <i class="fa fa-angle-down"></i>
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-li" style="min-width: 100px;" role="menu">
+                                                                    <li>
+                                                                        <a href="javascript:;" ng-click="openModalEditIndirizzo(indirizzo.ID, clienteModel.ID, clienteModel.NOME)">
+                                                                            <i class="fa fa-pencil-square-o"></i> Modifica </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="javascript:;" ng-click="askConfirmationDeleteIndirizzo(clienteModel.ID, indirizzo.ID)">
+                                                                            <i class="fa fa-trash"></i> Elimina </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div ng-if="indirizzi.counterNotific==0" class="portlet-title">
+                                                <div class="caption">
+                                                    <i class=" fa fa-truck font-green"></i>
+                                                    <span class="caption-subject font-green bold uppercase">nessun indirizzo presente</span>
+                                                    <div class="caption-desc font-grey-cascade"> Per creare un indirizzo cliccare il pulsante <pre class="mt-code">Indirizzi</pre> in alto </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab_1_44">
+                                        <!-- tabella contratti -->
+                                        <div id="tableContract" class="portlet-body">
+                                            <table ng-if="contratti.counterNotific>0" class="table table-striped table-bordered table-advance table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th><i class="fa fa-hashtag"> </i> Nr. Contratto</th>
+                                                        <th><i class="fa fa-sticky-note-o"> </i> Contratto</th> 
+                                                        <th><i class="fa fa-calendar"> </i> Data Inizio</th>  
+                                                        <th><i class="fa fa-calendar"></i> Durata in mesi</th>
+                                                        <th><i class="fa fa-calendar"></i> Frequenza</th>
+                                                        <th><i class="fa fa-cogs"></i> Azioni</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="odd gradeX" ng-repeat="contratto in contratti">
+                                                        <td ng-click="visualizzaContratto(contratto.contractId)">{{contratto.contractId}}</td>
+                                                        <td ng-click="visualizzaContratto(contratto.contractId)">{{contratto.contractDescrizione}}</td>
+                                                        <td ng-click="visualizzaContratto(contratto.contractId)">{{contratto.contractStart | date : 'dd/MM/yyyy'}}</td>
+                                                        <td ng-click="visualizzaContratto(contratto.contractId)">{{contratto.contractDuration}}</td>
+                                                        <td ng-click="visualizzaContratto(contratto.contractId)">{{contratto.contractFrequency}}</td>
+                                                        <td class="text-center">
+                                                            <div class="btn-group hidden-xs">
+                                                                <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Azioni
+                                                                    <i class="fa fa-angle-down"></i>
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-li" style="min-width: 100px;" role="menu">
+                                                                    <li>
+                                                                        <a href="javascript:;" ng-click="modificaContratto(contratto.contractId)">
+                                                                            <i class="fa fa-pencil-square-o"></i> Modifica </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="javascript:;" ng-click="visualizzaContratto(contratto.contractId)">
+                                                                            <i class="fa fa-sticky-note-o"></i> Visualizza </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="javascript:;" ng-click="creaPdfContratto(contratto.contractId,clienteModel.ID)">
+                                                                            <i class="fa fa-file-pdf-o"></i> Stampa </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div ng-if="contratti.counterNotific==0" class="portlet-title">
+                                                <div class="caption">
+                                                    <i class=" fa fa-th-list font-green"></i>
+                                                    <span class="caption-subject font-green bold uppercase">nessun contratto presente</span>
+                                                    <div class="caption-desc font-grey-cascade"> Per creare un contratto di manutenzione cliccare il pulsante <pre class="mt-code">Contratti</pre> in alto </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+
+
+                                        <div id="formContract" style="display: none" class="portlet light bordered">
+                                            <div class="portlet-title">
+                                                <div class="caption">
+                                                    <i class="icon-equalizer font-red-sunglo"></i>
+                                                    <span class="caption-subject font-red-sunglo bold uppercase">Inserimento Contratto</span>
+                                                    <span class="caption-helper">contratto di manutenzione cliente...</span>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="portlet-body form">
+                                                <!-- BEGIN FORM creazione contratto-->
+                                                <form name="contract" id="formContract" class="form-horizontal">
+                                                    <div class="form-body">
+                                                        <div class="form-group col-sm-12 col-md-12 col-md-offset-0">
+                                                            <div class="form-group col-sm-12 col-md-3 col-md-offset-0" ng-class="{'has-error': contract.dataInizio.$invalid && !contract.dataInizio.$pristine}">
+                                                                <p>Data Inizio:</p>
+                                                                <div class="input-group col-md-10" locale="it" moment-picker="transient.nuovoContratto.contractStart" format="DD/MM/YYYY" min-date="minDate" max-date="maxDate" start-view="month">                                      
+                                                                    <input type="text" name="dataInizio" 
+                                                                    placeholder="" id="nf-id-dataInizio"
+                                                                    readonly="" 
+                                                                    required 
+                                                                    ng-model="transient.nuovoContratto.contractStart"
+                                                                    class="form-control" >
+                                                                    <span class="input-group-addon">
+                                                                        <i class="glyphicon glyphicon-calendar"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-sm-12 col-md-2" ng-class="{'has-error': contract.contractDuration.$invalid && !contract.contractDuration.$pristine}">
+                                                                <p>Durata (Mesi):</p>
+                                                                <div class="input-group col-md-9">
+                                                                <input class="form-control input-md col-md-10" required type="number" min="0" max="999999" blocco-max-value allow-only-numbers name="contractDuration" id="id-contractDuration" ng-model="transient.nuovoContratto.contractDuration">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-sm-12 col-md-3" ng-class="{'has-error': contract.contractFrequency.$invalid && !contract.contractFrequency.$pristine}">
+                                                                <p>Frequenza:</p>
+                                                                <div class="input-group col-md-10">
+                                                                <select class="form-control input-md" 
+                                                                        required name="contractFrequency" 
+                                                                        ng-options="frequency for frequency in frequencyList" ng-model="transient.nuovoContratto.contractFrequency">  
+                                                                        <option value="">{{labels.select_empty_value}}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-sm-12 col-md-3">
+                                                                <p>Allega contratto:</p>
+                                                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                                    <div class="input-group input-large">
+                                                                        <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                                                            <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                                                            <span class="fileinput-filename"> </span>
+                                                                        </div>
+                                                                        <span class="input-group-addon btn default btn-file">
+                                                                            <span class="fileinput-new"> Seleziona file </span>
+                                                                            <span class="fileinput-exists"> Cambia </span>
+                                                                            <input type="file" id="uploadFileContract" ng-model="transient.nuovoContratto.attach" base-sixty-four-input name="file" onloadstart="loadStart" onloadend="loadEnd" onerror="errorHandler"> </span>
+                                                                        <a href="javascript:;" class="input-group-addon btn red fileinput-exists remove-attach" data-dismiss="fileinput"> Rimuovi </a>
+                                                                    </div>
+                                                                </div>
+                                                                <label class="error-label red" ng-show="contract.file.$invalid">dimensioni file eccessive</label>
+                                                            </div>
+                                                            <div class="col-sm-12 col-md-11 form-group"  ng-class="{'has-error': contract.contractDescrizione.$invalid && !contract.contractDescrizione.$pristine}">
+                                                                <p>Descrizione:</p>                    
+                                                                 <textarea name="contractDescrizione" class="form-control" rows="3" required  
+                                                                        ng-model="transient.nuovoContratto.contractDescrizione" id="">
+                                                                </textarea> 
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-11 input-group">    
+                                                            <input type="text"  name="f1-first-ricerca-articolo" 
+                                                                placeholder="Aggiungi un codice prodotto, oppure effettua la ricerca avanzata" 
+                                                                id="campo-di-ricerca-articolo" 
+                                                                ng-model="temp.campoDiRicercaArticolo"
+                                                                class="f1-first-nome form-control find-class-contr" ng-keydown="addArtNew($event)"> 
+                                                                
+                                                                <span class="input-group-addon">
+                                                                    <span class="glyphicon glyphicon-font" ng-click="aggiungiArticoloManuale('new')" title="Articolo Manuale"></span>                                                    
+                                                                </span>
+                                                                <span class="input-group-addon">
+                                                                    <span class="glyphicon glyphicon-plus-sign" ng-click="aggiungiArticolo('new')" title="Aggiungi Articolo"></span>                                                    
+                                                                </span>
+                                                                <span class="input-group-addon">                                                    
+                                                                    <span class="glyphicon glyphicon-search" ng-click="openModalRicercaArticolo()" title="Ricerca Avanzata"></span>
+                                                                </span>
+                                                            </input>
+                                                        </div>
+                                                        <br>
+                                                        <div class="col-md-8 input-group find-class-art-contr ">
+                                                            <div class="panel panel-default" ng-show="transient.nuovoContratto.contractDetails.length > 0">
+                                                                <div class="panel-heading">
+                                                                            Articoli in Contratto
+                                                                </div>
+                                                                <!-- /.panel-heading -->
+                                                                <div class="panel-body" ng-show="transient.nuovoContratto.contractDetails.length > 0">
+                                                                
+                                                                    <table datatable="ng" 
+                                                                    dt-options="dtOptionsListaArticoli" dt-column-defs="dtColumnDefsListaArticoli"
+                                                                    dt-instance="dtInstanceListaArticoli"
+                                                                    width="100%" class="table table-striped table-bordered table-hover dtResponsive" id="dataTables-listaArticoli">
+                                                                        <thead>
+                                                                            <tr>    
+                                                                                <th>Codice</th>            
+                                                                                <th>Descrizione</th>  
+                                                                                <th>Quantità</th> 
+                                                                                <th>Prezzo</th>
+                                                                                <th>IVA</th>
+                                                                                <th>Azioni</th>                     
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="odd gradeX" ng-repeat="articolo in transient.nuovoContratto.contractDetails">
+                                                                                <td>{{articolo.codiceArticolo}}</td>
+                                                                                <td ng-if="articolo.codiceArticolo !== null">{{articolo.descArticolo}}</td>
+                                                                                <td ng-if="articolo.codiceArticolo === null">
+                                                                                    <textarea rows="2"  name="articolo-descArticolo-$index"   
+                                                                                    class="form-control input-sm"                                     
+                                                                                    id="id-articolo-descArticolo-$index" style="width:90%"
+                                                                                    ng-model="transient.nuovoContratto.contractDetails[$index].descArticolo"
+                                                                                    />
+                                                                                </td>                                                 
+                                                                                <td>                                                                
+                                                                                    <input class="form-control input-sm" style="width:95%;height: 30px" type="number" min="0" max="999999" blocco-max-value allow-only-numbers name="articolo-qty-$index"                                        
+                                                                                    id="id-articolo-qty-$index" style="width:90%"
+                                                                                    ng-model="transient.nuovoContratto.contractDetails[$index].qty"
+                                                                                    
+                                                                                    ng-change="">
+                                                                                
+                                                                                </td>          
+                                                                                <td>
+                                                                                    <input name="articolo-articoloPrice-$index" 
+                                                                                    class="form-control input-sm"                                       
+                                                                                    id="id-articolo-articoloPrice-$index" style="width:90%; height: 30px"
+                                                                                    ng-model="transient.nuovoContratto.contractDetails[$index].articoloPrice"
+                                                                                    awnum="importoPositivo" type="text"
+                                                                                    >
+                                                                                </td>
+                                                                                <td>
+                                                                                        <select class="form-control input-sm" 
+                                                                                        required name="articoloIva-articolo-$index" 
+                                                                                        ng-options="ivaItem.CODICE as ivaItem.DESCRIZIONE for ivaItem in listaIvaApplicata" 
+                                                                                        ng-model="transient.nuovoContratto.contractDetails[$index].articoloIva">                                                             
+                                                                                        <option value="">{{labels.select_empty_value}}</option>
+                                                                                    </select>
+
+                                                                                  
+                                                                                </td>
+                                                                                <td class="text-center">
+                                                                                <i class="glyphicon glyphicon-trash" ng-click="eliminaArticoloDaContratto($index)"></i>
+                                                                                    
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <!-- /.table-responsive -->
+                                                                
+                                                                </div>
+                                                                <!-- /.panel-body -->
+                                                            </div>
+                                                            <!-- /.panel -->
+                                                        </div>
+                                                        <br>
+                                                        <div class="form-group col-sm-12 col-md-12 col-md-offset-0">
+                                                            <div class="form-group col-sm-12 col-md-6">
+                                                                <button class="btn btn-primary btn-md" ng-click="annullaContratto()"> <i class="fa fa-reply"></i> ANNULLA</button>                                 
+                                                            </div>
+                                                            <div class="form-group col-sm-12 col-md-6 text-right">
+                                                                <button class="btn btn-primary btn-md" ng-disabled="contract.$invalid" ng-attr-title="{{contract.$invalid?'Si prega di compilare i campi obbligatori:\nDurata\nFrequenza\nDescrizione':'Salva'}}" ng-click="salvaContratto()"> <i class="fa fa-check"></i> SALVA</button>                                 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </form>
+                                                <!-- END FORM-->
+                                            </div>
+                                        </div>
+                                        
+
+                                        <div id="formEditContract" style="display: none" class="portlet light bordered">
+                                                <div class="portlet-title">
+                                                    <div class="caption">
+                                                        <i class="icon-equalizer font-red-sunglo"></i>
+                                                        <span class="caption-subject font-red-sunglo bold uppercase">Modifica Contratto</span>
+                                                        <span class="caption-helper">contratto di manutenzione cliente...</span>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div class="portlet-body form">
+                                                    <!-- BEGIN FORM update contratto-->
+                                                    <form name="updateContract" id="formEditContract" class="form-horizontal">
+                                                        <div class="form-body">
+                                                            <div class="form-group col-sm-12 col-md-12 col-md-offset-0">
+                                                                <div class="form-group col-sm-12 col-md-3 col-md-offset-0">
+                                                                <p>Data Inizio:</p>
+                                                                    <div class="input-group col-md-10" locale="it" moment-picker="persistent.modificaContratto.contractStart" format="DD/MM/YYYY" min-date="minDate" max-date="maxDate" start-view="month">                                      
+                                                                        <input type="text" name="nf-dataInizio" 
+                                                                        placeholder="" id="nf-id-dataInizio"
+                                                                        readonly="" 
+                                                                        required 
+                                                                        ng-model="persistent.modificaContratto.contractStart"
+                                                                        class="form-control" >
+                                                                        <span class="input-group-addon">
+                                                                            <i class="glyphicon glyphicon-calendar"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group col-sm-12 col-md-2">
+                                                                    <p>Durata (Mesi):</p>
+                                                                    <div class="input-group col-md-9">
+                                                                    <input class="form-control input-md col-md-10"  type="number" min="0" max="999999" blocco-max-value allow-only-numbers name="contractDuration" id="id-contractDuration" ng-model="persistent.modificaContratto.contractDuration">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group col-sm-12 col-md-3">
+                                                                    <p>Frequenza:</p>
+                                                                    <div class="input-group col-md-10">
+                                                                    <select class="form-control input-md" 
+                                                                        required name="contractFrequency" 
+                                                                        ng-options="frequency for frequency in frequencyList" ng-model="persistent.modificaContratto.contractFrequency">  
+                                                                        <option value="">{{labels.select_empty_value}}</option>
+                                                                    </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group col-sm-12 col-md-3">
+                                                                    <p>Allega contratto:</p>
+                                                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                                        <div class="input-group input-large">
+                                                                            <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                                                                <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                                                                <span class="fileinput-filename filename-edit"> </span>
+                                                                            </div>
+                                                                            <span class="input-group-addon btn default btn-file">
+                                                                                <span class="fileinput-new"> {{labelSfoglia}} </span>
+                                                                                <span class="fileinput-exists"> Cambia </span>
+                                                                                <input type="file" id="uploadFileContractUpdate" ng-model="persistent.modificaContratto.attach" base-sixty-four-input name="file" onloadstart="loadStart" onloadend="loadEnd" onerror="errorHandler"> </span>
+                                                                            <a href="javascript:;" class="input-group-addon btn red fileinput-exists remove-attach" data-dismiss="fileinput"> Rimuovi </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <label class="error-label red" ng-show="updateContract.file.$invalid">dimensioni file eccessive</label>
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-11 form-group">
+                                                                    <p>Descrizione:</p>                    
+                                                                     <textarea class="form-control" rows="3" required="" 
+                                                                            ng-model="persistent.modificaContratto.contractDescrizione" id="">
+                                                                    </textarea> 
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-11 input-group">    
+                                                                <input type="text"  name="f1-first-ricerca-articolo" 
+                                                                    placeholder="Aggiungi un codice prodotto, oppure effettua la ricerca avanzata" 
+                                                                    id="campo-di-ricerca-articolo" 
+                                                                    ng-model="temp.campoDiRicercaArticolo"
+                                                                    class="f1-first-nome form-control find-class-contr" ng-keydown="addArtEdit($event)"> 
+                                                                    
+                                                                    <span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-font" ng-click="aggiungiArticoloManuale('edit')" title="Articolo Manuale"></span>                                                    
+                                                                    </span>
+                                                                    <span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-plus-sign" ng-click="aggiungiArticolo('edit')" title="Aggiungi Articolo"></span>                                                    
+                                                                    </span>
+                                                                    <span class="input-group-addon">                                                    
+                                                                        <span class="glyphicon glyphicon-search" ng-click="openModalRicercaArticolo()" title="Ricerca Avanzata"></span>
+                                                                    </span>
+                                                                </input>
+                                                            </div>
+                                                            <br>
+                                                            <div class="col-md-8 input-group find-class-art-contr ">
+                                                                <div class="panel panel-default" ng-show="persistent.modificaContratto.contractDetails.length > 0">
+                                                                    <div class="panel-heading">
+                                                                                Articoli in Contratto
+                                                                    </div>
+                                                                    <!-- /.panel-heading -->
+                                                                    <div class="panel-body" ng-show="persistent.modificaContratto.contractDetails.length > 0">
+                                                                    
+                                                                        <table datatable="ng" 
+                                                                        dt-options="dtOptionsListaArticoli" dt-column-defs="dtColumnDefsListaArticoli"
+                                                                        dt-instance="dtInstanceListaArticoli"
+                                                                        width="100%" class="table table-striped table-bordered table-hover dtResponsive" id="dataTables-listaArticoli">
+                                                                            <thead>
+                                                                                <tr>    
+                                                                                    <th>Codice</th>            
+                                                                                    <th>Descrizione</th>  
+                                                                                    <th>Quantità</th> 
+                                                                                    <th>Prezzo</th>
+                                                                                    <th>IVA</th>
+                                                                                    <th>Azioni</th>                     
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr class="odd gradeX" ng-repeat="articolo in persistent.modificaContratto.contractDetails">
+                                                                                    <td>{{articolo.codiceArticolo}}</td>
+                                                                                    <td ng-if="articolo.codiceArticolo !== null">{{articolo.descArticolo}}</td>
+                                                                                    <td ng-if="articolo.codiceArticolo === null">
+                                                                                        <textarea rows="2"  name="articolo-descArticolo-$index"   
+                                                                                        class="form-control input-sm"                                     
+                                                                                        id="id-articolo-descArticolo-$index" style="width:90%"
+                                                                                        ng-model="persistent.modificaContratto.contractDetails[$index].descArticolo"
+                                                                                        />
+                                                                                    </td>                                                 
+                                                                                    <td>                                                                
+                                                                                        <input class="form-control input-sm" style="width:95%;height: 30px" type="number" min="0" max="999999" blocco-max-value allow-only-numbers name="articolo-qty-$index"                                        
+                                                                                        id="id-articolo-qty-$index" style="width:90%"
+                                                                                        ng-model="persistent.modificaContratto.contractDetails[$index].qty"
+                                                                                        
+                                                                                        ng-change="">
+                                                                                    
+                                                                                    </td>          
+                                                                                    <td>
+                                                                                        <input name="articolo-articoloPrice-$index" 
+                                                                                        class="form-control input-sm"                                       
+                                                                                        id="id-articolo-articoloPrice-$index" style="width:90%; height: 30px"
+                                                                                        ng-model="persistent.modificaContratto.contractDetails[$index].articoloPrice"
+                                                                                        awnum="importoPositivo" type="text"
+                                                                                        >
+                                                                                    </td>
+                                                                                    <td>
+                                                                                            <select class="form-control input-sm" 
+                                                                                            required name="articoloIva-articolo-$index" 
+                                                                                            ng-options="ivaItem.CODICE as ivaItem.DESCRIZIONE for ivaItem in listaIvaApplicata" 
+                                                                                            ng-model="persistent.modificaContratto.contractDetails[$index].articoloCodIva">                                                             
+                                                                                            <option value="">{{labels.select_empty_value}}</option>
+                                                                                        </select>
+
+                                                                                      
+                                                                                    </td>
+                                                                                    <td class="text-center">
+                                                                                    <i class="glyphicon glyphicon-trash" ng-click="eliminaArticoloDaContratto($index)"></i>
+                                                                                        
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <!-- /.table-responsive -->
+                                                                    
+                                                                    </div>
+                                                                    <!-- /.panel-body -->
+                                                                </div>
+                                                                <!-- /.panel -->
+                                                            </div>
+                                                            <br>
+                                                            <div class="form-group col-sm-12 col-md-12 col-md-offset-0">
+                                                                <div class="form-group col-sm-12 col-md-6">
+                                                                    <button class="btn btn-primary btn-md" ng-click="annullaModificaContratto()"> <i class="fa fa-reply"></i> ANNULLA</button>                                 
+                                                                </div>
+                                                                <div class="form-group col-sm-12 col-md-6 text-right">
+                                                                    <button class="btn btn-primary btn-md" ng-disabled="updateContract.$invalid" ng-attr-title="{{updateContract.$invalid?'Si prega di compilare i campi obbligatori:\nDurata\nFrequenza\nDescrizione':'Salva'}}" ng-click="aggiornaContratto()"> <i class="fa fa-check"></i> SALVA</button>                                 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </form>
+                                                    <!-- END FORM-->
+                                                </div>
+                                            </div>
+
+
+
+                                            <div id="formViewContract" style="display: none" class="portlet light bordered">
+                                                <div class="portlet-title">
+                                                    <div class="caption">
+                                                        <i class="icon-equalizer font-red-sunglo"></i>
+                                                        <span class="caption-subject font-red-sunglo bold uppercase">Scheda Contratto</span>
+                                                        <span class="caption-helper">contratto di manutenzione cliente...</span>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div class="portlet-body form">
+                                                    <!-- BEGIN FORM view contratto-->
+                                                    <form name="updateContract" id="formViewContract" class="form-horizontal">
+                                                        <div class="form-body">
+                                                            <div class="form-group col-sm-12 col-md-12 col-md-offset-0">
+                                                                <div class="form-group col-sm-12 col-md-2 col-md-offset-0">
+                                                                    <p>Data Inizio:</p>
+                                                                    <div class="input-group col-md-10">{{persistent.visualizzaContratto.contractStart}}</div>
+                                                                </div>
+                                                                <div class="form-group col-sm-12 col-md-2 col-md-offset-0">
+                                                                    <p>Durata (Mesi):</p>
+                                                                    <div class="input-group col-md-10"> {{persistent.visualizzaContratto.contractDuration}}</div>
+                                                                </div>
+                                                                <div class="form-group col-sm-12 col-md-2 col-md-offset-0">
+                                                                    <p>Frequenza:</p>
+                                                                    <div class="input-group col-md-10"> {{persistent.visualizzaContratto.contractFrequency}}</div>
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-2 form-group">
+                                                                    <p>Descrizione:</p>                    
+                                                                     {{persistent.visualizzaContratto.contractDescrizione}}
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-3 form-group">
+                                                                    <p>Allegato:</p>                    
+                                                                     <span ng-click="openFile()">{{persistent.visualizzaContratto.attach.filename}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-8 input-group find-class-art-contr ">
+                                                                <div class="panel panel-default" ng-show="persistent.visualizzaContratto.contractDetails.length > 0">
+                                                                    <div class="panel-heading">
+                                                                                Articoli in Contratto
+                                                                    </div>
+                                                                    <!-- /.panel-heading -->
+
+                                                                    <div id="tableContract_listaArticoli" class="portlet-body">
+                                                                        <table ng-if="persistent.visualizzaContratto.contractDetails.length" class="table table-striped table-bordered table-advance table-hover">
+                                                                            <thead>
+                                                                                <tr>    
+                                                                                    <th>Codice</th>            
+                                                                                    <th>Descrizione</th>  
+                                                                                    <th>Quantità</th> 
+                                                                                    <th>Prezzo</th>
+                                                                                    <th>IVA</th>                   
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr class="odd gradeX" ng-repeat="articolo in persistent.visualizzaContratto.contractDetails">
+                                                                                    <td>{{articolo.codiceArticolo}}</td>
+                                                                                    <td>{{articolo.descArticolo}}</td>
+                                                                                    <td>{{articolo.qty | currency: "" : 2}}</td>          
+                                                                                    <td class="text-column-import">{{articolo.articoloPrice | currency: "€" : 2}}</td>
+                                                                                    <td>{{articolo.articoloDescIva}}</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <!-- /.table-responsive -->
+                                                                    
+                                                                    </div>
+                                                                    <!-- /.panel-body -->
+                                                                </div>
+                                                                <!-- /.panel -->
+                                                            </div>
+                                                            <br>
+                                                            <div class="form-group col-sm-12 col-md-12 col-md-offset-0">
+                                                                <div class="form-group col-sm-12 col-md-6">
+                                                                    <button class="btn btn-primary btn-md" ng-click="annullaContratto()"> <i class="fa fa-reply"></i> ANNULLA</button>                                 
+                                                                </div>
+                                                                <div class="form-group col-sm-12 col-md-6 text-right">
+                                                                    <button class="btn btn-primary btn-md" ng-click="creaPdfContratto(persistent.visualizzaContratto.contractId, persistent.idCliente)"> <i class="fa fa-check"></i> STAMPA</button>                                 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </form>
+                                                    <!-- END FORM-->
+                                                </div>
+                                            </div>
+
+                                        
+                                    </div>
+                                    <!--tab-pane-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--tab_1_2-->
+                
+                <!--end tab-pane-->
+            </div>
+        </div>
+    </div>
+</div>

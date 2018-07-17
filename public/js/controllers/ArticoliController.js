@@ -169,6 +169,11 @@ angular.module("gestionaleApp")
 	    });				
 	}
 
+
+	$scope.schedaArticolo = function(idArticolo){
+		$location.url('articoli/schedaArticolo/'+idArticolo);
+	}	
+
 	// END PUBLIC FUNCTIONS
 
 	//init page
