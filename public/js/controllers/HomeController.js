@@ -1,7 +1,7 @@
 angular.module("gestionaleApp")
 .controller("HomeController",
 ['$scope','CommonService','ArticoliService','CategorieService','ScadenzeService','$rootScope','$sessionStorage', 
-function ($scope,CommonService,ArticoliService,CategorieService,ScadenzeService,rootScope,$sessionStorage) {
+function ($scope,CommonService,ArticoliService,CategorieService,ScadenzeService,$rootScope,$sessionStorage) {
    'use strict';
 
 	 $scope.messaggio = "Accedi alle funzionalità tramite il menu sulla sinistra";
