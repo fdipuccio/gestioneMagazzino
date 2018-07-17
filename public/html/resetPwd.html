@@ -1,20 +1,49 @@
-<body>
+<!DOCTYPE html>
+<html lang="en">
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="login-panel panel panel-default">
-                    <div class="panel-heading" style="background-color:rgb(1,36, 78);">
-                        <h3 class="panel-title" style="color:#fff;">Cambio Password - Primo accesso</h3>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>COC - Magazzino</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../assets/pages/css/login-5.min.css" rel="stylesheet" type="text/css" />
+    <script src="../assets/pages/scripts/login-5.min.js" type="text/javascript"></script>
+</head>
+
+<body class="login">
+
+    <div class="user-login-5">
+        <div class="row bs-reset">
+            <div class="col-md-6 bs-reset mt-login-5-bsfix">
+                <div class="login-bg" style="background-image:url(../assets/pages/img/login/bg1.jpg)">
                     </div>
-                    <div class="panel-body">
+            </div>
+            <div class="col-md-6 login-container bs-reset mt-login-5-bsfix">
+                    <div class="row" >
+                            <div class="col-md-12">
+                                    <img style="margin-left:30px;margin-top:9px" src="../assets/pages/img/login/logo_def_coc.png" /> 
+                            </div>
+                    </div>
+                    
+                <div class="login-content"> 
+                    <h1><b><center>COC - Gestione magazzino </center></b></h1>
+                    <p style="font-size:14px"><b>
+                            QUESTA FRASE VA CAMBIATA
+                        </b>
+                    </p>
+                    <br>
+                        <h4 class="panel-title text-center" style="color:rgb(70, 66, 66);">Cambio Password - Primo accesso {{userReset}}</h4>
+                        <br>
                         <form role="form" name="resetPwdForm">
                             <fieldset>
-                                <div class="form-group" ng-class="{'has-error':!resetPwdForm.username.$pristine && resetPwdForm.username.$error.required}">
-                                    <input class="form-control" required placeholder="Username" ng-model="username" name="username" type="text" autofocus>
-                                </div>
                                 <div class="form-group" ng-class="{'has-error':!resetPwdForm.oldpassword.$pristine && resetPwdForm.oldpassword.$error.required}">
-                                    <input class="form-control" required placeholder="Vecchia Password" ng-model="oldpassword" name="oldpassword" type="password" value="">
+                                    <input class="form-control" autofocus required placeholder="Vecchia Password" ng-model="oldpassword" name="oldpassword" type="password" value="">
                                 </div>
                                 <div class="form-group" ng-class="{'has-error':!resetPwdForm.newpassword.$pristine && resetPwdForm.newpassword.$error.required}">
                                     <input class="form-control" required placeholder="Nuova Password" ng-model="newpassword" name="newpassword" type="password" value="">
@@ -29,7 +58,9 @@
                 </div>
             </div>
         </div>
-    </div>
+
+
 </body>
 
 </html>
+
