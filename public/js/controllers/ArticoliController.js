@@ -1,7 +1,7 @@
 angular.module("gestionaleApp")
 .controller("ArticoliController",
  ['$scope','$uibModal','$location','filterFilter','$sessionStorage','ArticoliService','CategorieService','CommonService', 'DTOptionsBuilder', 'DTColumnDefBuilder',
- function ($scope, $location, $uibModal, filterFilter, $sessionStorage, ArticoliService, CategorieService, CommonService, DTOptionsBuilder, DTColumnDefBuilder) {
+ function ($scope, $uibModal, $location, filterFilter, $sessionStorage, ArticoliService, CategorieService, CommonService, DTOptionsBuilder, DTColumnDefBuilder) {
 	 'use strict';
 	$scope.model ={};	
 	$scope.articoli = [];		
