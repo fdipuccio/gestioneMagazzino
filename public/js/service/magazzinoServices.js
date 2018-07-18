@@ -3,7 +3,7 @@ angular.module("gestionaleApp").factory('MagazzinoService', function($http) {
             caricoQuantitaArticolo : function(pLotto){        
                 var pbody = {};
                 pbody.lotto = pLotto;
-            	var tempUrl = '/magazzino/carico';                	
+            	var tempUrl = '/magazzini/carico';                	
             	
             	 return $http({
                	  method: 'POST',
@@ -15,7 +15,7 @@ angular.module("gestionaleApp").factory('MagazzinoService', function($http) {
             scaricoQuantitaArticolo : function(pLotto){        
                 var pbody = {};
                 pbody.lotto = pLotto;
-            	var tempUrl = '/magazzino/carico';                	
+            	var tempUrl = '/magazzini/carico';                	
             	
             	 return $http({
                	  method: 'POST',

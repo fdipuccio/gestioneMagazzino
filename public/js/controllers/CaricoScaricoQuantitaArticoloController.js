@@ -23,6 +23,7 @@ angular.module("gestionaleApp")
 	$scope.transient.flagArticoloSelezionato = false;
 	$scope.transient.flagArticoliUguali = true;
 	$scope.transient.listaScatoliScarico = [];
+	$scope.transient.mostraStep2Carico = false;
 	
 	$scope.transient.paginaProvenienza = "home";
 	
@@ -119,18 +120,32 @@ angular.module("gestionaleApp")
 	}
 
 	$scope.aggiungiPrimoArticolo = function(){
+		$scope.transient.mostraStep2Carico = true;
 		if($scope.transient.flagArticoliUguali){
 			$scope.transient.nuovoLotto.articoli = [];
 			var scatolo = {};	
 			scatolo.qty = $scope.transient.nuovoLotto.numeroScatoli;		
 		    $scope.transient.nuovoLotto.articoli.push(scatolo);
 		} else {
-
-		}
-
-		
-		 
+			var scatolo = {};	
+			scatolo.qty = 1;		
+			$scope.transient.nuovoLotto.articoli.push(scatolo);
+			
+		}		 
 	};
+
+	$scope.aggiungiArticoloButton = function(){
+		var scatolo = {};	
+		scatolo.qty = 1;		
+		$scope.transient.nuovoLotto.articoli.push(scatolo);
+		$scope.transient.mostraStep2Carico = true;
+	}
+
+	$scope.rimuoviArticoloButton = function(pArt){
+		var index = $scope.transient.nuovoLotto.articoli.indexOf(pArt);
+		$scope.transient.nuovoLotto.articoli.splice(index, 1);
+	}
+
 
 	$scope.salvaCaricoArticoloButton = function(){
 		
@@ -179,10 +194,10 @@ angular.module("gestionaleApp")
 		});
 	}
 
-	/*
-	$scope.$watch("transient.numeroScatoli", function(newValue, oldValue) {
-		 console.log("newValue:" + newValue);
-   
+	
+	$scope.$watch("transient.flagArticoliUguali", function(newValue, oldValue) {
+		$scope.transient.mostraStep2Carico = false;
+		$scope.transient.nuovoLotto.articoli = [];
 	});
-	*/
+	
 }]);
