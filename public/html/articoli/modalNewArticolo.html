@@ -86,7 +86,7 @@
                     <select required name="colore" 
                         ng-model="transient.newArticolo.colore" class="form-control input-sm">
                         <option value="">{{labels.select_empty_value}}</option>
-                        <option ng-repeat="colItem in listaColori" value="{{colItem.idColore}}">{{colItem.codice}} - {{colItem.descrizione}}</option>
+                        <option ng-repeat="colItem in listaColori" value="{{colItem.idColore}}">{{colItem.idColore}} - {{colItem.descrizione}}</option>
                     </select>
                 </div>
                                

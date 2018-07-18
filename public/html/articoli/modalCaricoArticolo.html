@@ -35,65 +35,75 @@
       
 
         <hr>
-
         
         <div class="row">
-            <div class="col-sm-12 col-md-3 col-md-offset-1 form-group">
-                <p>Numero Scatoli:</p>
+            <div class="col-sm-12 col-md-4 form-group">
+                <p>Numero Scatoli Totali:</p>
                 <input class="form-control form-control-sm "  name="numeroPezzi" type="number" 
-                ng-model="transient.numeroScatoli" ng-maxlength="15">
+                ng-model="transient.nuovoLotto.numeroScatoli" ng-maxlength="15">
             </div>
-            <div class="col-sm-12 col-md-3 col-md-offset-1 form-group">
-                <p>Usa la stessa configurazione:</p>
-                <input class="form-control form-control-sm "  name="numeroPezzi" type="checkbox" 
-                ng-model="transient.flagArticoliUguali" >
-            </div>        
-            <div class="col-sm-12 col-md-3 col-md-offset-1 form-group" >
-                <p>&nbsp;</p>                    
-                    <button type="button" class="btn btn-primary" ng-click="applicaNumeroScatolo()" type="submit">Applica</button>
-            </div>                          
+            <div class="col-sm-12 col-md-5  form-group">
+                <p>Fornitore:</p>
+                <input class="form-control form-control-sm "  name="numeroPezzi" type="text" 
+                ng-model="transient.nuovoLotto.fornitore" >           
+            </div>
+             <div class="col-sm-12 col-md-3  form-group">
+                <p>Stessa configurazione:</p>
+                <input class="form-control form-control-sm "  name="flagArticoliUguali" type="checkbox" 
+                ng-model="transient.flagArticoliUguali" >           
+            </div>                         
         </div>
 
-        <hr>
-
-        <form role="form" name="newArticoloForm" novalidate> 
-            <fieldset>
-                <div class="row" ng-repeat="scatolo in transient.listaScatoli">
-                    <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':scatolo.idFornitore.$invalid && !scatolo.idFornitore.$pristine}">
-                        <p>Fornitore*:</p>
-                        <select required name="categoria" 
-                        ng-model="scatolo.idFornitore" class="form-control input-sm">
-                        <option value="">{{labels.select_empty_value}}</option>
-                        <option ng-repeat="catItem in listaCategorie"                        
-                        value="{{catItem.idCategoria}}">{{catItem.nome}}</option>
-                    </select>
-                    </div>
-                    <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':scatolo.idFornitore.dataInserimento.$invalid && !scatolo.idFornitore.dataInserimento.$pristine}">
-                        <p>Data Inserimento*:</p>
-                        <div class="input-group" locale="it" moment-picker="scatolo.dataInserimento" format="DD/MM/YYYY" start-view="month">
+        <div class="row">
+            <div class="col-sm-12 col-md-4 form-group">
+                <p>Prezzo:</p>
+                <input class="form-control form-control-sm "  name="prezzoAcquisto" type="text" 
+                ng-model="transient.nuovoLotto.prezzoAcquisto" awnum="importoPositivo">           
+            </div>
+            <div class="col-sm-12 col-md-4 form-group">
+                <p>Data Inserimento:</p>               
+                <div class="input-group" locale="it" moment-picker="transient.nuovoLotto.dataInserimento" format="DD/MM/YYYY" start-view="month">
                             <input type="text" readonly required name="dataInserimento" id="dataInserimento" 
-                            ng-model="scatolo.dataInserimento" class="form-control" >
+                            ng-model="transient.nuovoLotto.dataInserimento" class="form-control" >
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-calendar"></i>
                             </span>
-                        </div>
+                </div>
+            </div>           
+            
+            <div class="col-sm-12 col-md-3 col-md-offset-1 form-group" >
+                <p>&nbsp;</p>                    
+                    <button type="button" class="btn btn-primary" ng-click="aggiungiPrimoArticolo()" type="submit">Applica</button>
+            </div>
+                   
+        </div>
+        
+        <hr>
+
+        <form role="form" name="newCaricoForm" novalidate> 
+            <fieldset>
+                <div class="row" ng-repeat="scatolo in transient.nuovoLotto.articoli">
+                    
+                    <div class="col-sm-12 col-md-6 form-group" ng-class="{'has-error':scatolo.qty.$invalid && !scatolo.qty.$pristine}">
+                        <p>Numero Scatoli*:</p>                       
+                            <input type="text" required name="qty" id="qty" ng-disabled="transient.flagArticoliUguali"
+                            ng-model="scatolo.qty" class="form-control">                       
                     </div>
-                    <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':scatolo.dataScadenza.$invalid && !scatolo.dataScadenza.$pristine}">
+                    <div class="col-sm-12 col-md-6 form-group" ng-class="{'has-error':scatolo.dataScadenza.$invalid && !scatolo.dataScadenza.$pristine}">
                         <p>Data Scadenza*:</p>
                         <div class="input-group" locale="it" moment-picker="scatolo.dataScadenza" format="DD/MM/YYYY" start-view="month">
-                            <input type="text" readonly required name="dataScadenza" id="dataScadenza" 
+                            <input type="text" required name="dataScadenza" id="dataScadenza" 
                             ng-model="scatolo.dataScadenza" class="form-control" >
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-calendar"></i>
                             </span>
                          </div>
                     </div>                    
-                    <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':scatolo.prezzoAcquisto.$invalid && !scatolo.prezzoAcquisto.$pristine}">
-                        <p>Prezzo*:</p>
-                        <input class="form-control form-control-sm "  name="prezzoAcquisto" type="text" 
-                        ng-model="scatolo.prezzoAcquisto" ng-maxlength="15" awnum="importoPositivo">
-                    </div>                                    
+                                                        
                 </div>                  
+                <div class="row" style="text-align:center" ng-if="transient.nuovoLotto.articoli.length > 0">
+                    <button type="button" class="btn btn-primary" ng-click="salvaCaricoArticoloButton()" type="submit" ng-disabled="newCaricoForm.$invalid">Salva</button>
+                </div>
 
             </fieldset>
         </form>
@@ -102,5 +112,4 @@
 </div>
     <div class="modal-footer" >
         <button type="button" class="btn btn-default" ng-click="cancelCaricoArticoloButton()">Chiudi</button>
-        <button type="button" class="btn btn-primary" ng-click="salvaCaricoArticoloButton()" type="submit" ng-disabled="newArticoloForm.$invalid" ng-if="transient.flagArticoloSelezionato">Salva</button>
     </div>

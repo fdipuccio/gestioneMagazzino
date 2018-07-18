@@ -1,7 +1,7 @@
 angular.module("gestionaleApp")
 .controller("CaricoScaricoQuantitaArticoloController",
- ['$scope','$uibModal','$uibModalInstance','filterFilter','$sessionStorage','ArticoliService','CommonService','$filter',
- function ($scope, $uibModal, $uibModalInstance, filterFilter, $sessionStorage, ArticoliService, CommonService, $filter) {
+ ['$scope','$uibModal','$uibModalInstance','filterFilter','$sessionStorage','ArticoliService','MagazzinoService','CommonService','$filter',
+ function ($scope, $uibModal, $uibModalInstance, filterFilter, $sessionStorage, ArticoliService,MagazzinoService, CommonService, $filter) {
 	 'use strict';
 	$scope.model ={};	
 	$scope.articoli = [];
@@ -9,8 +9,14 @@ angular.module("gestionaleApp")
 	$scope.persistent = {};
 	$scope.persistent.articoloSelezionato = {};		
 	$scope.transient = {};
-	$scope.transient.numeroScatoli = 1;
-	$scope.transient.listaScatoli = [];
+	$scope.transient.nuovoLotto = {};
+	$scope.transient.nuovoLotto.numeroScatoli = 1;
+	$scope.transient.nuovoLotto.idFornitore = 1;
+	$scope.transient.nuovoLotto.dataInserimento = $filter('date')(new Date(), "dd/MM/yyyy");
+	$scope.transient.nuovoLotto.dataOperazione = $filter('date')(new Date(), "dd/MM/yyyy");
+	$scope.transient.nuovoLotto.prezzoAcquisto;
+	$scope.transient.nuovoLotto.operazione = "CARICO";	
+	$scope.transient.nuovoLotto.articoli = [];
 	$scope.transient.carico = {};
 	$scope.transient.carico.filters = {};
 	$scope.transient.carico.filters.filter = {};
@@ -112,41 +118,45 @@ angular.module("gestionaleApp")
 		$scope.transient.numeroScatoli = 1;
 	}
 
-	$scope.applicaNumeroScatolo = function(){
-		$scope.transient.listaScatoli = [];
-		
-		if($scope.transient.flagArticoliUguali) {
-				var scatolo = {};				
-				$scope.transient.listaScatoli.push(scatolo);
+	$scope.aggiungiPrimoArticolo = function(){
+		if($scope.transient.flagArticoliUguali){
+			$scope.transient.nuovoLotto.articoli = [];
+			var scatolo = {};	
+			scatolo.qty = $scope.transient.nuovoLotto.numeroScatoli;		
+		    $scope.transient.nuovoLotto.articoli.push(scatolo);
 		} else {
-			for(var i = 0; i< $scope.transient.numeroScatoli ;i++){
-				var scatolo = {};				
-				$scope.transient.listaScatoli.push(scatolo);
-		 	}
+
 		}
 
+		
 		 
 	};
 
 	$scope.salvaCaricoArticoloButton = function(){
-		var lotto = {};
-
-		lotto.operazione = "CARICO";
-		lotto.qty = $scope.transient.numeroScatoli;
-		lotto.articoli = $scope.transient.listaScatoli;
-		lotto.accorpaArticoli = $scope.transient.flagArticoliUguali;
-		lotto.dataOperazione = $filter('date')(new Date(), "dd/MM/yyyy");
-		$scope.spinner.on();	
-		ArticoliService.caricoQuantitaArticolo($scope.persistent.articoloSelezionato.idArticolo, lotto).then(function(response) { 
-			//invocazione service
-			var handleResponseResult = $scope.handleResponse(response);  
-	    	if(handleResponseResult.next){
-				toastr.success("Carico articolo registrato correttamente");
-			} else {
-				toastr.error("Errore: "+ response.data.errMessage + " - Errore nel carico articoli" );
-			}
-	    	$scope.spinner.off();  		
+		
+		var qtyTotale = 0;
+		angular.forEach($scope.transient.nuovoLotto.articoli, function(item) {
+  			qtyTotale +=item.qty;
 		});
+		
+		if(qtyTotale !== $scope.transient.nuovoLotto.numeroScatoli){
+			toastr.warning("Attenzione: La quantita totale non è uguale alle quantita inserite" );
+		} else {
+			$scope.transient.nuovoLotto.idArticolo = $scope.persistent.articoloSelezionato.idArticolo;		
+				
+			MagazzinoService.caricoQuantitaArticolo($scope.transient.nuovoLotto).then(function(response) { 
+				//invocazione service
+				var handleResponseResult = $scope.handleResponse(response);  
+				if(handleResponseResult.next){
+					toastr.success("Carico articolo registrato correttamente");
+				} else {
+					toastr.error("Errore: "+ response.data.errMessage + " - Errore nel carico articoli" );
+				}
+				$scope.spinner.off();  		
+			});
+		}
+
+		
 	}
 
 	$scope.confermaScaricoArticoloButton = function(){
