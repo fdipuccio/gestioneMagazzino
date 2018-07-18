@@ -67,7 +67,17 @@ angular.module("gestionaleApp").factory('CommonService', function($http) {
                	  url: tempUrl        	  
                });   
                         	
-            }                              
+			},
+			getListaComuniAvanzata : function(searchText){     
+                //10 elementi, solo prima pagina       	
+            	var tempUrl = '/comuni/pagedSearch/'+searchText+'/10?1';                	
+            	
+            	 return $http({
+               	  method: 'GET',
+               	  url: tempUrl        	  
+               });            	
+			}
+			                           
             
         }
     });

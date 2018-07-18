@@ -32,6 +32,9 @@ $locationProvider.html5Mode({
              .when('/colori', {
                 templateUrl : 'html/colori/colori.html'                
             })
+             .when('/fornitori', {
+                templateUrl : 'html/fornitori/fornitori.html'                
+            })
             // route for the users page
             .when('/users', {
                 templateUrl : 'html/users/users.html'               

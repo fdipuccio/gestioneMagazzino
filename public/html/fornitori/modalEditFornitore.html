@@ -1,0 +1,106 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancelEditFornitoreButton()">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Modifica Fornitore</h4>
+</div>
+<div class="modal-body">
+    <form role="form" name="editFornitoreForm" novalidate> 
+        <fieldset>
+            <div class="row">
+                <div class="col-sm-12 form-group" ng-class="{'has-error': editFornitoreForm.nome.$invalid && !editFornitoreForm.nome.$pristine}">
+                    <p>Nome/Ragione Sociale*:</p>
+                    <input class="form-control form-control-sm input-mini-xs" placeholder="Nome" name="nome" type="text" 
+                    ng-model="transient.editFornitore.nome" required
+                    ng-maxlength="500">
+                </div>   
+            </div>           
+
+            <div class="row">
+                <div class="col-sm-12 col-md-8 form-group">
+                    <p>Citta:</p>                    
+                     <input type="text" name="f1-first-ricerca-comune" 
+                        placeholder="Ricerca comune" 
+                        id="campo-di-ricerca-comune-fornitore"
+                        ng-maxlength="250"
+                        ng-model="transient.editFornitore.cittaObject"
+                        ng-value="transient.editFornitore.citta"
+                        ng-change="getComuniWithTypeAhead()"
+                        class="f1-first-ricerca-comune form-control" 
+                        uib-typeahead="comune as comune.NOME for comune in elencoComuni" 
+                        typeahead-on-select="onSelectSupplier($item, $model, $label)"                        
+                        typeahead-min-length="3">  
+                </div>               
+                <div class="col-sm-12 col-md-1 form-group">
+                    <p>Provincia:</p>
+                    <input class="form-control" placeholder="" ng-model="transient.editFornitore.provincia" name="provincia" type="text" disabled>
+                </div>
+                
+                <div class="col-sm-12 col-md-2 form-group"  ng-class="{'has-error': editFornitoreForm.cap.$invalid && !editFornitoreForm.cap.$pristine}">
+                    <p>Cap*:</p>
+                    <input class="form-control" placeholder="" name="cap" type="text" disabled
+                    ng-model="transient.editFornitore.cap" required ng-maxlength="5">
+                </div>
+            </div>            
+
+            <div class="row">
+                <div class="col-sm-12 col-md-7 form-group" ng-class="{'has-error': editFornitoreForm.indirizzo.$invalid && !editFornitoreForm.indirizzo.$pristine}">
+                    <p>Indirizzo*:</p>
+                    <input class="form-control" placeholder="Indirizzo" name="indirizzo" type="text"
+                    ng-model="transient.editFornitore.indirizzo" required  ng-maxlength="500">
+                </div> 
+                <div class="col-sm-12 col-md-5 form-group">
+                    <p>Note Extra Indirizzo:</p>
+                    <input class="form-control" placeholder="Note Extra Indirizzo" ng-maxlength="999"  ng-model="transient.editFornitore.note_extra_indirizzo" name="note_extra_indirizzo" type="text" autofocus>
+                </div>               
+            </div> 
+
+            <div class="row">
+                <div class="col-sm-12 col-md-6 form-group" ng-class="{'has-error': editFornitoreForm.partita_iva.$invalid && !editFornitoreForm.partita_iva.$pristine}">
+                    <p>Partita Iva*:</p>
+                    <input class="form-control" placeholder="Partita Iva" ng-model="transient.editFornitore.partita_iva" 
+                    ng-required="!transient.editFornitore.codice_fiscale"
+                    ng-maxlength="11" ng-minlength="11"
+                    ng-pattern="/^[0-9]{11}$/"
+                    name="partita_iva" type="text" autofocus>
+                    <span class="help-block small" ng-show="editFornitoreForm.partita_iva.$invalid && !editFornitoreForm.partita_iva.$pristine">Partita Iva non valida</span>
+
+                </div>   
+                <div class="col-sm-12 col-md-6 form-group" ng-class="{'has-error': editFornitoreForm.codiceFiscale.$invalid && !editFornitoreForm.codiceFiscale.$pristine}">
+                    <p>Codice Fiscale*:</p>
+                    <input class="form-control" placeholder="Codice Fiscale" ng-model="transient.editFornitore.codice_fiscale" 
+                    ng-required="!transient.editFornitore.partita_iva" name="codiceFiscale" 
+                    ng-pattern="/^[a-zA-Z]{6}\d{2}[a-zA-Z]\d{2}[a-zA-Z]\d{3}[a-zA-Z]$/"
+                    type="text" autofocus>
+                    <span class="help-block small" ng-show="editFornitoreForm.codiceFiscale.$invalid && !editFornitoreForm.codiceFiscale.$pristine">Codice Fiscale non valido</span>
+                </div>       
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-4 form-group" ng-class="{'has-error': editFornitoreForm.telefono.$invalid && !editFornitoreForm.telefono.$pristine}">
+                    <p>Telefono*:</p>
+                    <input class="form-control" required 
+                    placeholder="Telefono" ng-model="transient.editFornitore.telefono" name="telefono" type="text" autofocus ng-maxlength="30">
+                </div>   
+                <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error': editFornitoreForm.fax.$invalid && !editFornitoreForm.fax.$pristine}">
+                    <p>Fax:</p>
+                    <input class="form-control" placeholder="Fax" ng-model="transient.editFornitore.fax" name="fax" type="text" autofocus  ng-maxlength="30">
+                </div>
+                <div class="col-sm-12 col-md-5 form-group" ng-class="{'has-error': editFornitoreForm.mail.$invalid && !editFornitoreForm.mail.$pristine}">
+                    <p>E-mail:</p>
+                    <input class="form-control" placeholder="E-mail" ng-model="transient.editFornitore.mail" name="mail" type="email" autofocus  ng-maxlength="250">
+                </div>       
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12  form-group">
+                    <p>Note Fornitore:</p>
+                    <textarea class="form-control" placeholder="Note Fornitore" ng-model="transient.editFornitore.note_fornitore" name="noteFornitore" ng-maxlength="999" ng-class="{'has-error': editFornitoreForm.noteFornitore.$invalid && !editFornitoreForm.noteFornitore.$pristine}"></textarea>
+                </div>                         
+            </div>
+            
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelEditFornitoreButton()">Chiudi</button>
+    <button type="button" class="btn btn-primary" ng-click="updateFornitoreButton()" type="submit" ng-disabled="editFornitoreForm.$invalid">Salva</button>
+</div>
