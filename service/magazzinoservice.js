@@ -3,6 +3,7 @@ var magazzinodao = require('../dao/magazzinodao')
 var gestionaleLogger = require("../utility/gestionaleLogger");
 var pool = require('../connection/connection.js'); // db is pool
 var transaction = require('../connection/transactionUtils.js'); // transaction management
+var forEach = require('co-foreach');
 
 magazzinoservice.getMagazzini = function(cb){
     gestionaleLogger.logger.debug('magazzinoservice- getMagazzini');
@@ -114,16 +115,83 @@ magazzinoservice.deleteMagazzino = function(idMagazzino, cb){
 
 
 
-
+/*
+{  
+   "lotto":{  
+      "operazione":"CARICO",
+      "note":"",
+	  "idFornitore":"-1",
+      "dataInserimento":"04/07/2018",
+	  "prezzoAcquisto":15,
+      "dataOperazione":"16/07/2018",
+	  "idArticolo":1,
+      "articoli":[  
+         {  
+            "dataScadenza":"06/07/2018",
+			"qty":3
+            
+         },
+         {  
+            "dataScadenza":"06/07/2018",
+			"qty":3
+         },
+         {  
+            "dataScadenza":"14/07/2018",
+			"qty":3
+         }
+      ]
+   }
+}
+*/
 magazzinoservice.caricoMagazzino = function(carico, cb){
     gestionaleLogger.logger.debug('magazzinoservice- caricoMagazzino');
     var retObj={}
     var ret;
+    var numeroLotto;
+    var lotto = {};
+    var qtyLotto = 0;
+    var mov = {};
+
+    for(var i in carico.articoli){
+        qtyLotto += Number(carico.articoli[i].qty);
+    }
+
     transaction.inTransaction(pool, function(connection, next) {
-        magazzinodao.caricoMagazzino(carico,connection,function(erraddMagazzino,data){
-            if(erraddMagazzino) return next(['MGZ004','Errore Carico magazzino']);
-            ret=data;
-            return next(null);
+        magazzinodao.generaNumeroLotto(carico.idMagazzino, connection,function(errNLotto,nlotto){
+            if(errNLotto) return next(['MGZ006','Errore Generazione numero lotto']);
+            numeroLotto=nlotto;
+            
+            lotto.numero=numeroLotto;
+            lotto.note=carico.note;
+            lotto.dataCreazione=carico.dataOperazione;
+            lotto.utenteInserimento=carico.utenteInserimento;
+            lotto.qty=qtyLotto
+            lotto.prezzoAcquisto=carico.prezzoAcquisto;
+            lotto.idArticolo=carico.idArticolo;
+            lotto.idFornitore=carico.idFornitore;
+
+            magazzinodao.addLotto(lotto,connection,function(errLotto,lottoId){
+                if(errLotto) return next(['MGZ007','Errore Creazione Lotto']);
+
+                forEach(carico.articoli, function (item, idx) {
+                    mov={};
+                    mov.lotto=numeroLotto;
+                    mov.dataScadenza=item.dataScadenza;
+                    mov.idMagazzino=carico.idMagazzino;
+                    mov.qty=item.qty
+                    mov.reparto=undefined;
+                    mov.scaffale=undefined;
+                    mov.posto=undefined;
+                    mov.utenteMovimento=carico.utenteInserimento;
+                    mov.dataMovimento=carico.dataOperazione;
+                    mov.tipoOperazione="CARICO";
+
+                    magazzinodao.creaMovimentoMagazzino(mov,connection,function(errMovMagazzino,movMagazzino){
+                        if(errMovMagazzino) return next(['MGZ008','Errore Creazione movimento magazzino']);
+                        return next(null);
+                    });
+                });
+            });
         });
         }, function(err) {
             if (err){
@@ -133,6 +201,7 @@ magazzinoservice.caricoMagazzino = function(carico, cb){
                 return cb(retObj,null);
             }
             retObj.status='OK';
+            retObj.numeroLotto=numeroLotto;
             return cb(null,retObj);            
     });
 }

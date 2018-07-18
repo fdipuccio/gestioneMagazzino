@@ -13,7 +13,12 @@ magazzinocontroller.getMagazzini = function(req, res, cb){
 
 magazzinocontroller.caricoMagazzino = function(req, res, cb){
     gestionaleLogger.logger.debug('magazzinocontroller- caricoMagazzino');
-    magazzinoservice.caricoMagazzino(req.body.carico, function(err, data){
+
+    var utenteInserimento = req.session.userSession;
+    var carico = req.body.lotto;
+    carico.utenteInserimento = utenteInserimento;
+    carico.idMagazzino=1; //cablo perchè al momento gestiamo un unico magazzino.
+    magazzinoservice.caricoMagazzino(carico, function(err, data){
         if (err) return cb(err);
         return cb(null,data)
     });
