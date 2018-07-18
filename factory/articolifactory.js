@@ -34,7 +34,7 @@ var ARTICOLI_QUERY = "SELECT ART.ID_ARTICOLO , " +
                         "  q.ID_MAGAZZINO, " + 
                         "  q.ID_QTY_MAGAZZINO   " + 
                         " FROM AN_ARTICOLI ART  " + 
-                        "   LEFT JOIN LG_QTY_MAGAZZINO Q  ON Q.ID_ARTICOLO = ART.ID_ARTICOLO  " + 
+                        "   LEFT JOIN LG_QTY_ARTICOLO Q  ON Q.ID_ARTICOLO = ART.ID_ARTICOLO  " + 
                         "   LEFT JOIN AN_IVA_APPLICATA I ON ART.IVA = I.CODICE  " + 
                         "   LEFT JOIN (SELECT * FROM AN_UDM WHERE UDM_TYPE = 'LUNGHEZZA') L ON L.ID_UDM = ART.UDM_LUNGHEZZA  " + 
                         "   LEFT JOIN (SELECT * FROM AN_UDM WHERE UDM_TYPE = 'DIAMETRO') D ON D.ID_UDM = ART.UDM_DIAMETRO  " + 
