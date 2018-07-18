@@ -4,67 +4,60 @@
  <div id="wrapper" ng-controller="HomeController">   
     <div class="row">
         <div class="col-lg-12">
-            <h2 class="page-header">Dashboard</h2>
-        </div>
-                    <!-- /.col-lg-12 -->
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
             <div class="panel-body">
-                        <div class="row">
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <a class="dashboard-stat dashboard-stat-v2 blue" href="#">
-                                        <div class="visual">
-                                            <i class="fa fa-comments"></i>
-                                        </div>
-                                        <div class="details">
-                                            <div class="number">
-                                                <span data-counter="counterup" data-value="1349">1.480,00 MOCK</span>
-                                            </div>
-                                            <div class="desc"> Totale Articoli Comprati?</div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <a class="dashboard-stat dashboard-stat-v2 red">
-                                        <div class="visual">
-                                            <i class="fa fa-bar-chart-o"></i>
-                                        </div>
-                                        <div class="details">
-                                            <div class="number">
-                                                <span data-counter="counterup" data-value="12,5">500,00 MOCK</span>€ </div>
-                                            <div class="desc"> Totale Articoli Usati ?</div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <a class="dashboard-stat dashboard-stat-v2 green">
-                                        <div class="visual">
-                                            <i class="fa fa-shopping-cart"></i>
-                                        </div>
-                                        <div class="details">
-                                            <div class="number">
-                                                <span data-counter="counterup" data-value="549">{{totFattureEmesse | currency: "€" : 2}}</span>
-                                            </div>
-                                            <div class="desc"> Totale Scadenze </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <a class="dashboard-stat dashboard-stat-v2 purple">
-                                        <div class="visual">
-                                            <i class="fa fa-globe"></i>
-                                        </div>
-                                        <div class="details">
-                                            <div class="number"> 
-                                                <span data-counter="counterup" data-value="89"></span>{{totScadenzeFM | currency: "€" : 2}} </div>
-                                            <div class="desc"> Totale Qualcosa </div>
-                                        </div>
-                                    </a>
-                                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <a class="dashboard-stat dashboard-stat-v2 blue" href="#">
+                            <div class="visual">
+                                <i class="fa fa-comments"></i>
                             </div>
-                
+                            <div class="details">
+                                <div class="number">
+                                    <span data-counter="counterup" data-value="1349">1.480,00 MOCK</span>
+                                </div>
+                                <div class="desc"> Totale Articoli Comprati?</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <a class="dashboard-stat dashboard-stat-v2 red">
+                            <div class="visual">
+                                <i class="fa fa-bar-chart-o"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number">
+                                    <span data-counter="counterup" data-value="12,5">500,00 MOCK</span>€ </div>
+                                <div class="desc"> Totale Articoli Usati ?</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <a class="dashboard-stat dashboard-stat-v2 green">
+                            <div class="visual">
+                                <i class="fa fa-shopping-cart"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number">
+                                    <span data-counter="counterup" data-value="549">{{totFattureEmesse | currency: "€" : 2}}</span>
+                                </div>
+                                <div class="desc"> Totale Scadenze </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <a class="dashboard-stat dashboard-stat-v2 purple">
+                            <div class="visual">
+                                <i class="fa fa-globe"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number"> 
+                                    <span data-counter="counterup" data-value="89"></span>{{totScadenzeFM | currency: "€" : 2}} </div>
+                                <div class="desc"> Totale Qualcosa </div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
+            </div>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -74,22 +67,34 @@
         <div class="col-md-6 col-xs-12 col-sm-12">
             <div class="portlet light bordered">
                 <div class="portlet-title">
-                    <div class="caption" style="width: 100%">
-                        <span class="caption-subject font-dark bold col-xs-6">Alert Quantità {{dataChart.period}}</span>
-                        <span ng-click="getDataChart('MESE')" class=""><li  class="fa fa-area-chart col-xs-2" title="Utimi quattro mesi"></li></span>
-                        <span ng-click="getDataChart('ANNO')" class=""><li class="fa fa-bar-chart col-xs-2" title="Utimi quattro anni"></li></span>
-                        <span ng-click="getDataChart('QUARTER')" class=""><li class="fa fa-line-chart col-xs-2" title="Utimi quattro trimestri"></li></span>
+                    <div class="caption">
+                        <i class="icon-share font-dark hide"></i>
+                        <span class="caption-subject font-dark bold">Disponibilità Articoli </span>
                     </div>
                 </div>
                 <div class="portlet-body">
-                    <section class="container-fluid">
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div id="bar-chart"></div>
-                      </div>
-                    
+                    <div class="scroller" style="height: 342px;" data-always-visible="1" data-rail-visible="0">
+                        <ul class="feeds">
+                            <li ng-repeat="scadenzaQty in $root.scadenzeListQty">
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="label label-sm" ng-class="scadenzaQty.label">
+                                                <i ng-class="scadenzaQty.icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="cont-col2">
+                                            <div class="desc"> {{scadenzaQty.articolo}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col2">
+                                    <div class="date"> {{scadenzaQty.qty}} </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                  </section>
                 </div>
             </div>
         </div>
@@ -98,57 +103,37 @@
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="icon-share font-dark hide"></i>
-                        <span class="caption-subject font-dark bold">Alert Scadenza </span>
+                        <span class="caption-subject font-dark bold">Scadenza Articoli </span>
                     </div>
                 </div>
                 <div class="portlet-body">
                     <div class="scroller" style="height: 342px;" data-always-visible="1" data-rail-visible="0">
                         <ul class="feeds">
-                            <li ng-repeat="promemoria in $root.promemoriaList">
+                            <li ng-repeat="scadenza in $root.scadenzeList">
                                 <div class="col1">
                                     <div class="cont">
                                         <div class="cont-col1">
-                                            <div class="label label-sm" ng-class="promemoria.label">
-                                                <i ng-class="promemoria.icon"></i>
+                                            <div class="label label-sm" ng-class="scadenza.label">
+                                                <i ng-class="scadenza.icon"></i>
                                             </div>
-                                            <!--<div class="label label-sm" ng-class="promemoria.color">
-                                                <i ng-class="promemoria.icon"></i>
-                                            </div>-->
                                         </div>
                                         <div class="cont-col2">
-                                            <div class="desc"> {{promemoria.nota}}
-                                                <!--<span class="label label-sm label-warning "> Take action
-                                                    <i class="fa fa-share"></i>
-                                                </span>-->
+                                            <div class="desc"> {{scadenza.articolo}}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col2">
-                                    <div class="date"> {{promemoria.deadline}} </div>
+                                    <div class="date"> {{scadenza.dataScadenza}} </div>
                                 </div>
                             </li>
                         </ul>
                     </div>
-                    
                 </div>
             </div>
+
         </div>
     </div>
 </div>
-
-<script>
-  
-    $(document).ready(function() {
-      
-      $(window).resize(function() {
-        window.barChart.redraw();
-
-      });
-    });
-
-</script>
-
-
 
 </html>

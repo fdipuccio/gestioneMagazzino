@@ -36,6 +36,9 @@ $locationProvider.html5Mode({
             .when('/users', {
                 templateUrl : 'html/users/users.html'               
             })		
+            .when('/articoli/schedaArticolo/:idArticolo', {
+                templateUrl : 'html/articoli/schedaArticolo.html'               
+            })		
             .when('/errore', {
                 templateUrl : 'html/errorPage.html'                
             })
