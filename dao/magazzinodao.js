@@ -11,21 +11,30 @@ magazzinodao.getMagazzini = function(connection, cb){
     });
 }
 
-magazzinodao.scaricoMagazzino = function(scarico, connection, cb){
-    gestionaleLogger.logger.debug('magazzinodao-scaricoMagazzino');
-    magazzinofactory.scaricoMagazzino(scarico, connection, function(err, data){
+magazzinodao.generaNumeroLotto = function(idMagazzino,connection, cb){
+    gestionaleLogger.logger.debug('magazzinodao-generaNumeroLotto');
+    magazzinofactory.generaNumeroLotto(idMagazzino,connection, function(err, data){
         if (err) return cb(err);
         return cb(null,data)
     });
 }
 
-magazzinodao.caricoMagazzino = function(carico, connection, cb){
-    gestionaleLogger.logger.debug('magazzinodao-caricoMagazzino');
-    magazzinofactory.caricoMagazzino(carico, connection, function(err, data){
+magazzinodao.addLotto = function(lotto,connection, cb){
+    gestionaleLogger.logger.debug('magazzinodao-generaNumeroLotto');
+    magazzinofactory.addLotto(lotto,connection, function(err, data){
         if (err) return cb(err);
         return cb(null,data)
     });
 }
+
+magazzinodao.creaMovimentoMagazzino = function(mov,connection, cb){
+    gestionaleLogger.logger.debug('magazzinodao-creaMovimentoMagazzino');
+    magazzinofactory.creaMovimentoMagazzino(mov,connection, function(err, data){
+        if (err) return cb(err);
+        return cb(null,data)
+    });
+}
+
 
 magazzinodao.getMagazzinoById = function(idMagazzino, connection, cb){
     gestionaleLogger.logger.debug('magazzinodao-getMagazzinoById');

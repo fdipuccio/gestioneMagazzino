@@ -22,9 +22,9 @@ magazzinofactory.getMagazzini = function(connection, cb){
 
 
 
-magazzinofactory.caricoMagazzino = function(carico, connection, cb){
+magazzinofactory.generaNumeroLotto = function(idMagazzino, connection, cb){
     gestionaleLogger.logger.debug('magazzinofactory::caricoMagazzino');
-    var sql ="";
+    var sql ="SELECT F_GET_NEXT_LOTTO("+connection.escape(idMagazzino)+") AS NLOTTO";
     gestionaleLogger.logger.debug('sql',sql);
     connection.query(sql, function (err, rows) {
         if (err){
@@ -32,25 +32,54 @@ magazzinofactory.caricoMagazzino = function(carico, connection, cb){
             return cb(err);
         }
         else {
-            return cb(null,rows)
+            return cb(null,rows[0].NLOTTO)
         }
     });
 }
 
-magazzinofactory.scaricoMagazzino = function(scarico, connection, cb){
-    gestionaleLogger.logger.debug('magazzinofactory::scaricoMagazzino');
-    var sql ="";
+magazzinofactory.addLotto = function(lotto, connection, cb){
+    gestionaleLogger.logger.debug('magazzinofactory::addLotto');
+    var sql ="INSERT INTO LG_LOTTI_MAGAZZINO(NLOTTO, NOTE,DATA_CREAZIONE, UTENTE_INS, QTY, PREZZO_ACQUISTO, ID_ARTICOLO, ID_FORNITORE)" + 
+             " VALUES(?,?,STR_TO_DATE(?,'%e/%c/%Y %T'),?,?,?,?,?)";
     gestionaleLogger.logger.debug('sql',sql);
-    connection.query(sql, function (err, rows) {
+    connection.query(sql,[lotto.numero,lotto.note,lotto.dataCreazione,lotto.utenteInserimento,lotto.qty,lotto.prezzoAcquisto,lotto.idArticolo,lotto.idFornitore], function (err, results) {
         if (err){
-            gestionaleLogger.logger.error('magazzinofactory.scaricoMagazzino - Internal error: ', err);
+            gestionaleLogger.logger.error('magazzinofactory.addLotto - Internal error: ', err);
             return cb(err);
         }
         else {
-            return cb(null,rows)
+            return cb(null,results.insertId)
         }
     });
 }
+
+
+magazzinofactory.creaMovimentoMagazzino = function(mov, connection, cb){
+    gestionaleLogger.logger.debug('magazzinofactory::creaMovimentoMagazzino');
+    var sql ="INSERT INTO LG_MOVIMENTI_MAGAZZINO(NLOTTO, " +
+                                               " DATA_SCADENZA, " +
+                                               " ID_MAGAZZINO, " +
+                                               " QTY, " +
+                                               " REPARTO, " +
+                                               " SCAFFALE, " +
+                                               " POSTO, " +
+                                               " UTENTE_MOVIMENTO, " +
+                                               " DATA_MOVIMENTO, " +
+                                               " TIPO_OPERAZIONE)" + 
+             " VALUES(?,STR_TO_DATE(?,'%e/%c/%Y %T'),?,?,?,?,?,?,STR_TO_DATE(?,'%e/%c/%Y %T'),?)";
+    gestionaleLogger.logger.debug('sql',sql);
+    connection.query(sql,[mov.lotto,mov.dataScadenza,mov.idMagazzino,mov.qty,mov.reparto,mov.scaffale,mov.posto,mov.utenteMovimento,mov.dataMovimento,mov.tipoOperazione], function (err, results) {
+        if (err){
+            gestionaleLogger.logger.error('magazzinofactory.creaMovimentoMagazzino - Internal error: ', err);
+            return cb(err);
+        }
+        else {
+            return cb(null,results.insertId)
+        }
+    });
+}
+
+
 
 
 
