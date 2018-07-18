@@ -42,10 +42,21 @@
                     <input class="form-control form-control-sm "  name="numeroPezzi" type="number" 
                     ng-model="transient.nuovoLotto.numeroScatoli" ng-maxlength="15" required>
                 </div>
-                <div class="col-sm-12 col-md-5  form-group">
-                    <p>Fornitore:</p>
-                    <input class="form-control form-control-sm "  name="numeroPezzi" type="text" 
-                    ng-model="transient.nuovoLotto.fornitore" required>           
+                <div class="col-sm-12 col-md-5  form-group" ng-class="{'has-error':newCaricoStep1Form.nuovoLotto.idFornitore.$invalid && !newCaricoStep1Form.nuovoLotto.idFornitore.$pristine}">
+                    <p>Fornitore:</p>                   
+                    
+                    <input type="text" name="f1-first-ricerca-fornitore" 
+                        placeholder="Ricerca fornitore" 
+                        id="campo-di-ricerca-comune-fornitore"
+                        ng-model="transient.fornitoreObject"
+                        ng-maxlength="250"
+                        ng-change="getFornitoriWithTypeAhead()"
+                        class="f1-first-ricerca-fornitore form-control" 
+                        uib-typeahead="fornitore as fornitore.nome for fornitore in fornitori" 
+                        typeahead-on-select="onSelectFornitore($item, $model, $label)"                        
+                        typeahead-min-length="3" required>
+                    <input type="hidden" ng-model="transient.nuovoLotto.idFornitore" name="nuovoLotto.idFornitore" required/>
+
                 </div>
                 <div class="col-sm-12 col-md-3  form-group">
                     <p>Stessa configurazione:</p>

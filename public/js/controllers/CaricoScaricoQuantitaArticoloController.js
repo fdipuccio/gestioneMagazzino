@@ -1,7 +1,7 @@
 angular.module("gestionaleApp")
 .controller("CaricoScaricoQuantitaArticoloController",
- ['$scope','$uibModal','$uibModalInstance','filterFilter','$sessionStorage','ArticoliService','MagazzinoService','CommonService','$filter',
- function ($scope, $uibModal, $uibModalInstance, filterFilter, $sessionStorage, ArticoliService,MagazzinoService, CommonService, $filter) {
+ ['$scope','$uibModal','$uibModalInstance','filterFilter','$sessionStorage','ArticoliService','MagazzinoService','FornitoreService','CommonService','$filter',
+ function ($scope, $uibModal, $uibModalInstance, filterFilter, $sessionStorage, ArticoliService,MagazzinoService, FornitoreService,CommonService, $filter) {
 	 'use strict';
 	$scope.model ={};	
 	$scope.articoli = [];
@@ -10,8 +10,7 @@ angular.module("gestionaleApp")
 	$scope.persistent.articoloSelezionato = {};		
 	$scope.transient = {};
 	$scope.transient.nuovoLotto = {};
-	$scope.transient.nuovoLotto.numeroScatoli = 1;
-	$scope.transient.nuovoLotto.idFornitore = 1;
+	$scope.transient.nuovoLotto.numeroScatoli = 1;	
 	$scope.transient.nuovoLotto.dataInserimento = $filter('date')(new Date(), "dd/MM/yyyy");
 	$scope.transient.nuovoLotto.dataOperazione = $filter('date')(new Date(), "dd/MM/yyyy");
 	$scope.transient.nuovoLotto.prezzoAcquisto;
@@ -26,7 +25,7 @@ angular.module("gestionaleApp")
 	$scope.transient.mostraStep2Carico = false;
 	
 	$scope.transient.paginaProvenienza = "home";
-	
+	$scope.transient.filters = {};
 
 	if($scope.$parent.transient.idArticoloDaLista){
 		$scope.transient.paginaProvenienza = "lista";
@@ -194,6 +193,35 @@ angular.module("gestionaleApp")
 		});
 	}
 
+	$scope.getFornitoriWithTypeAhead = function (){
+		$scope.transient.nuovoLotto.idFornitore = "";
+		if($scope.transient.fornitoreObject !== null && 
+			$scope.transient.fornitoreObject !== '' &&
+			$scope.transient.fornitoreObject.length > 2){
+				//TODO sostituire con servizio
+			FornitoreService.getAdvSearchFornitoriList($scope.filters).then(function(response) {  
+
+			var handleResponseResult = $scope.handleResponse(response);  
+	    	if(handleResponseResult.next){
+				$scope.fornitori = response.data.suppliers;									
+	    	} else {
+				toastr.error("Errore: "+ handleResponseResult.errorCode + " - GESTIONE ERRORE DA FARE!!!" );
+			}
+	    	$scope.spinner.off();  	
+	    });		
+		} else {
+				$scope.transient.nuovoLotto.idFornitore = "";	
+				$scope.transient.fornitore = "";				
+		}
+	}
+	//funzione richiamata quando si seleziona un comune dal typeahead
+	$scope.onSelectFornitore = function ($item, $model, $label) {
+		if($item != null){
+				$scope.transient.nuovoLotto.idFornitore = $item.idfornitore;				
+		} else {
+				$scope.transient.nuovoLotto.idFornitore = "";			
+		}
+	}
 	
 	$scope.$watch("transient.flagArticoliUguali", function(newValue, oldValue) {
 		$scope.transient.mostraStep2Carico = false;
