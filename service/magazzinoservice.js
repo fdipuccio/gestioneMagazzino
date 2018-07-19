@@ -206,24 +206,74 @@ magazzinoservice.caricoMagazzino = function(carico, cb){
     });
 }
 
+
+
+
+/*
+{  
+   "lotto":{  
+      numeroLotto:"",
+      "dataOperazione":"16/07/2018",
+	  "idArticolo":1,
+      "articoli":[  
+         {  
+            "dataScadenza":"06/07/2018",
+			"qty":3
+            
+         },
+         {  
+            "dataScadenza":"06/07/2018",
+			"qty":3
+         },
+         {  
+            "dataScadenza":"14/07/2018",
+			"qty":3
+         }
+      ]
+   }
+}
+*/
 magazzinoservice.scaricoMagazzino = function(scarico, cb){
     gestionaleLogger.logger.debug('magazzinoservice- scaricoMagazzino');
     var retObj={}
     var ret;
+    var numeroLotto;
+    var lotto = {};
+    var qtyLotto = 0;
+    var mov = {};
+
+    for(var i in carico.articoli){
+        qtyLotto += Number(carico.articoli[i].qty);
+    }
+
     transaction.inTransaction(pool, function(connection, next) {
-        magazzinodao.scaricoMagazzino(scarico,connection,function(erraddMagazzino,data){
-            if(erraddMagazzino) return next(['MGZ005','Errore Scarico magazzino']);
-            ret=data;
-            return next(null);
+        forEach(carico.articoli, function (item, idx) {
+            mov={};
+            mov.lotto=scarico.numeroLotto;
+            mov.dataScadenza=item.dataScadenza;
+            mov.idMagazzino=scarico.idMagazzino;
+            mov.qty=item.qty
+            mov.reparto=undefined;
+            mov.scaffale=undefined;
+            mov.posto=undefined;
+            mov.utenteMovimento=scarico.utenteInserimento;
+            mov.dataMovimento=scarico.dataOperazione;
+            mov.tipoOperazione="SCARICO";
+
+            magazzinodao.creaMovimentoMagazzino(mov,connection,function(errMovMagazzino,movMagazzino){
+                if(errMovMagazzino) return next(['MGZ008','Errore Creazione movimento magazzino']);
+                return next(null);
+            });
         });
         }, function(err) {
             if (err){
                 retObj.status='KO';
-                retObj.code=err[0]!=undefined?err[0]:'MGZ005';
-                retObj.message=err[1]!=undefined?err[1]:'Errore Scarico magazzino';
+                retObj.code=err[0]!=undefined?err[0]:'MGZ004';
+                retObj.message=err[1]!=undefined?err[1]:'Errore Carico magazzino';
                 return cb(retObj,null);
             }
             retObj.status='OK';
+            retObj.numeroLotto=numeroLotto;
             return cb(null,retObj);            
     });
 }

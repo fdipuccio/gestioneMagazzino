@@ -150,7 +150,7 @@ angular.module("gestionaleApp")
 		
 		var qtyTotale = 0;
 		angular.forEach($scope.transient.nuovoLotto.articoli, function(item) {
-  			qtyTotale +=item.qty;
+  			qtyTotale +=Number(item.qty);
 		});
 		
 		if(qtyTotale !== $scope.transient.nuovoLotto.numeroScatoli){

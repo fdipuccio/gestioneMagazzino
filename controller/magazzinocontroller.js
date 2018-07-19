@@ -14,7 +14,7 @@ magazzinocontroller.getMagazzini = function(req, res, cb){
 magazzinocontroller.caricoMagazzino = function(req, res, cb){
     gestionaleLogger.logger.debug('magazzinocontroller- caricoMagazzino');
 
-    var utenteInserimento = req.session.userSession;
+    var utenteInserimento = JSON.parse(req.session.userSession).ID;
     var carico = req.body.lotto;
     carico.utenteInserimento = utenteInserimento;
     carico.idMagazzino=1; //cablo perchè al momento gestiamo un unico magazzino.
@@ -27,6 +27,10 @@ magazzinocontroller.caricoMagazzino = function(req, res, cb){
 
 magazzinocontroller.scaricoMagazzino = function(req, res, cb){
     gestionaleLogger.logger.debug('magazzinocontroller- scaricoMagazzino');
+    var utenteInserimento = JSON.parse(req.session.userSession).ID;
+    var carico = req.body.lotto;
+    carico.utenteInserimento = utenteInserimento;
+    carico.idMagazzino=1; //cablo perchè al momento gestiamo un unico magazzino.
     magazzinoservice.scaricoMagazzino(req.body.scarico, function(err, data){
         if (err) return cb(err);
         return cb(null,data)
