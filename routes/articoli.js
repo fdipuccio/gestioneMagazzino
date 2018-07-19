@@ -13,6 +13,14 @@ router.get('/:idArticolo(\\d+)',accesscontrol.isLoggedIn, function(req, res, nex
     });
 });
 
+router.get('/disponibilita/:idArticolo(\\d+)',accesscontrol.isLoggedIn, function(req, res, next) {
+    articolicontroller.getDisponibilitaArticolo(req, res, function(err, data){        
+        if (err) return next(err);
+			res.end(JSON.stringify(data));
+    });
+});
+
+
 router.get('/code/:codeArticolo',accesscontrol.isLoggedIn, function(req, res, next) {
     articolicontroller.getArticoloByCode(req, res, function(err, data){        
         if (err) res.end(JSON.stringify(err));

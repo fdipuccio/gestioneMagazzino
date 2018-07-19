@@ -211,25 +211,10 @@ magazzinoservice.caricoMagazzino = function(carico, cb){
 
 /*
 {  
-   "lotto":{  
-      numeroLotto:"",
-      "dataOperazione":"16/07/2018",
-	  "idArticolo":1,
-      "articoli":[  
-         {  
-            "dataScadenza":"06/07/2018",
-			"qty":3
-            
-         },
-         {  
-            "dataScadenza":"06/07/2018",
-			"qty":3
-         },
-         {  
-            "dataScadenza":"14/07/2018",
-			"qty":3
-         }
-      ]
+   "scarico":{  
+        "dataOperazione":"16/07/2018",
+	    "idArticolo":1,
+	    "qty":3
    }
 }
 */

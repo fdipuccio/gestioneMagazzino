@@ -26,6 +26,16 @@ articolicontroller.getAndamentoPrezzo = function(req, res, cb){
 }
 
 
+articolicontroller.getDisponibilitaArticolo = function(req, res, cb){
+    gestionaleLogger.logger.debug('articolicontroller- getDisponibilitaArticolo');
+    var idArticolo=req.params.idArticolo;
+    articoliservice.getDisponibilitaArticolo(idArticolo, function(err, data){
+          if (err) return cb(err);
+			return cb(null,data)
+    });
+}
+
+
 articolicontroller.getArticoloById = function(req, res, cb){
     gestionaleLogger.logger.debug('articolicontroller- getArticoloById');
 	var  idArticolo=req.params.idArticolo;

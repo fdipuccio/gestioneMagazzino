@@ -93,6 +93,28 @@ articoliservice.getAndamentoPrezzo = function(idArticolo, startDate, endDate,cb)
 }
 
 
+articoliservice.getDisponibilitaArticolo = function(idArticolo, cb){
+    var retObj = {};
+    gestionaleLogger.logger.debug('articoliservice-getDisponibilitaArticolo');
+        transaction.getConnection(pool,function(connection) {
+            articolidao.getDisponibilitaArticolo(idArticolo, connection, function(err, data){
+                if (err){
+                    retObj.status='KO';
+                    retObj.code=err[0]!=undefined?err[0]:'ART008';
+                    retObj.message=err[1]!=undefined?err[1]:'Errore recupero Dati per andamento prezzo';
+                    return cb(retObj,null);}
+                retObj.status='OK';
+                if(!data || !data[0]){
+                    retObj.dati = new Array();
+                }else{
+                    retObj.dati=articolimapper.OUT_DISP_ARTICOLI(data);   
+                }   
+                return cb(null,retObj);
+        });
+    });
+}
+
+
 
 articoliservice.getArticoloById = function(id, cb){
     gestionaleLogger.logger.debug('articoliservice- getArticoloById');

@@ -71,6 +71,29 @@ articolimapper.OUT_ANDAMENTO_PREZZI = function(data){
 }
 
 
+articolimapper.OUT_DISP_ARTICOLI = function(data){
+    var retVal = new Array();
+    var elem = {};
+    if(data){
+        for(var i in data){
+            elem = {};
+            elem.articolo=data[i].CODICE_ARTICOLO;
+            elem.descrizione=data[i].DESCRIZIONE_ARTICOLO;
+            elem.lotto=data[i].NLOTTO;
+            elem.qty=data[i].QTY;
+            elem.scadenza=data[i].SCADENZA;
+            elem.magazzino=data[i].NOME_MAGAZZINO;
+            elem.reparto=data[i].REPARTO;
+            elem.scaffale=data[i].SCAFFALE;
+            elem.posto=data[i].POSTO;
+
+            retVal.push(elem);
+        }
+    }
+    
+    return retVal;
+}
+
 articolimapper.OUT_LISTA = function(data){
     var retVal = new Array();
     if(data){

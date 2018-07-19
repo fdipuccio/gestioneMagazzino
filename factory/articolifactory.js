@@ -229,6 +229,25 @@ articolifactory.updateArticolo = function(articolo,idArticolo,connection,cb){
 };
 
 
+articolifactory.getDisponibilitaArticolo = function(idArticolo, connection, cb){
+    gestionaleLogger.logger.debug('articolifactory-getDisponibilitaArticolo');    
+    var sql = " SELECT A.CODICE_ARTICOLO, A.DESCRIZIONE DESCRIZIONE_ARTICOLO, Q.NLOTTO, Q.QTY, Q.SCADENZA, M.NOME_MAGAZZINO, Q.REPARTO, Q.SCAFFALE, Q.POSTO " + 
+              "  FROM LG_QTY_ARTICOLO Q " + 
+              "  JOIN AN_ARTICOLI A ON A.ID_ARTICOLO=Q.ID_ARTICOLO " + 
+              "  JOIN AN_MAGAZZINI M ON M.ID_MAGAZZINO=Q.ID_MAGAZZINO  " + 
+              "  WHERE Q.ID_ARTICOLO=" + connection.escape(idArticolo);
+    connection.query(sql,function(error, results) {
+        if (error) {
+            gestionaleLogger.logger.error('articolifactory.getDisponibilitaArticolo - Internal error: ', error);
+            return cb('KO',null);
+        }else {
+            return cb(null,results)
+        }
+    });
+             
+}
+
+
 articolifactory.getAndamentoPrezzo = function(idArticolo, startDate, endDate, connection, cb){
     gestionaleLogger.logger.debug('articolifactory-getAndamentoPrezzo');    
     var sql = " select l.PREZZO_ACQUISTO, DATE_FORMAT(l.DATA_OPERAZIONE ,'%d/%m/%Y') DATA_OPERAZIONE " +
@@ -262,6 +281,7 @@ articolifactory.deleteArticolo = function(id,connection,cb){
         }
     });
 };
+
 
 
 function gestioneFiltriArticoli(filter, sql, connection){
