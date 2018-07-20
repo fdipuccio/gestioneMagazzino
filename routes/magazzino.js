@@ -62,6 +62,15 @@ router.post('/scarico',accesscontrol.isLoggedIn, function(req, res,next) {
 });
 
 
+router.post('/scarico/preview',accesscontrol.isLoggedIn, function(req, res,next) {
+    magazzinocontroller.previewScaricoMagazzino(req, res, function(err,data){
+        if (err) return next(err);
+        res.end(JSON.stringify(data));
+    });
+});
+
+
+
 
 
 

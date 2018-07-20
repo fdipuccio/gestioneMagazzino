@@ -38,6 +38,15 @@ magazzinocontroller.scaricoMagazzino = function(req, res, cb){
 }
 
 
+magazzinocontroller.previewScaricoMagazzino =  function(req, res, cb){
+    gestionaleLogger.logger.debug('magazzinocontroller-previewScaricoMagazzino');
+    magazzinoservice.previewScaricoMagazzino(req.body.scarico, function(err, data){
+        if (err) return cb(err);
+        return cb(null,data)
+    });
+}
+
+
 magazzinocontroller.getMagazzinoById = function(req, res, cb){
     gestionaleLogger.logger.debug('magazzinocontroller- getMagazzinoById');
     magazzinoservice.getMagazzinoById(req.params.idMagazzino, function(err, data){

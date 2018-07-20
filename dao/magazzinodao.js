@@ -36,6 +36,8 @@ magazzinodao.creaMovimentoMagazzino = function(mov,connection, cb){
 }
 
 
+
+
 magazzinodao.getMagazzinoById = function(idMagazzino, connection, cb){
     gestionaleLogger.logger.debug('magazzinodao-getMagazzinoById');
     magazzinofactory.getMagazzinoById(idMagazzino,connection, function(err, data){

@@ -2,6 +2,7 @@ var magazzinoservice = require('./magazzinoservice')
 var magazzinodao = require('../dao/magazzinodao')
 var gestionaleLogger = require("../utility/gestionaleLogger");
 var pool = require('../connection/connection.js'); // db is pool
+var articoliservice = require('../service/articoliservice')
 var transaction = require('../connection/transactionUtils.js'); // transaction management
 var forEach = require('co-foreach');
 
@@ -222,35 +223,9 @@ magazzinoservice.scaricoMagazzino = function(scarico, cb){
     gestionaleLogger.logger.debug('magazzinoservice- scaricoMagazzino');
     var retObj={}
     var ret;
-    var numeroLotto;
-    var lotto = {};
-    var qtyLotto = 0;
-    var mov = {};
-
-    for(var i in carico.articoli){
-        qtyLotto += Number(carico.articoli[i].qty);
-    }
-
     transaction.inTransaction(pool, function(connection, next) {
-        forEach(carico.articoli, function (item, idx) {
-            mov={};
-            mov.lotto=scarico.numeroLotto;
-            mov.dataScadenza=item.dataScadenza;
-            mov.idMagazzino=scarico.idMagazzino;
-            mov.qty=item.qty
-            mov.reparto=undefined;
-            mov.scaffale=undefined;
-            mov.posto=undefined;
-            mov.utenteMovimento=scarico.utenteInserimento;
-            mov.dataMovimento=scarico.dataOperazione;
-            mov.tipoOperazione="SCARICO";
-
-            magazzinodao.creaMovimentoMagazzino(mov,connection,function(errMovMagazzino,movMagazzino){
-                if(errMovMagazzino) return next(['MGZ008','Errore Creazione movimento magazzino']);
-                return next(null);
-            });
-        });
-        }, function(err) {
+       
+    }, function(err) {
             if (err){
                 retObj.status='KO';
                 retObj.code=err[0]!=undefined?err[0]:'MGZ004';
@@ -258,8 +233,63 @@ magazzinoservice.scaricoMagazzino = function(scarico, cb){
                 return cb(retObj,null);
             }
             retObj.status='OK';
-            retObj.numeroLotto=numeroLotto;
+            retObj.scarico=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx;
             return cb(null,retObj);            
+    });
+}
+
+/*
+{  
+   "scarico":{  
+        "idArticolo":1,
+	    "qty":3
+   }
+}
+*/
+magazzinoservice.previewScaricoMagazzino = function(scarico, cb){
+    gestionaleLogger.logger.debug('magazzinoservice- previewScaricoMagazzino');
+    var retObj={}
+    var ret;
+    var releaseQuantity=scarico.qty;
+    var elem=null;
+    var retVal = new Array();
+    transaction.getConnection(pool,function(connection) {
+        articoliservice.getDisponibilitaArticolo(scarico.idArticolo, function(errDisp, disp){
+            if(errDisp){
+                retObj.status='KO';
+                retObj.code=err[0]!=undefined?err[0]:'MGZ005';
+                retObj.message=err[1]!=undefined?err[1]:'Errore durante la lettura della disponibilità articolo';
+                return cb(retObj,null);
+            }
+            if(!disp || disp.length == 0 ){
+                retObj.status='KO';
+                retObj.code=err[0]!=undefined?err[0]:'MGZ006';
+                retObj.message=err[1]!=undefined?err[1]:'Non c\'è disponibilità per l\'articolo';
+                return cb(retObj,null);
+            }
+            
+
+            for(var i in disp.dati){
+                
+
+                elem = disp.dati[i];
+                elem.selected=false;
+                elem.qtyRelese=0;
+
+                if( elem.qty > 0 && releaseQuantity!=0){
+                    elem.selected=true;
+                    elem.qtyRelese=(releaseQuantity >= elem.qty)?elem.qty:Number(releaseQuantity);
+                    releaseQuantity-=Number(elem.qtyRelese);                   
+                }
+                retVal.push(elem);
+            }
+
+
+            retObj.status='OK';
+            retObj.qtyResidua=(releaseQuantity==0)?0:releaseQuantity;
+            retObj.scarico=retVal;
+            return cb(null,retObj)             
+        });
     });
 }
 

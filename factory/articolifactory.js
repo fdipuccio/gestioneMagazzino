@@ -235,7 +235,8 @@ articolifactory.getDisponibilitaArticolo = function(idArticolo, connection, cb){
               "  FROM LG_QTY_ARTICOLO Q " + 
               "  JOIN AN_ARTICOLI A ON A.ID_ARTICOLO=Q.ID_ARTICOLO " + 
               "  JOIN AN_MAGAZZINI M ON M.ID_MAGAZZINO=Q.ID_MAGAZZINO  " + 
-              "  WHERE Q.ID_ARTICOLO=" + connection.escape(idArticolo);
+              "  WHERE Q.ID_ARTICOLO=" + connection.escape(idArticolo) +
+              " ORDER BY Q.SCADENZA DESC "
     connection.query(sql,function(error, results) {
         if (error) {
             gestionaleLogger.logger.error('articolifactory.getDisponibilitaArticolo - Internal error: ', error);
