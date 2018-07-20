@@ -83,6 +83,7 @@ articolimapper.OUT_DISP_ARTICOLI = function(data){
             elem.qty=data[i].QTY;
             elem.scadenza=data[i].SCADENZA;
             elem.magazzino=data[i].NOME_MAGAZZINO;
+            elem.idMagazzino=data[i].ID_MAGAZZINO;
             elem.reparto=data[i].REPARTO;
             elem.scaffale=data[i].SCAFFALE;
             elem.posto=data[i].POSTO;

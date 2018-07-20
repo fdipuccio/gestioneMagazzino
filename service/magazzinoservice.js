@@ -5,6 +5,7 @@ var pool = require('../connection/connection.js'); // db is pool
 var articoliservice = require('../service/articoliservice')
 var transaction = require('../connection/transactionUtils.js'); // transaction management
 var forEach = require('co-foreach');
+var dateUtils  = require('../utility/dateUtils')
 
 magazzinoservice.getMagazzini = function(cb){
     gestionaleLogger.logger.debug('magazzinoservice- getMagazzini');
@@ -212,19 +213,83 @@ magazzinoservice.caricoMagazzino = function(carico, cb){
 
 /*
 {  
-   "scarico":{  
-        "dataOperazione":"16/07/2018",
-	    "idArticolo":1,
-	    "qty":3
-   }
+    "lista":[  
+      {  
+         "articolo":"ART1",
+         "descrizione":null,
+         "lotto":"00009",
+         "qty":1,
+         "scadenza":"2018-07-28T22:00:00.000Z",
+         "magazzino":"Magazzino Principale",
+         "idMagazzino":1,
+         "reparto":null,
+         "scaffale":null,
+         "posto":null,
+         "selected":true,
+         "qtyRelese":1
+      },
+      {  
+         "articolo":"ART1",
+         "descrizione":null,
+         "lotto":"00008",
+         "qty":3,
+         "scadenza":"2018-07-10T22:00:00.000Z",
+         "magazzino":"Magazzino Principale",
+         "idMagazzino":1,
+         "reparto":null,
+         "scaffale":null,
+         "posto":null,
+         "selected":true,
+         "qtyRelese":2
+      },
+      {  
+         "articolo":"ART1",
+         "descrizione":null,
+         "lotto":"00007",
+         "qty":2,
+         "scadenza":"2018-07-03T22:00:00.000Z",
+         "magazzino":"Magazzino Principale",
+         "idMagazzino":1,
+         "reparto":null,
+         "scaffale":null,
+         "posto":null,
+         "selected":false,
+         "qtyRelese":0
+      }
+   ]
 }
 */
 magazzinoservice.scaricoMagazzino = function(scarico, cb){
     gestionaleLogger.logger.debug('magazzinoservice- scaricoMagazzino');
     var retObj={}
     var ret;
+    var movimenti = new Array();
+    var mov = null;
+    var elem = null;
     transaction.inTransaction(pool, function(connection, next) {
-       
+        for(var x in scarico.lista){
+            mov = {};
+            elem=scarico.lista[x];
+
+            mov.lotto=elem.lotto ;
+            mov.dataScadenza=elem.scadenza ;
+            mov.idMagazzino=elem.idMagazzino ;
+            mov.qty=elem.qtyRelese ;
+            mov.reparto=elem.reparto ;
+            mov.scaffale=elem.scaffale ;
+            mov.posto=elem.posto ;
+            mov.utenteMovimento=scarico.utenteInserimento ;
+            mov.dataMovimento=dateUtils.date2str(new Date(), 'dd/MM/yyyy');
+            mov.tipoOperazione="SCARICO" ;
+
+            movimenti.push(mov);
+        }
+
+        magazzinodao.scaricoMagazzino(movimenti, connection, function(errMovMagazzino,movMagazzino){
+            if(errMovMagazzino) return next(['MGZ008','Errore Creazione movimento magazzino']);
+            return next(null);
+        });
+        
     }, function(err) {
             if (err){
                 retObj.status='KO';
@@ -233,8 +298,7 @@ magazzinoservice.scaricoMagazzino = function(scarico, cb){
                 return cb(retObj,null);
             }
             retObj.status='OK';
-            retObj.scarico=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx;
-            return cb(null,retObj);            
+             return cb(null,retObj);            
     });
 }
 

@@ -1,6 +1,7 @@
 var magazzinodao = require('./magazzinodao')
 var magazzinofactory = require('../factory/magazzinofactory')
 var gestionaleLogger = require("../utility/gestionaleLogger");
+var forEach = require('co-foreach');
 
 
 magazzinodao.getMagazzini = function(connection, cb){
@@ -24,6 +25,17 @@ magazzinodao.addLotto = function(lotto,connection, cb){
     magazzinofactory.addLotto(lotto,connection, function(err, data){
         if (err) return cb(err);
         return cb(null,data)
+    });
+}
+
+magazzinodao.scaricoMagazzino = function(movimenti, connection, cb){
+    gestionaleLogger.logger.debug('magazzinodao-generaNumeroLotto');
+    
+    forEach(movimenti, function (item, idx) {
+        magazzinofactory.creaMovimentoMagazzino(item,connection, function(err, data){
+            if (err) return cb(err);
+            return cb(null,data)
+        });
     });
 }
 

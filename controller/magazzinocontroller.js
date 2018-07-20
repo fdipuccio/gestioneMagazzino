@@ -27,10 +27,10 @@ magazzinocontroller.caricoMagazzino = function(req, res, cb){
 
 magazzinocontroller.scaricoMagazzino = function(req, res, cb){
     gestionaleLogger.logger.debug('magazzinocontroller- scaricoMagazzino');
+    var scarico = {};
     var utenteInserimento = JSON.parse(req.session.userSession).ID;
-    var scarico = req.body.scarico;
+    scarico.lista = req.body.lista;
     scarico.utenteInserimento = utenteInserimento;
-    scarico.idMagazzino=1; //cablo perchè al momento gestiamo un unico magazzino.
     magazzinoservice.scaricoMagazzino(scarico, function(err, data){
         if (err) return cb(err);
         return cb(null,data)
