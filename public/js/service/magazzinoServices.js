@@ -12,10 +12,23 @@ angular.module("gestionaleApp").factory('MagazzinoService', function($http) {
                });
             	
             },
-            scaricoQuantitaArticolo : function(pLotto){        
+            previewScaricoQuantitaArticolo : function(pScarico){        
                 var pbody = {};
-                pbody.lotto = pLotto;
-            	var tempUrl = '/magazzini/carico';                	
+                pbody.scarico = pScarico;
+            	var tempUrl = '/magazzini/scarico/preview';                	
+            	
+            	 return $http({
+               	  method: 'POST',
+                  url: tempUrl,
+                  data: pbody        	  
+               });
+            	
+            },
+
+            scaricoQuantitaArticolo : function(pScarico){        
+                var pbody = {};
+                pbody.scarico = pScarico;
+            	var tempUrl = '/magazzini/scarico';                	
             	
             	 return $http({
                	  method: 'POST',

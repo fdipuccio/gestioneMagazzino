@@ -23,7 +23,9 @@ angular.module("gestionaleApp")
 	$scope.transient.flagArticoliUguali = true;
 	$scope.transient.listaScatoliScarico = [];
 	$scope.transient.mostraStep2Carico = false;
-	
+	$scope.transient.scarico = {};
+	$scope.transient.scarico.qty = 1;
+
 	$scope.transient.paginaProvenienza = "home";
 	$scope.transient.filters = {};
 
@@ -80,7 +82,7 @@ angular.module("gestionaleApp")
 	//init page
 	
 		
-	//private functions
+	
 	$scope.ricercaArticoloByCodiceBarre = function(){
 		console.log("ricercaArticoloByCodiceBarre");	
 		//adding default values
@@ -92,18 +94,10 @@ angular.module("gestionaleApp")
 				$scope.persistent.articoloSelezionato = response.data.articoli[0];
 				$scope.transient.flagArticoloSelezionato = true;
 				if($scope.$parent.transient.tipoOperazione == 'SCARICO'){
-					//TODO richiamre servizio per lista
-					$scope.transient.listaScatoliScarico = [];
-					var scatoloScarico = {};
-					scatoloScarico.selected = true;
-					scatoloScarico.lotto = "LT1";
-					scatoloScarico.dataScadenza = "01/08/2018";
-					$scope.transient.listaScatoliScarico.push(scatoloScarico);
-					var scatoloScarico1 = {};
-					scatoloScarico1.selected = false;
-					scatoloScarico1.lotto = "LT2";
-					scatoloScarico1.dataScadenza = "30/08/2018";
-					$scope.transient.listaScatoliScarico.push(scatoloScarico1);
+
+					$scope.invocaPreviewScarico();
+
+					
 				}
 			} else {
 				toastr.error("Errore: "+ response.data.errMessage + " - GESTIONE ERRORE DA FARE!!!" );
@@ -157,12 +151,14 @@ angular.module("gestionaleApp")
 			toastr.warning("Attenzione: La quantita totale non è uguale alle quantita inserite" );
 		} else {
 			$scope.transient.nuovoLotto.idArticolo = $scope.persistent.articoloSelezionato.idArticolo;		
-				
+			
+			$scope.spinner.on(); 
 			MagazzinoService.caricoQuantitaArticolo($scope.transient.nuovoLotto).then(function(response) { 
 				//invocazione service
 				var handleResponseResult = $scope.handleResponse(response);  
 				if(handleResponseResult.next){
 					toastr.success("Carico articolo registrato correttamente");
+					$uibModalInstance.dismiss('cancel');
 				} else {
 					toastr.error("Errore: "+ response.data.errMessage + " - Errore nel carico articoli" );
 				}
@@ -223,9 +219,62 @@ angular.module("gestionaleApp")
 		}
 	}
 	
+
+	$scope.invocaPreviewScarico = function (){
+
+		var scarico = {};
+		scarico.idArticolo = $scope.persistent.articoloSelezionato.idArticolo;
+		scarico.qty = $scope.transient.scarico.qty;
+
+
+		MagazzinoService.previewScaricoQuantitaArticolo(scarico).then(function(response) { 
+				//invocazione service
+				var handleResponseResult = $scope.handleResponse(response);  
+				if(handleResponseResult.next){
+					
+					$scope.transient.listaScatoliScarico = response.data.scarico;
+
+				} else {
+					toastr.error("Errore: "+ response.data.errMessage + " - Errore nel carico articoli" );
+				}
+				$scope.spinner.off();  		
+			});					
+	}
+
+	$scope.confermaScaricoArticoloButton = function (){
+
+		var scaricoTemp = [];
+		
+		angular.forEach($scope.transient.listaScatoliScarico, function(item) {
+  			if(item.selected){
+				item.scadenza=$filter('date')(item.scadenza, "dd/MM/yyyy");
+				scaricoTemp.push(item);
+			  }
+		});
+
+		MagazzinoService.scaricoQuantitaArticolo(scaricoTemp).then(function(response) { 
+				//invocazione service
+				var handleResponseResult = $scope.handleResponse(response);  
+				if(handleResponseResult.next){
+					
+					toastr.success("Scarico articolo registrato correttamente");
+					$uibModalInstance.dismiss('cancel');
+
+				} else {
+					toastr.error("Errore: "+ response.data.errMessage + " - Errore nel carico articoli" );
+				}
+				$scope.spinner.off();  		
+			});					
+	}
+	
+
 	$scope.$watch("transient.flagArticoliUguali", function(newValue, oldValue) {
 		$scope.transient.mostraStep2Carico = false;
 		$scope.transient.nuovoLotto.articoli = [];
+	});
+
+	$scope.$watch("transient.scarico.qty", function(newValue, oldValue) {
+		$scope.invocaPreviewScarico();
 	});
 	
 }]);
