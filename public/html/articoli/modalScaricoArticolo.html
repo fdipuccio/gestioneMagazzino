@@ -34,11 +34,11 @@
    
     <div id="divCarico" ng-if="transient.flagArticoloSelezionato">
         <hr>
-        <div class="row" style:"text-aling:center">
-         <div class="col-sm-12 col-md-3 form-group" >
+        <div class="row">
+         <div class="col-sm-12 col-md-2 col-md-offset-5 form-group" >
                 <p>Quantita:</p>                    
                 <input class="form-control form-control-sm"  name="transient.scarico.qty"
-                ng-model="transient.scarico.qty" type="number">
+                ng-model="transient.scarico.qty" type="number" min="1">
             </div>
          </div>
 
@@ -64,7 +64,7 @@
                     <td>{{scatolo.qty}}</td>    
                     <td>
                         <input class="form-control form-control-sm"  name="scatolo.qtyRelese" type="number" 
-                        ng-model="scatolo.qtyRelese">
+                        ng-model="scatolo.qtyRelese" min="0">
                     </td>
                     <td>{{scatolo.scadenza | date:'dd/MM/yyyy'}}</td>                  
                     
