@@ -26,6 +26,8 @@ angular.module("gestionaleApp")
 	$scope.transient.scarico = {};
 	$scope.transient.scarico.qty = 1;
 
+	$scope.transient.mostraArticoloNonPresente=false;
+
 	$scope.transient.paginaProvenienza = "home";
 	$scope.transient.filters = {};
 
@@ -41,18 +43,7 @@ angular.module("gestionaleApp")
 				$scope.transient.flagArticoloSelezionato=true;		
 
 				if($scope.$parent.transient.tipoOperazione == 'SCARICO'){
-					//TODO richiamre servizio per lista
-					$scope.transient.listaScatoliScarico = [];
-					var scatoloScarico = {};
-					scatoloScarico.selected = true;
-					scatoloScarico.lotto = "LT1";
-					scatoloScarico.dataScadenza = "01/08/2018";
-					$scope.transient.listaScatoliScarico.push(scatoloScarico);
-					var scatoloScarico1 = {};
-					scatoloScarico1.selected = false;
-					scatoloScarico1.lotto = "LT2";
-					scatoloScarico1.dataScadenza = "30/08/2018";
-					$scope.transient.listaScatoliScarico.push(scatoloScarico1);
+					$scope.invocaPreviewScarico();
 				}
 
 			} else {
@@ -92,13 +83,18 @@ angular.module("gestionaleApp")
 			var handleResponseResult = $scope.handleResponse(response);  
 	    	if(handleResponseResult.next){
 				$scope.persistent.articoloSelezionato = response.data.articoli[0];
-				$scope.transient.flagArticoloSelezionato = true;
-				if($scope.$parent.transient.tipoOperazione == 'SCARICO'){
+				if($scope.persistent.articoloSelezionato === undefined || $scope.persistent.articoloSelezionato === null){
+							
+					$scope.transient.mostraArticoloNonPresente=true;								
 
-					$scope.invocaPreviewScarico();
-
-					
+				} else {
+					$scope.transient.mostraArticoloNonPresente=false;
+					$scope.transient.flagArticoloSelezionato = true;
+					if($scope.$parent.transient.tipoOperazione == 'SCARICO'){
+						$scope.invocaPreviewScarico();					
+					}
 				}
+				
 			} else {
 				toastr.error("Errore: "+ response.data.errMessage + " - GESTIONE ERRORE DA FARE!!!" );
 			}
@@ -267,6 +263,11 @@ angular.module("gestionaleApp")
 			});					
 	}
 	
+	$scope.gotoNuovoArticolo = function (){				
+		$uibModalInstance.dismiss('cancel');
+		$scope.$parent.openModalNewArticolo($scope.transient.carico.filters.filter.codiceBarre);
+	}
+
 
 	$scope.$watch("transient.flagArticoliUguali", function(newValue, oldValue) {
 		$scope.transient.mostraStep2Carico = false;

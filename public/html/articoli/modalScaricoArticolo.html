@@ -30,8 +30,12 @@
         </div>
 
     </div>
-    <!--Gestione carico -->
    
+   <div class="row"  ng-if="transient.mostraArticoloNonPresente">
+        <div class="col-sm-12 form-group">
+                <p>Articolo non censito in anagrafica Vuoi crearlo? <button type="button" class="btn btn-default" ng-click="gotoNuovoArticolo()">OK</button></p>                  
+        </div>        
+    </div>
     <div id="divCarico" ng-if="transient.flagArticoloSelezionato">
         <hr>
         <div class="row">

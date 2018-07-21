@@ -75,8 +75,10 @@ angular.module("gestionaleApp")
 		});
 	}
 	//open modale di inserimento articolo
-	$scope.openModalNewArticolo = function () {
-		
+	$scope.openModalNewArticolo = function (pCodiceBarre) {
+		if(pCodiceBarre !==undefined && pCodiceBarre!==null){
+			$scope.codiceBarreFromCaricoScarico = pCodiceBarre;
+		}
 		$scope.transient.newArticolo = {};
 		$uibModal.open({
 		templateUrl: './html/articoli/modalNewArticolo.html',

@@ -15,7 +15,10 @@ angular.module("gestionaleApp")
 	$scope.listaUdmLunghezza = $sessionStorage.listaUdmLunghezza;
 	$scope.listaCategorie = $sessionStorage.listaCategorie;
 	$scope.listaColori = $sessionStorage.listaColori;
-	$scope.listaTipologie = [{'DESCRIZIONE':'PRODOTTO'},{'DESCRIZIONE':'SERVIZIO'}];
+	
+	if($scope.codiceBarreFromCaricoScarico !==undefined && $scope.codiceBarreFromCaricoScarico!==null){
+		$scope.transient.newArticolo.codiceBarre = $scope.codiceBarreFromCaricoScarico;
+	}
 
 	// START PUBLIC FUNCTIONS
 
