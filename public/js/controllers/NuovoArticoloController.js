@@ -7,6 +7,8 @@ angular.module("gestionaleApp")
 	$scope.articoli = [];		
 	$scope.transient = {};
 	$scope.transient.newArticolo = {};	
+	$scope.transient.newArticolo.minimoMagazzino=0;//default 0 
+	$scope.transient.newArticolo.timerScadenza=0;//default 0 
 	$scope.transient.newArticolo.idCategoria = "";//default nessuna categoria 
 	$scope.listaQtyScatola = $sessionStorage.listaQtyScatola;
 	$scope.listaUdmDiametro = $sessionStorage.listaUdmDiametro;

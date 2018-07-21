@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-sm-12 col-md-4 form-group" ng-class="{'has-error':newArticoloForm.lunghezza.$invalid && !newArticoloForm.lunghezza.$pristine}">
                     <p>Lunghezza*:</p>                    
-                    <input class="form-control form-control-sm "  name="lunghezza" type="text" 
+                    <input class="form-control form-control-sm "  name="lunghezza" type="text" awnum="importoPositivo"
                     ng-model="transient.newArticolo.lunghezza" required >
                 </div>                
             </div>
@@ -56,8 +56,8 @@
                 </div>    
                 <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':newArticoloForm.diametro.$invalid && !newArticoloForm.diametro.$pristine}">
                     <p>Diametro*:</p>                    
-                    <input class="form-control form-control-sm "  name="diametro" type="number" 
-                    ng-model="transient.newArticolo.diametro" required ng-maxlength="10">
+                    <input class="form-control form-control-sm "  name="diametro" awnum="importoPositivo"
+                    ng-model="transient.newArticolo.diametro" required >
                 </div> 
 
                 <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':newArticoloForm.udmQtyInScatola.$invalid && !newArticoloForm.udmQtyInScatola.$pristine}">
@@ -70,7 +70,7 @@
                 </div>    
                 <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':newArticoloForm.qtyInScatola.$invalid && !newArticoloForm.qtyInScatola.$pristine}">
                     <p>Quantità in scatola*:</p>                    
-                    <input class="form-control form-control-sm "  name="qtyInScatola" type="number" 
+                    <input class="form-control form-control-sm "  name="qtyInScatola" type="number" min="1"
                     ng-model="transient.newArticolo.qtyInScatola" required ng-maxlength="10">
                 </div> 
             </div>
@@ -99,15 +99,15 @@
                     <p>Timer Scadenza*:</p>
                     <input class="form-control form-control-sm " name="timerScadenza"  
                     ng-model="transient.newArticolo.timerScadenza" 
-                    type="number" ng-maxlength="15" required>                   
+                    type="number" min="0" required>                   
                     <span class="help-block small" ng-show="newArticoloForm.timerScadenza.$invalid">Numero non valido!</span>
                 </div>
                 
-                <div class="col-sm-12 col-md-4 col-md-offset-2 form-group" >
+                <div class="col-sm-12 col-md-4 col-md-offset-2 form-group" ng-class="{'has-error':newArticoloForm.minimoMagazzino.$invalid && !newArticoloForm.minimoMagazzino.$pristine}" >
                     <p>Timer Quantita in magazzino*:</p>                   
                     <input class="form-control form-control-sm "  name="minimoMagazzino"  
                     ng-model="transient.newArticolo.minimoMagazzino" 
-                    type="number" ng-maxlength="15" required>    
+                    type="number" min="0"  required>    
                     <span class="help-block small" ng-show="newArticoloForm.minimoMagazzino.$invalid">Numero non valido!</span>
                 
                 </div>
