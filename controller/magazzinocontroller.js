@@ -29,7 +29,7 @@ magazzinocontroller.scaricoMagazzino = function(req, res, cb){
     gestionaleLogger.logger.debug('magazzinocontroller- scaricoMagazzino');
     var scarico = {};
     var utenteInserimento = JSON.parse(req.session.userSession).ID;
-    scarico.lista = req.body.lista;
+    scarico.lista = req.body.scarico;
     scarico.utenteInserimento = utenteInserimento;
     magazzinoservice.scaricoMagazzino(scarico, function(err, data){
         if (err) return cb(err);
