@@ -317,43 +317,37 @@ magazzinoservice.previewScaricoMagazzino = function(scarico, cb){
     var releaseQuantity=scarico.qty;
     var elem=null;
     var retVal = new Array();
-    transaction.getConnection(pool,function(connection) {
-        articoliservice.getDisponibilitaArticolo(scarico.idArticolo, function(errDisp, disp){
-            if(errDisp){
-                retObj.status='KO';
-                retObj.code=err[0]!=undefined?err[0]:'MGZ005';
-                retObj.message=err[1]!=undefined?err[1]:'Errore durante la lettura della disponibilità articolo';
-                return cb(retObj,null);
+    articoliservice.getDisponibilitaArticolo(scarico.idArticolo, function(errDisp, disp){
+        if(errDisp){
+            retObj.status='KO';
+            retObj.code=err[0]!=undefined?err[0]:'MGZ005';
+            retObj.message=err[1]!=undefined?err[1]:'Errore durante la lettura della disponibilità articolo';
+            return cb(null,retObj);
+        }
+        if(!disp || !disp.dati || disp.dati.length == 0 ){
+            retObj.status='KO';
+            retObj.code='MGZ006';
+            retObj.message='Non c\'è disponibilità per l\'articolo';
+            return cb(null,retObj);
+        }        
+
+        for(var i in disp.dati){
+            elem = disp.dati[i];
+            elem.selected=false;
+            elem.qtyRelese=0;
+
+            if( elem.qty > 0 && releaseQuantity!=0){
+                elem.selected=true;
+                elem.qtyRelese=(releaseQuantity >= elem.qty)?elem.qty:Number(releaseQuantity);
+                releaseQuantity-=Number(elem.qtyRelese);                   
             }
-            if(!disp || disp.length == 0 ){
-                retObj.status='KO';
-                retObj.code=err[0]!=undefined?err[0]:'MGZ006';
-                retObj.message=err[1]!=undefined?err[1]:'Non c\'è disponibilità per l\'articolo';
-                return cb(retObj,null);
-            }
-            
+            retVal.push(elem);
+        }
 
-            for(var i in disp.dati){
-                
-
-                elem = disp.dati[i];
-                elem.selected=false;
-                elem.qtyRelese=0;
-
-                if( elem.qty > 0 && releaseQuantity!=0){
-                    elem.selected=true;
-                    elem.qtyRelese=(releaseQuantity >= elem.qty)?elem.qty:Number(releaseQuantity);
-                    releaseQuantity-=Number(elem.qtyRelese);                   
-                }
-                retVal.push(elem);
-            }
-
-
-            retObj.status='OK';
-            retObj.qtyResidua=(releaseQuantity==0)?0:releaseQuantity;
-            retObj.scarico=retVal;
-            return cb(null,retObj)             
-        });
+        retObj.status='OK';
+        retObj.qtyResidua=(releaseQuantity==0)?0:releaseQuantity;
+        retObj.scarico=retVal;
+        return cb(null,retObj)             
     });
 }
 

@@ -7,7 +7,7 @@ homefactory.getDatiAlertScadenza = function(connection, cb){
     gestionaleLogger.logger.debug('homefactory::getDatiAlertScadenza');
     var sql =" SELECT ID_ARTICOLO, CODICE_ARTICOLO, DESCRIZIONE, DATA_SCADENZA " +
              " FROM VW_ALERT_ARTICOLI V " +
-             " WHERE DATEDIFF(DATA_SCADENZA, NOW()) <= V.TIMER_SCADENZA_DD";
+             " WHERE ALERT_SCA = 'TRUE'";
     gestionaleLogger.logger.debug('sql',sql);
     connection.query(sql, function (err, rows) {
         if (err){
@@ -24,7 +24,7 @@ homefactory.getDatiAlertQuantita = function(connection, cb){
     gestionaleLogger.logger.debug('homefactory::getDatiAlertQuantita');
     var sql =" SELECT ID_ARTICOLO, CODICE_ARTICOLO, DESCRIZIONE, QTY " +
              " FROM VW_ALERT_ARTICOLI V " +
-             " WHERE MINIMO_MAGAZZINO >= QTY";
+             " WHERE ALERT_QTY = 'TRUE'";
     gestionaleLogger.logger.debug('sql',sql);
     connection.query(sql, function (err, rows) {
         if (err){
