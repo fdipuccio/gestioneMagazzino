@@ -83,4 +83,15 @@ router.get('/caricoscarico/:idArticolo',accesscontrol.isLoggedIn, function (req,
     });
 });
 
+
+router.get('/barcode',accesscontrol.isLoggedIn, function (req, res) {
+    articolicontroller.generateBarcode(req, res, function(err, data){
+        if (err)  res.end(JSON.stringify(err));
+        res.end(JSON.stringify(data));
+    });
+});
+
+
+
+
 module.exports = router;

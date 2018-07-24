@@ -92,4 +92,11 @@ articolicontroller.deleteArticolo = function(req, res, cb){
     });
 }
 
+articolicontroller.generateBarcode = function(req, res, cb){
+	gestionaleLogger.logger.debug('deletearticoli- controller');
+    articoliservice.generateBarcode(function(err, data){
+        return cb(err, data)
+    });
+}
+
 module.exports = articolicontroller;

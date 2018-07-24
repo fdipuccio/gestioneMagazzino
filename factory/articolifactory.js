@@ -67,6 +67,23 @@ articolifactory.getArticoloById = function(id,connection,cb){
 };
 
 
+articolifactory.getNewBarcode = function(connection,cb){
+    gestionaleLogger.logger.debug('articolifactory::getNewBarcode');
+    var sql = "SELECT nextval('SEQ_BARCODE') MAX_ID ";
+    gestionaleLogger.logger.debug('sql',sql);
+    connection.query(sql, function (err, rows) {
+        if (err){
+            gestionaleLogger.logger.error('articolifactory.getNewBarcode - Internal error: ', err);
+            return cb(err,null);
+        }
+        else {
+            gestionaleLogger.logger.debug('rows',rows);
+            return cb(null,rows[0].MAX_ID)
+        }
+    });
+};
+
+
 articolifactory.searchArticoli= function (filter, connection,cb){
     gestionaleLogger.logger.debug('articolifactory::searchArticoli');
     var sql = ARTICOLI_QUERY;

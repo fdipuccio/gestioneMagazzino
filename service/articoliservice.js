@@ -4,6 +4,7 @@ var articolimapper = require('../mapper/articolimapper')
 var pool = require('../connection/connection.js'); // db is pool
 var transaction = require('../connection/transactionUtils.js'); // transaction management
 var gestionaleLogger = require("../utility/gestionaleLogger");
+const leftPad = require('left-pad')
 var retObj={};
 
 
@@ -175,6 +176,25 @@ articoliservice.getArticoloByCode = function(code, cb){
             }else{
                 retObj.articolo=articolimapper.OUT(data[0]);   
             } 
+            return cb(null,retObj);
+        });
+    });
+}
+
+
+articoliservice.generateBarcode = function(cb){
+    gestionaleLogger.logger.debug('articoliservice- generateBarcode');
+    var retObj={}
+    transaction.getConnection(pool,function(connection) {  
+	    articolidao.getNewBarcode(connection, function(err, maxID){
+            if (err){
+                retObj.status='KO';
+                retObj.code=err[0]!=undefined?err[0]:'ART010';
+                retObj.message=err[1]!=undefined?err[1]:'Errore generazione barcode';
+                return cb(retObj,null);
+            }
+            retObj.status='OK';            
+            retObj.barcode='P' + leftPad(maxID, 19, '0');
             return cb(null,retObj);
         });
     });
