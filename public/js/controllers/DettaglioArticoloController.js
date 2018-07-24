@@ -35,30 +35,56 @@ angular.module("gestionaleApp")
 
 	$scope.loadChart = function () {
 		
-		window.barChart = Morris.Bar({
-			element: 'bar-chart-articolo',
+		window.barChart = Morris.Line({
+			element: 'bar-chart-andamento',
 			//Mettere dati che arrivano dal servizio
 			data: [
-				{ month: '10/17', valueAcq: 20, valueCons: 8},
-				{ month: '11/17', valueAcq: 10, valueCons: 7},
-				{ month: '12/17', valueAcq: 5, valueCons: 2},
-				{ month: '01/18', valueAcq: 5, valueCons: 1},
-				{ month: '02/18', valueAcq: 20, valueCons: 10},
-				{ month: '03/18', valueAcq: 90, valueCons: 45},
-				{ month: '04/18', valueAcq: 70, valueCons: 30},
-				{ month: '05/18', valueAcq: 80, valueCons: 40},
-				{ month: '06/18', valueAcq: 60, valueCons: 29},
-				{ month: '07/18', valueAcq: 65, valueCons: 18}
+				{ month: '10/17', carico: 20, scarico: 8},
+				{ month: '11/17', carico: 10, scarico: 7},
+				{ month: '12/17', carico: 5, scarico: 2},
+				{ month: '01/18', carico: 5, scarico: 1},
+				{ month: '02/18', carico: 20, scarico: 10},
+				{ month: '03/18', carico: 90, scarico: 45},
+				{ month: '04/18', carico: 70, scarico: 30},
+				{ month: '05/18', carico: 80, scarico: 40},
+				{ month: '06/18', carico: 60, scarico: 29},
+				{ month: '07/18', carico: 65, scarico: 18}
 			],
 			xkey: 'month',
-			ykeys: ['valueAcq', 'valueCons'],
+			ykeys: ['carico', 'scarico'],
 			labels: ['acquisti', 'consumi'],
 			lineColors: ['#3598dc','#e7505a'],
 			barColors: ['#3598dc','#e7505a'],
 			lineWidth: '2px',
 			redraw: true, 
 			hideHover: 'auto'
-		  });
+		});
+
+		window.barChart = Morris.Bar({
+			element: 'bar-chart-magazzino',
+			//Mettere dati che arrivano dal servizio
+			data: [
+				{ month: '10/17', carico: 20, scarico: 8},
+				{ month: '11/17', carico: 10, scarico: 7},
+				{ month: '12/17', carico: 5, scarico: 2},
+				{ month: '01/18', carico: 5, scarico: 1},
+				{ month: '02/18', carico: 20, scarico: 10},
+				{ month: '03/18', carico: 90, scarico: 45},
+				{ month: '04/18', carico: 70, scarico: 30},
+				{ month: '05/18', carico: 80, scarico: 40},
+				{ month: '06/18', carico: 60, scarico: 29},
+				{ month: '07/18', carico: 65, scarico: 18}
+			],
+			xkey: 'month',
+			ykeys: ['carico', 'scarico'],
+			labels: ['acquisti', 'consumi'],
+			lineColors: ['#3598dc','#e7505a'],
+			barColors: ['#3598dc','#e7505a'],
+			lineWidth: '2px',
+			redraw: true, 
+			hideHover: 'auto'
+		});
+
 	}
 
 

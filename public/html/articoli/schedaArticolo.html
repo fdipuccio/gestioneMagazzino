@@ -11,43 +11,227 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-5 profile-info">
+                                <div class="col-md-6 profile-info">
                                     <h1 class="font-green sbold uppercase">{{persistent.articolo.codiceArticolo}} - {{persistent.articolo.descrizione}}</h1>
-                                    <p> marca: {{persistent.articolo.marca}} colore: {{persistent.articolo.colore}}
-                                        </p>
-                                    <p>
-                                        <a href="javascript:;"> {{}} </a>
-                                    </p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <i class="fa fa-map-marker"></i> {{}} </li>
-                                        <li>
-                                            <i class="fa fa-phone"></i> {{}} </li>
-                                        <li ng-if="clienteModel.FAX">
-                                            <i class="fa fa-fax"></i> {{}} </li>
-                                        <li ng-if="clienteModel.PARTITA_IVA">
-                                            <i class="fa fa-file-text-o"></i> {{}} </li>
-                                        <li ng-if="clienteModel.CODICE_FISCALE">
-                                            <i class="fa fa-cc"></i> {{}} </li>
-                                    </ul>
-
+                                    
                                 </div>
 
                                 <!--end col-md-4-->
                                 
-                                <div class="col-md-2 text-right">
+                                <div class="col-md-6 text-right">
                                     <button class="btn btn-primary btn-md" ng-click="gotoElencoClienti()"> <i class="fa fa-home"></i>
                                         Torna alla lista Articoli
                                     </button>
                                 </div>                                  
                             </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4 form-group">
+                                        <p>Codice a Barre*:</p>
+                                        {{persistent.articolo.codiceBarre}}
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 form-group">
+                                        <p>Nome*:</p>
+                                        {{persistent.articolo.codiceArticolo}}
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 form-group">
+                                        <p>Categoria*:</p>
+                                        {{persistent.articolo.descCategoria}}                  
+                                    </div>
+                                </div>                  
+                            
+                                <div class="row">                
+                                    <div class="col-sm-12 col-md-4 form-group">
+                                        <p>UDM - Lunghezza*:</p>                    
+                                        {{persistent.articolo.udmLunghezza}}
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 form-group">
+                                        <p>Lunghezza*:</p>                    
+                                        {{persistent.articolo.lunghezza}}
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 form-group">
+                                        <p>UDM - Diametro*:</p>                    
+                                        {{persistent.articolo.udmDiametro}}
+                                    </div> 
+                                </div>
+                                        
+                                <div class="row">                
+                                    <div class="col-sm-12 col-md-4 form-group">
+                                        <p>Diametro*:</p>                    
+                                        {{persistent.articolo.diametro}}
+                                    </div> 
+                    
+                                    <div class="col-sm-12 col-md-4 form-group">
+                                        <p>UDM - Quantità in scatola*:</p>                    
+                                        {{persistent.articolo.udmQtyInScatola}}
+                                    </div>    
+                                    <div class="col-sm-12 col-md-4 form-group">
+                                        <p>Quantità in scatola*:</p>                    
+                                        {{persistent.articolo.qtyInScatola}}
+                                    </div> 
+                                </div>
+                            
+                                <div class="row">                
+                                    <div class="col-sm-12 col-md-4 form-group">
+                                        <p>Marca*:</p>
+                                        {{persistent.articolo.marca}}           
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 form-group">
+                                        <p>Colore*:</p>                    
+                                        {{persistent.articolo.colore}}
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 form-group">
+                                        <p></p>                    
+                                        &nbsp;
+                                    </div>    
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-4 form-group">
+                                        <p>Timer Scadenza*:</p>
+                                        {{persistent.articolo.timerScadenza}} giorni
+                                    </div>
+                                    
+                                    <div class="col-sm-12 col-md-4 form-group">
+                                        <p>Timer Quantita in magazzino*:</p>                   
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 form-group">
+                                        <p></p>                    
+                                        &nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show=false>
+                                <form role="form" name="newArticoloForm" novalidate> 
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-6 form-group" ng-class="{'has-error':newArticoloForm.codiceBarre.$invalid && !newArticoloForm.codiceBarre.$pristine}">
+                                                <p>Codice a Barre*:</p>
+                                                <input class="form-control form-control-sm "  name="codiceBarre" type="text" 
+                                                ng-model="persistent.articolo.codiceBarre" ng-maxlength="15">
+                                            </div>
+                                            <div class="col-sm-12 col-md-6 form-group" ng-class="{'has-error':newArticoloForm.codiceArticolo.$invalid && !newArticoloForm.codiceArticolo.$pristine}">
+                                                <p>Nome*:</p>
+                                                <input class="form-control form-control-sm "  name="codiceArticolo" type="text" 
+                                                ng-model="persistent.articolo.codiceArticolo" required ng-maxlength="70">
+                                            </div>                 
+                                        </div>                  
+                            
+                                        <div class="row">                
+                                            <div class="col-sm-12 col-md-4 form-group" ng-class="{'has-error':newArticoloForm.idCategoria.$invalid && !newArticoloForm.idCategoria.$pristine}">
+                                                <p>Categoria*:</p>
+                                                <select required name="categoria" 
+                                                    ng-model="persistent.articolo.idCategoria" class="form-control input-sm">
+                                                    <option value="">{{labels.select_empty_value}}</option>
+                                                    <option ng-repeat="catItem in listaCategorie" 
+                                                    ng-selected="catItem.ID_CATEGORIA == persistent.articolo.idCategoria"
+                                                    value="{{catItem.idCategoria}}">{{catItem.nome}}</option>
+                                                </select>                    
+                                            </div>
+                                            <div class="col-sm-12 col-md-4 form-group" ng-class="{'has-error':newArticoloForm.udmLunghezza.$invalid && !newArticoloForm.udmLunghezza.$pristine}">
+                                                <p>UDM - Lunghezza*:</p>                    
+                                                <select required name="tipologia" 
+                                                    ng-model="persistent.articolo.udmLunghezza" class="form-control input-sm">
+                                                    <option value="">{{labels.select_empty_value}}</option>
+                                                    <option ng-repeat="tipolItem in listaUdmLunghezza" value="{{tipolItem.ID_UDM}}">{{tipolItem.DESCRIZIONE}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4 form-group" ng-class="{'has-error':newArticoloForm.lunghezza.$invalid && !newArticoloForm.lunghezza.$pristine}">
+                                                <p>Lunghezza*:</p>                    
+                                                <input class="form-control form-control-sm "  name="lunghezza" type="text" awnum="importoPositivo"
+                                                ng-model="persistent.articolo.lunghezza" required >
+                                            </div>                
+                                        </div>
+                                        
+                                        <div class="row">                
+                                            
+                                            <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':newArticoloForm.udmQtyInScatola.$invalid && !newArticoloForm.udmQtyInScatola.$pristine}">
+                                                <p>UDM - Diametro*:</p>                    
+                                                <select required name="tipologia" 
+                                                    ng-model="persistent.articolo.udmDiametro" class="form-control input-sm">
+                                                    <option value="">{{labels.select_empty_value}}</option>
+                                                    <option ng-repeat="tipolItem in listaUdmDiametro" value="{{tipolItem.ID_UDM}}">{{tipolItem.DESCRIZIONE}}</option>
+                                                </select>
+                                            </div>    
+                                            <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':newArticoloForm.diametro.$invalid && !newArticoloForm.diametro.$pristine}">
+                                                <p>Diametro*:</p>                    
+                                                <input class="form-control form-control-sm "  name="diametro" awnum="importoPositivo"
+                                                ng-model="persistent.articolo.diametro" required >
+                                            </div> 
+                            
+                                            <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':newArticoloForm.udmQtyInScatola.$invalid && !newArticoloForm.udmQtyInScatola.$pristine}">
+                                                <p>UDM - Quantità in scatola*:</p>                    
+                                                <select required name="tipologia" 
+                                                    ng-model="persistent.articolo.udmQtyInScatola" class="form-control input-sm">
+                                                    <option value="">{{labels.select_empty_value}}</option>
+                                                    <option ng-repeat="tipolItem in listaQtyScatola" value="{{tipolItem.ID_UDM}}">{{tipolItem.DESCRIZIONE}}</option>
+                                                </select>
+                                            </div>    
+                                            <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':newArticoloForm.qtyInScatola.$invalid && !newArticoloForm.qtyInScatola.$pristine}">
+                                                <p>Quantità in scatola*:</p>                    
+                                                <input class="form-control form-control-sm "  name="qtyInScatola" type="number" min="1"
+                                                ng-model="persistent.articolo.qtyInScatola" required ng-maxlength="10">
+                                            </div> 
+                                        </div>
+                            
+                                        <div class="row">                
+                                            <div class="col-sm-12 col-md-6 form-group" ng-class="{'has-error':newArticoloForm.marca.$invalid && !newArticoloForm.marca.$pristine}">
+                                                <p>Marca*:</p>
+                                                <input class="form-control form-control-sm "  name="marca" type="text" 
+                                                ng-model="persistent.articolo.marca" required ng-maxlength="10">                    
+                                            </div>
+                                            <div class="col-sm-12 col-md-6 form-group" ng-class="{'has-error':newArticoloForm.colore.$invalid && !newArticoloForm.colore.$pristine}">
+                                                <p>Colore*:</p>                    
+                                                <select required name="colore" 
+                                                    ng-model="persistent.articolo.colore" class="form-control input-sm">
+                                                    <option value="">{{labels.select_empty_value}}</option>
+                                                    <option ng-repeat="colItem in listaColori" value="{{colItem.idColore}}">{{colItem.idColore}} - {{colItem.descrizione}}</option>
+                                                </select>
+                                            </div>
+                                                        
+                                        </div>
+                            
+                                        <hr>
+                            
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-4 col-md-offset-1 form-group" ng-class="{'has-error':newArticoloForm.timerScadenza.$invalid && !newArticoloForm.timerScadenza.$pristine}">
+                                                <p>Timer Scadenza*:</p>
+                                                <input class="form-control form-control-sm " name="timerScadenza"  
+                                                ng-model="persistent.articolo.timerScadenza" 
+                                                type="number" min="0" required>                   
+                                                <span class="help-block small" ng-show="newArticoloForm.timerScadenza.$invalid">Numero non valido!</span>
+                                            </div>
+                                            
+                                            <div class="col-sm-12 col-md-4 col-md-offset-2 form-group" ng-class="{'has-error':newArticoloForm.minimoMagazzino.$invalid && !newArticoloForm.minimoMagazzino.$pristine}" >
+                                                <p>Timer Quantita in magazzino*:</p>                   
+                                                <input class="form-control form-control-sm "  name="minimoMagazzino"  
+                                                ng-model="persistent.articolo.minimoMagazzino" 
+                                                type="number" min="0"  required>    
+                                                <span class="help-block small" ng-show="newArticoloForm.minimoMagazzino.$invalid">Numero non valido!</span>
+                                            
+                                            </div>
+                                                        
+                                        </div>
+                            
+                            
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <div class="row" ng-show=false>
+                                <div class="col-sm-12">
+                                    * Compilare tutti i campi con asterisco per abilitare il salva
+                                </div>
+                            </div>
+
                             <!--end row-->
 							<section class="container-fluid">
                                 <div class="row">
-                                  <div class="col-md-10">
-                                    <div id="bar-chart-articolo"></div>
+                                  <div class="col-md-6">
+                                    <div id="bar-chart-andamento"></div>
                                   </div>
                                 
+                                  <div class="col-md-6">
+                                    <div id="bar-chart-magazzino"></div>
+                                  </div>
+
                                 </div>
                               </section>
                                 
