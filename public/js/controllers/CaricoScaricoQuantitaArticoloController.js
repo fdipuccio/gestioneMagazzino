@@ -187,7 +187,7 @@ angular.module("gestionaleApp")
 
 	$scope.getFornitoriWithTypeAhead = function (){
 		$scope.transient.nuovoLotto.idFornitore = "";
-		if($scope.transient.fornitoreObject !== null && 
+		if($scope.transient.fornitoreObject !== null && $scope.transient.fornitoreObject !== undefined && 
 			$scope.transient.fornitoreObject !== '' &&
 			$scope.transient.fornitoreObject.length > 2){
 				//TODO sostituire con servizio
