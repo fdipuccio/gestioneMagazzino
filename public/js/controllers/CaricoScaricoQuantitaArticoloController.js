@@ -275,7 +275,10 @@ angular.module("gestionaleApp")
 	});
 
 	$scope.$watch("transient.scarico.qty", function(newValue, oldValue) {
-		$scope.invocaPreviewScarico();
+		if(newValue!==oldValue){
+			$scope.invocaPreviewScarico();
+		}
+		
 	});
 	
 }]);
