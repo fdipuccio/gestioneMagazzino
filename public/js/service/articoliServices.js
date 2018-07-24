@@ -137,6 +137,22 @@ angular.module("gestionaleApp").factory('ArticoliService', function($http) {
                	  url: tempUrl        	  
                });
             	
+            },            
+            getAlertArticoliQty : function(idFornitore,codice){            	
+            	var tempUrl = '/home/alert/quantita';                	
+            	 return $http({
+               	  method: 'GET',
+               	  url: tempUrl        	  
+               });
+            	
+            },            
+            getAlertArticoliScadenza : function(idFornitore,codice){            	
+            	var tempUrl = '/home/alert/scadenza';                	
+                return $http({
+               	  method: 'GET',
+               	  url: tempUrl        	  
+               });
+            	
             },          
             getArticoliFornitoriByRicercaAvanzata : function(filterObj, ivaProd, ivaServ){        
                 var pbody = {};

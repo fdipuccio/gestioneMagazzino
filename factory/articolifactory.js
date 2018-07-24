@@ -248,15 +248,31 @@ articolifactory.getDisponibilitaArticolo = function(idArticolo, connection, cb){
              
 }
 
+articolifactory.getGraficoAcArticolo = function(idArticolo, connection, cb){
+    gestionaleLogger.logger.debug('articolifactory-getGraficoAcArticolo');    
+    var sql = " SELECT MESEANNO, TIPO_OPERAZIONE, QTY FROM VW_GRAFICO_AC_ARTICOLO WHERE ID_ARTICOLO = " + connection.escape(idArticolo);
+    connection.query(sql,function(error, results) {
+        if (error) {
+            gestionaleLogger.logger.error('articolifactory.getGraficoAcArticolo - Internal error: ', error);
+            return cb('KO',null);
+        }else {
+            return cb(null,results)
+        }
+    });
+             
+}
+
+
+
 
 articolifactory.getAndamentoPrezzo = function(idArticolo, startDate, endDate, connection, cb){
     gestionaleLogger.logger.debug('articolifactory-getAndamentoPrezzo');    
-    var sql = " select l.PREZZO_ACQUISTO, DATE_FORMAT(l.DATA_OPERAZIONE ,'%d/%m/%Y') DATA_OPERAZIONE " +
-              "  from lg_lotti_magazzino l  " +
-              "  where l.ID_ARTICOLO =  " + connection.escape(idArticolo) +
-              "      and l.TIPO_OPERAZIONE = 'CARICO' " + 
-              "      and  l.DATA_OPERAZIONE between STR_TO_DATE(" + connection.escape(startDate) + ",'%e/%c/%Y %T') " + 
-              "      AND  STR_TO_DATE(" + connection.escape(endDate) + ",'%e/%c/%Y %T')";
+    var sql = "SELECT DATE_FORMAT(DATA_CREAZIONE, '%d/%m/%Y') DATA_OPERAZIONE, MAX(PREZZO_ACQUISTO) PREZZO_ACQUISTO " +
+              "  FROM LG_LOTTI_MAGAZZINO " +
+              "  WHERE ID_ARTICOLO =  " + connection.escape(idArticolo) +
+              "  AND DATA_CREAZIONE BETWEEN STR_TO_DATE("+connection.escape(startDate) +",'%e/%c/%Y %T')  " +
+              "  AND  STR_TO_DATE("+connection.escape(endDate) +",'%e/%c/%Y %T') " +
+              "  GROUP BY ID_ARTICOLO, DATE_FORMAT(DATA_CREAZIONE, '%d/%m/%Y');";
     connection.query(sql,function(error, results) {
         if (error) {
             gestionaleLogger.logger.error('articolifactory.getAndamentoPrezzo - Internal error: ', error);

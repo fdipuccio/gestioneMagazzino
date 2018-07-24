@@ -25,6 +25,14 @@ articolicontroller.getAndamentoPrezzo = function(req, res, cb){
     });
 }
 
+articolicontroller.getGraficoAcArticolo = function(req, res, cb){
+    gestionaleLogger.logger.debug('articolicontroller- getGraficoAcArticolo');
+    articoliservice.getGraficoAcArticolo(req.params.idArticolo, function(err, data){
+          if (err) return cb(err);
+			return cb(null,data)
+    });
+}
+
 
 articolicontroller.getDisponibilitaArticolo = function(req, res, cb){
     gestionaleLogger.logger.debug('articolicontroller- getDisponibilitaArticolo');
