@@ -248,6 +248,22 @@ articolifactory.getDisponibilitaArticolo = function(idArticolo, connection, cb){
              
 }
 
+articolifactory.getGraficoAcArticolo = function(idArticolo, connection, cb){
+    gestionaleLogger.logger.debug('articolifactory-getGraficoAcArticolo');    
+    var sql = " SELECT MESEANNO, TIPO_OPERAZIONE, QTY FROM VW_GRAFICO_AC_ARTICOLO WHERE ID_ARTICOLO = " + connection.escape(idArticolo);
+    connection.query(sql,function(error, results) {
+        if (error) {
+            gestionaleLogger.logger.error('articolifactory.getGraficoAcArticolo - Internal error: ', error);
+            return cb('KO',null);
+        }else {
+            return cb(null,results)
+        }
+    });
+             
+}
+
+
+
 
 articolifactory.getAndamentoPrezzo = function(idArticolo, startDate, endDate, connection, cb){
     gestionaleLogger.logger.debug('articolifactory-getAndamentoPrezzo');    

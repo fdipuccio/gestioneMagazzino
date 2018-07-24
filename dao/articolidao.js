@@ -19,6 +19,15 @@ articolidao.getAndamentoPrezzo = function(idArticolo, startDate, endDate, connec
     });
 }
 
+articolidao.getGraficoAcArticolo = function(idArticolo, connection, cb){
+	gestionaleLogger.logger.debug('articolidao  getGraficoAcArticolo');
+	articolifactory.getGraficoAcArticolo(idArticolo, connection,function(err, data){
+        if (err) return cb(err);
+		return cb(null,data)
+    });
+}
+
+
 articolidao.getDisponibilitaArticolo = function(idArticolo, connection, cb){
 	gestionaleLogger.logger.debug('articolidao  getDisponibilitaArticolo');
 	articolifactory.getDisponibilitaArticolo(idArticolo, connection,function(err, data){

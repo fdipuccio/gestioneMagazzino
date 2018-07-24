@@ -93,6 +93,28 @@ articoliservice.getAndamentoPrezzo = function(idArticolo, startDate, endDate,cb)
 }
 
 
+articoliservice.getGraficoAcArticolo = function(idArticolo, cb){
+    var retObj = {};
+    gestionaleLogger.logger.debug('articoliservice-getGraficoAcArticolo');
+        transaction.getConnection(pool,function(connection) {
+            articolidao.getGraficoAcArticolo(idArticolo, connection, function(err, data){
+                if (err){
+                    retObj.status='KO';
+                    retObj.code=err[0]!=undefined?err[0]:'ART008';
+                    retObj.message=err[1]!=undefined?err[1]:'Errore recupero Dati carico e scarico articolo';
+                    return cb(retObj,null);}
+                retObj.status='OK';
+                if(!data || !data[0]){
+                    retObj.dati = new Array();
+                }else{
+                    retObj.dati=articolimapper.OUT_GRAFICO_AC_ARTICOLO(data);   
+                }   
+                return cb(null,retObj);
+        });
+    });
+}
+
+
 articoliservice.getDisponibilitaArticolo = function(idArticolo, cb){
     var retObj = {};
     gestionaleLogger.logger.debug('articoliservice-getDisponibilitaArticolo');

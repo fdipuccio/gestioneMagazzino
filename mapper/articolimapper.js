@@ -71,6 +71,22 @@ articolimapper.OUT_ANDAMENTO_PREZZI = function(data){
 }
 
 
+articolimapper.OUT_GRAFICO_AC_ARTICOLO = function(data){
+    var retVal = new Array();
+    var elem = {};
+    if(data){
+        for(var i in data){
+            elem = {};
+            elem.meseanno=data[i].MESEANNO;
+            elem.tipoOperazione=data[i].TIPO_OPERAZIONE;
+            elem.qty=data[i].QTY;
+            retVal.push(elem);
+        }
+    }
+    
+    return retVal;
+}
+
 articolimapper.OUT_DISP_ARTICOLI = function(data){
     var retVal = new Array();
     var elem = {};
