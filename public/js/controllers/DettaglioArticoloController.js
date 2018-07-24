@@ -35,63 +35,30 @@ angular.module("gestionaleApp")
 
 	$scope.loadChart = function () {
 		
-		var chart = new CanvasJS.Chart("chartArticolo", {
-			animationEnabled: true,
-			title:{
-				text: "Crude Oil Reserves vs Production, 2016"
-			},	
-			axisY: {
-				title: "Billions of Barrels",
-				titleFontColor: "#4F81BC",
-				lineColor: "#4F81BC",
-				labelFontColor: "#4F81BC",
-				tickColor: "#4F81BC"
-			},
-			axisY2: {
-				title: "Millions of Barrels/day",
-				titleFontColor: "#C0504E",
-				lineColor: "#C0504E",
-				labelFontColor: "#C0504E",
-				tickColor: "#C0504E"
-			},	
-			toolTip: {
-				shared: true
-			},
-			legend: {
-				cursor:"pointer",
-				itemclick: toggleDataSeries
-			},
-			data: [{
-				type: "column",
-				name: "Proven Oil Reserves (bn)",
-				legendText: "Proven Oil Reserves",
-				showInLegend: true, 
-				dataPoints:[
-					{ label: "Saudi", y: 266.21 },
-					{ label: "Venezuela", y: 302.25 },
-					{ label: "Iran", y: 157.20 },
-					{ label: "Iraq", y: 148.77 },
-					{ label: "Kuwait", y: 101.50 },
-					{ label: "UAE", y: 97.8 }
-				]
-			},
-			{
-				type: "column",	
-				name: "Oil Production (million/day)",
-				legendText: "Oil Production",
-				axisYType: "secondary",
-				showInLegend: true,
-				dataPoints:[
-					{ label: "Saudi", y: 10.46 },
-					{ label: "Venezuela", y: 2.27 },
-					{ label: "Iran", y: 3.99 },
-					{ label: "Iraq", y: 4.45 },
-					{ label: "Kuwait", y: 2.92 },
-					{ label: "UAE", y: 3.1 }
-				]
-			}]
-		});
-		chart.render();
+		window.barChart = Morris.Bar({
+			element: 'bar-chart-articolo',
+			//Mettere dati che arrivano dal servizio
+			data: [
+				{ month: '10/17', valueAcq: 20, valueCons: 8},
+				{ month: '11/17', valueAcq: 10, valueCons: 7},
+				{ month: '12/17', valueAcq: 5, valueCons: 2},
+				{ month: '01/18', valueAcq: 5, valueCons: 1},
+				{ month: '02/18', valueAcq: 20, valueCons: 10},
+				{ month: '03/18', valueAcq: 90, valueCons: 45},
+				{ month: '04/18', valueAcq: 70, valueCons: 30},
+				{ month: '05/18', valueAcq: 80, valueCons: 40},
+				{ month: '06/18', valueAcq: 60, valueCons: 29},
+				{ month: '07/18', valueAcq: 65, valueCons: 18}
+			],
+			xkey: 'month',
+			ykeys: ['valueAcq', 'valueCons'],
+			labels: ['acquisti', 'consumi'],
+			lineColors: ['#3598dc','#e7505a'],
+			barColors: ['#3598dc','#e7505a'],
+			lineWidth: '2px',
+			redraw: true, 
+			hideHover: 'auto'
+		  });
 	}
 
 
