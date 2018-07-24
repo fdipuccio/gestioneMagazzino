@@ -33,6 +33,17 @@ articolicontroller.getGraficoAcArticolo = function(req, res, cb){
     });
 }
 
+articolicontroller.getStoricoArticolo = function(req, res, cb){
+    gestionaleLogger.logger.debug('articolicontroller- getStoricoArticolo');
+    var idArticolo = req.body.input.idArticolo;
+    var startDate = req.body.input.startDate;
+    var endDate = req.body.input.endDate;
+    articoliservice.getStoricoArticolo(idArticolo, startDate, endDate, function(err, data){
+          if (err) return cb(err);
+			return cb(null,data)
+    });
+}
+
 
 articolicontroller.getDisponibilitaArticolo = function(req, res, cb){
     gestionaleLogger.logger.debug('articolicontroller- getDisponibilitaArticolo');

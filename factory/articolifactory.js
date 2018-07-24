@@ -280,6 +280,46 @@ articolifactory.getGraficoAcArticolo = function(idArticolo, connection, cb){
 }
 
 
+articolifactory.getStoricoArticolo = function(idArticolo, startDate, endDate, connection, cb){
+    gestionaleLogger.logger.debug('articolifactory-getStoricoArticolo');  
+    var sql = " SELECT ART.ID_ARTICOLO, " +
+              "     ART.CODICE_ARTICOLO, " +
+              "     TIPO_OPERAZIONE, " +
+              "     SUM(MOV.QTY) QTY , " +
+              "     DATE_FORMAT(DATA_CREAZIONE, '%d/%m/%Y') DATA_CREAZIONE , " +
+              "     F.ID ID_FORNITORE, " +
+              "     F.NOME NOME_FORNITORE, " +
+              "     PREZZO_ACQUISTO " +
+              "  FROM LG_LOTTI_MAGAZZINO LT " +
+              "  JOIN (SELECT NLOTTO, TIPO_OPERAZIONE, SUM(QTY) QTY  " +
+              "          FROM LG_MOVIMENTI_MAGAZZINO " +
+              "          GROUP BY NLOTTO, TIPO_OPERAZIONE) MOV ON MOV.NLOTTO=LT.NLOTTO " +
+              "  JOIN AN_ARTICOLI ART ON ART.ID_ARTICOLO = LT.ID_ARTICOLO " +
+              "  JOIN AN_FORNITORI F ON F.ID=LT.ID_FORNITORE " +
+              "  WHERE ART.ID_ARTICOLO = " + connection.escape(idArticolo);
+    
+    if(startDate && endDate){
+        sql += " AND DATA_CREAZIONE BETWEEN STR_TO_DATE("+connection.escape(startDate) +",'%e/%c/%Y %T') AND STR_TO_DATE("+connection.escape(endDate) +",'%e/%c/%Y %T') ";
+    }else if(startDate && !endDate){
+        sql += "  AND DATA_CREAZIONE >= STR_TO_DATE("+connection.escape(startDate) +",'%e/%c/%Y %T') ";
+    }else if(!startDate && endDate){
+        sql += "  AND DATA_CREAZIONE <= STR_TO_DATE("+connection.escape(endDate) +",'%e/%c/%Y %T') ";
+    }
+
+    sql += "  GROUP BY ID_ARTICOLO, DATA_CREAZIONE, TIPO_OPERAZIONE,ID_FORNITORE, PREZZO_ACQUISTO";
+    connection.query(sql,function(error, results) {
+        if (error) {
+            gestionaleLogger.logger.error('articolifactory.getStoricoArticolo - Internal error: ', error);
+            return cb('KO',null);
+        }else {
+            return cb(null,results)
+        }
+    });
+             
+}
+
+
+
 
 
 articolifactory.getAndamentoPrezzo = function(idArticolo, startDate, endDate, connection, cb){

@@ -115,6 +115,27 @@ articoliservice.getGraficoAcArticolo = function(idArticolo, cb){
     });
 }
 
+articoliservice.getStoricoArticolo = function(idArticolo, startDate, endDate, cb){
+    var retObj = {};
+    gestionaleLogger.logger.debug('articoliservice-getStoricoArticolo');
+        transaction.getConnection(pool,function(connection) {
+            articolidao.getStoricoArticolo(idArticolo, startDate, endDate, connection, function(err, data){
+                if (err){
+                    retObj.status='KO';
+                    retObj.code=err[0]!=undefined?err[0]:'ART008';
+                    retObj.message=err[1]!=undefined?err[1]:'Errore recupero Dati per storico articolo';
+                    return cb(retObj,null);}
+                retObj.status='OK';
+                if(!data || !data[0]){
+                    retObj.dati = new Array();
+                }else{
+                    retObj.dati=articolimapper.OUT_STORICO_ARTICOLO(data);   
+                }   
+                return cb(null,retObj);
+        });
+    });
+}
+
 
 articoliservice.getDisponibilitaArticolo = function(idArticolo, cb){
     var retObj = {};

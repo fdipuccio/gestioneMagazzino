@@ -70,6 +70,25 @@ articolimapper.OUT_ANDAMENTO_PREZZI = function(data){
     return retVal;
 }
 
+articolimapper.OUT_STORICO_ARTICOLO = function(data){
+    var retVal = new Array();
+    var elem = {};
+    if(data){
+        for(var i in data){
+            elem = {};
+            elem.idArticolo=data[i].ID_ARTICOLO;
+            elem.codiceArticolo=data[i].CODICE_ARTICOLO;
+            elem.fornitore=data[i].NOME_FORNITORE;
+            elem.prezzoAcquisto=data[i].PREZZO_ACQUISTO;
+            elem.tipoOperazione=data[i].TIPO_OPERAZIONE;
+            elem.qty=data[i].QTY;
+            elem.dataMovimento=data[i].DATA_CREAZIONE;
+            retVal.push(elem);
+        }
+    }
+    
+    return retVal;
+}
 
 articolimapper.OUT_GRAFICO_AC_ARTICOLO = function(data){
     var retVal = new Array();

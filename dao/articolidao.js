@@ -28,6 +28,14 @@ articolidao.getAndamentoPrezzo = function(idArticolo, startDate, endDate, connec
     });
 }
 
+articolidao.getStoricoArticolo = function(idArticolo, startDate, endDate, connection, cb){
+	gestionaleLogger.logger.debug('articolidao  getStoricoArticolo');
+	articolifactory.getStoricoArticolo(idArticolo, startDate, endDate, connection,function(err, data){
+        if (err) return cb(err);
+		return cb(null,data)
+    });
+}
+
 articolidao.getGraficoAcArticolo = function(idArticolo, connection, cb){
 	gestionaleLogger.logger.debug('articolidao  getGraficoAcArticolo');
 	articolifactory.getGraficoAcArticolo(idArticolo, connection,function(err, data){
