@@ -67,6 +67,23 @@ articolifactory.getArticoloById = function(id,connection,cb){
 };
 
 
+articolifactory.getNewBarcode = function(connection,cb){
+    gestionaleLogger.logger.debug('articolifactory::getNewBarcode');
+    var sql = "SELECT nextval('SEQ_BARCODE') MAX_ID ";
+    gestionaleLogger.logger.debug('sql',sql);
+    connection.query(sql, function (err, rows) {
+        if (err){
+            gestionaleLogger.logger.error('articolifactory.getNewBarcode - Internal error: ', err);
+            return cb(err,null);
+        }
+        else {
+            gestionaleLogger.logger.debug('rows',rows);
+            return cb(null,rows[0].MAX_ID)
+        }
+    });
+};
+
+
 articolifactory.searchArticoli= function (filter, connection,cb){
     gestionaleLogger.logger.debug('articolifactory::searchArticoli');
     var sql = ARTICOLI_QUERY;
@@ -249,8 +266,8 @@ articolifactory.getDisponibilitaArticolo = function(idArticolo, connection, cb){
 }
 
 articolifactory.getGraficoAcArticolo = function(idArticolo, connection, cb){
-    gestionaleLogger.logger.debug('articolifactory-getGraficoAcArticolo');    
-    var sql = " SELECT MESEANNO, TIPO_OPERAZIONE, QTY FROM VW_GRAFICO_AC_ARTICOLO WHERE ID_ARTICOLO = " + connection.escape(idArticolo);
+    gestionaleLogger.logger.debug('articolifactory-getGraficoAcArticolo');  
+    var sql = " SELECT MESEANNO, QTY_CARICO, QTY_SCARICO FROM VW_GRAFICO_AC_ARTICOLO WHERE ID_ARTICOLO = " + connection.escape(idArticolo);
     connection.query(sql,function(error, results) {
         if (error) {
             gestionaleLogger.logger.error('articolifactory.getGraficoAcArticolo - Internal error: ', error);
@@ -261,6 +278,46 @@ articolifactory.getGraficoAcArticolo = function(idArticolo, connection, cb){
     });
              
 }
+
+
+articolifactory.getStoricoArticolo = function(idArticolo, startDate, endDate, connection, cb){
+    gestionaleLogger.logger.debug('articolifactory-getStoricoArticolo');  
+    var sql = " SELECT ART.ID_ARTICOLO, " +
+              "     ART.CODICE_ARTICOLO, " +
+              "     TIPO_OPERAZIONE, " +
+              "     SUM(MOV.QTY) QTY , " +
+              "     DATE_FORMAT(DATA_CREAZIONE, '%d/%m/%Y') DATA_CREAZIONE , " +
+              "     F.ID ID_FORNITORE, " +
+              "     F.NOME NOME_FORNITORE, " +
+              "     PREZZO_ACQUISTO " +
+              "  FROM LG_LOTTI_MAGAZZINO LT " +
+              "  JOIN (SELECT NLOTTO, TIPO_OPERAZIONE, SUM(QTY) QTY  " +
+              "          FROM LG_MOVIMENTI_MAGAZZINO " +
+              "          GROUP BY NLOTTO, TIPO_OPERAZIONE) MOV ON MOV.NLOTTO=LT.NLOTTO " +
+              "  JOIN AN_ARTICOLI ART ON ART.ID_ARTICOLO = LT.ID_ARTICOLO " +
+              "  JOIN AN_FORNITORI F ON F.ID=LT.ID_FORNITORE " +
+              "  WHERE ART.ID_ARTICOLO = " + connection.escape(idArticolo);
+    
+    if(startDate && endDate){
+        sql += " AND DATA_CREAZIONE BETWEEN STR_TO_DATE("+connection.escape(startDate) +",'%e/%c/%Y %T') AND STR_TO_DATE("+connection.escape(endDate) +",'%e/%c/%Y %T') ";
+    }else if(startDate && !endDate){
+        sql += "  AND DATA_CREAZIONE >= STR_TO_DATE("+connection.escape(startDate) +",'%e/%c/%Y %T') ";
+    }else if(!startDate && endDate){
+        sql += "  AND DATA_CREAZIONE <= STR_TO_DATE("+connection.escape(endDate) +",'%e/%c/%Y %T') ";
+    }
+
+    sql += "  GROUP BY ID_ARTICOLO, DATA_CREAZIONE, TIPO_OPERAZIONE,ID_FORNITORE, PREZZO_ACQUISTO";
+    connection.query(sql,function(error, results) {
+        if (error) {
+            gestionaleLogger.logger.error('articolifactory.getStoricoArticolo - Internal error: ', error);
+            return cb('KO',null);
+        }else {
+            return cb(null,results)
+        }
+    });
+             
+}
+
 
 
 

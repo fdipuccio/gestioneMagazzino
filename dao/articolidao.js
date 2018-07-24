@@ -11,9 +11,26 @@ articolidao.searchArticoli = function(filter, connection,cb){
     });
 }
 
+
+articolidao.getNewBarcode = function(connection,cb){
+	gestionaleLogger.logger.debug('articolidao  getNewBarcode');
+	articolifactory.getNewBarcode(connection,function(err, data){
+        if (err) return cb(err);
+		return cb(null,data)
+    });
+}
+
 articolidao.getAndamentoPrezzo = function(idArticolo, startDate, endDate, connection, cb){
 	gestionaleLogger.logger.debug('articolidao  getAndamentoPrezzo');
 	articolifactory.getAndamentoPrezzo(idArticolo, startDate, endDate, connection,function(err, data){
+        if (err) return cb(err);
+		return cb(null,data)
+    });
+}
+
+articolidao.getStoricoArticolo = function(idArticolo, startDate, endDate, connection, cb){
+	gestionaleLogger.logger.debug('articolidao  getStoricoArticolo');
+	articolifactory.getStoricoArticolo(idArticolo, startDate, endDate, connection,function(err, data){
         if (err) return cb(err);
 		return cb(null,data)
     });

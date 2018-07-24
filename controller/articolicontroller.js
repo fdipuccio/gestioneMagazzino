@@ -33,6 +33,17 @@ articolicontroller.getGraficoAcArticolo = function(req, res, cb){
     });
 }
 
+articolicontroller.getStoricoArticolo = function(req, res, cb){
+    gestionaleLogger.logger.debug('articolicontroller- getStoricoArticolo');
+    var idArticolo = req.body.input.idArticolo;
+    var startDate = req.body.input.startDate;
+    var endDate = req.body.input.endDate;
+    articoliservice.getStoricoArticolo(idArticolo, startDate, endDate, function(err, data){
+          if (err) return cb(err);
+			return cb(null,data)
+    });
+}
+
 
 articolicontroller.getDisponibilitaArticolo = function(req, res, cb){
     gestionaleLogger.logger.debug('articolicontroller- getDisponibilitaArticolo');
@@ -88,6 +99,13 @@ articolicontroller.updateArticolo = function(req, res, cb){
 articolicontroller.deleteArticolo = function(req, res, cb){
 	gestionaleLogger.logger.debug('deletearticoli- controller');
     articoliservice.deleteArticolo(req.params.idArticolo,function(err, data){
+        return cb(err, data)
+    });
+}
+
+articolicontroller.generateBarcode = function(req, res, cb){
+	gestionaleLogger.logger.debug('deletearticoli- controller');
+    articoliservice.generateBarcode(function(err, data){
         return cb(err, data)
     });
 }
