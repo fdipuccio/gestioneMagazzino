@@ -78,8 +78,8 @@ articolimapper.OUT_GRAFICO_AC_ARTICOLO = function(data){
         for(var i in data){
             elem = {};
             elem.meseanno=data[i].MESEANNO;
-            elem.tipoOperazione=data[i].TIPO_OPERAZIONE;
-            elem.qty=data[i].QTY;
+            elem.carico=data[i].QTY_CARICO;
+            elem.scarico=data[i].QTY_SCARICO;
             retVal.push(elem);
         }
     }
