@@ -193,8 +193,8 @@ angular.module("gestionaleApp").factory('ArticoliService', function($http) {
             getGraphAndamentoArticolo : function(idArticolo){ 
                 var pbody = {};
                 pbody.idArticolo = idArticolo;
-                pbosy.startDate = "01/01/2018";
-                pbosy.endDate = "31/12/2018";       	
+                pbody.startDate = "01/01/2018";
+                pbody.endDate = "31/12/2018";       	
             	var tempUrl = '/articoli/andamentoprezzo';                	
                 return $http({
                	  method: 'POST',
