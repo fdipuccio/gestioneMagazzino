@@ -45,16 +45,18 @@ angular.module("gestionaleApp")
 	//funzione richiamata quando si seleziona un comune dal typeahead
 	$scope.onSelectSupplier = function ($item, $model, $label) {
 		if($item != null){
+			
 				$scope.transient.newFornitore.citta = $item.COMUNE;
 				$scope.transient.newFornitore.cap = $item.CAP;	
 				$scope.transient.newFornitore.provincia = $item.COD_PROVINCIA;
 				$scope.transient.newFornitore.regione = $item.COD_REGIONE;	
-				$scope.transient.newFornitore.idComune = $item.ID_COMUNE;
+				$scope.transient.newFornitore.idComune = $item.IDCOMUNE;
 		} else {
 				$scope.transient.newFornitore.citta = "";
 				$scope.transient.newFornitore.cap = "";
 				$scope.transient.newFornitore.provincia = "";
 				$scope.transient.newFornitore.regione = "";
+				$scope.transient.newFornitore.idComune = "";
 		}
 	}
 
@@ -76,18 +78,7 @@ angular.module("gestionaleApp")
 
 				console.log("fornitore creato"); 
 				$uibModalInstance.dismiss('cancel');
-				//a seconda della pagina chiamante, viene invocata la funzione definita sul controller padre
-				if($scope.sezioneRichiamante == 'fornitore'){
-					$scope.getListaFornitori(); 	
-				} else if($scope.sezioneRichiamante == 'nuovaFattura'){
-					//aggiorna la lista dei fornitori in pagina
-					$scope.getListaFornitori();
-					//prevalorizza i dati del nuovo fornitore	
-					console.log(response.data.idFornitore);				
-					$scope.onSelectFornitorePostCreazione(response.data.idFornitore);
-				} else {
-					//TODO altre sezioni
-				}
+				$scope.$parent.getAdvSearchFornitoriList(); 	
 
 			}  else {
 				if(handleResponseResult.errorCode == 'FORN001'){

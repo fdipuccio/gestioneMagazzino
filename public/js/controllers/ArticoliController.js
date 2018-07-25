@@ -212,9 +212,9 @@ $scope.openModalEditArticolo = function (idArticolo) {
 
 		var handleResponseResult = $scope.handleResponse(response);  
 	    	if(handleResponseResult.next){
-				$scope.transient.editArticolo = response.data.articolo[0];	
+				$scope.transient.editArticolo = response.data;	
 				//category normalizzata a string per evitare il primmo valore vuoto
-				$scope.transient.editArticolo.ID_CATEGORIA = ''+ $scope.transient.editArticolo.ID_CATEGORIA;				
+				//$scope.transient.editArticolo.idCategoria = ''+ $scope.transient.editArticolo.idCategoria;				
 	    	} else {
 				toastr.error("TODO - GESTIONE ERRORE");
 			}		    	
