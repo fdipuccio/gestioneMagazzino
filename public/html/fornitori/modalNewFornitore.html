@@ -48,24 +48,24 @@
                 </div> 
                 <div class="col-sm-12 col-md-5 form-group">
                     <p>Note Extra Indirizzo:</p>
-                    <input class="form-control"  ng-maxlength="999" ng-model="transient.newFornitore.note_extra_indirizzo" name="note_extra_indirizzo" type="text" autofocus>
+                    <input class="form-control"  ng-maxlength="999" ng-model="transient.newFornitore.noteExtraIndirizzo" name="noteExtraEndirizzo" type="text" autofocus>
                 </div>               
             </div> 
 
             <div class="row">
-                <div class="col-sm-12 col-md-6 form-group" ng-class="{'has-error': newFornitoreForm.partita_iva.$invalid && !newFornitoreForm.partita_iva.$pristine}">
+                <div class="col-sm-12 col-md-6 form-group" ng-class="{'has-error': newFornitoreForm.partitaIva.$invalid && !newFornitoreForm.partitaIva.$pristine}">
                     <p>Partita Iva*:</p>
-                    <input class="form-control"  ng-model="transient.newFornitore.partita_iva" 
-                    ng-required="!transient.newFornitore.codice_fiscale"
+                    <input class="form-control"  ng-model="transient.newFornitore.partitaIva" 
+                    ng-required="!transient.newFornitore.codiceFiscale"
                     ng-maxlength="11" ng-minlength="11"
                     ng-pattern="/^[0-9]{11}$/"
-                    name="partita_iva" type="text" autofocus>
-                    <span class="help-block small" ng-show="newFornitoreForm.partita_iva.$invalid && !newFornitoreForm.partita_iva.$pristine">Partita Iva non valida</span>
+                    name="partitaIva" type="text" autofocus>
+                    <span class="help-block small" ng-show="newFornitoreForm.partitaIva.$invalid && !newFornitoreForm.partita_iva.$pristine">Partita Iva non valida</span>
                 </div>   
                 <div class="col-sm-12 col-md-6 form-group" ng-class="{'has-error': newFornitoreForm.codiceFiscale.$invalid && !newFornitoreForm.codiceFiscale.$pristine}">
                     <p>Codice Fiscale*:</p>
-                    <input class="form-control"  ng-model="transient.newFornitore.codice_fiscale" 
-                    ng-required="!transient.newFornitore.partita_iva" name="codiceFiscale"                     
+                    <input class="form-control"  ng-model="transient.newFornitore.codiceFiscale" 
+                    ng-required="!transient.newFornitore.partitaIva" name="codiceFiscale"                     
                     ng-pattern="/^[a-zA-Z]{6}\d{2}[a-zA-Z]\d{2}[a-zA-Z]\d{3}[a-zA-Z]$/"
                     type="text" autofocus>
                     <span class="help-block small" ng-show="newFornitoreForm.codiceFiscale.$invalid && !newFornitoreForm.codiceFiscale.$pristine">Codice Fiscale non valido</span>
@@ -91,7 +91,7 @@
             <div class="row">
                 <div class="col-sm-12  form-group">
                     <p>Note Fornitore:</p>
-                    <textarea class="form-control" ng-model="transient.newFornitore.note_fornitore" name="noteFornitore" ng-maxlength="999"></textarea>
+                    <textarea class="form-control" ng-model="transient.newFornitore.noteFornitore" name="noteFornitore" ng-maxlength="999"></textarea>
                 </div>                         
             </div>
             
