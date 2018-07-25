@@ -178,7 +178,6 @@ angular.module("gestionaleApp").factory('ArticoliService', function($http) {
                   url: tempUrl,
                   data: pbody        	  
                });
-            	
             },
             scaricoQuantitaArticolo : function(idArticolo, pLotto){        
                 var pbody = {};
@@ -190,7 +189,25 @@ angular.module("gestionaleApp").factory('ArticoliService', function($http) {
                   url: tempUrl,
                   data: pbody        	  
                });
-            	
+            },            
+            getGraphAndamentoArticolo : function(idArticolo){ 
+                var pbody = {};
+                pbody.idArticolo = idArticolo;
+                pbosy.startDate = "01/01/2018";
+                pbosy.endDate = "31/12/2018";       	
+            	var tempUrl = '/articoli/andamentoprezzo';                	
+                return $http({
+               	  method: 'POST',
+               	  url: tempUrl,
+                  data: pbody       	  
+               });
+            },            
+            getGraphCaricoScarico : function(idArticolo){            	
+            	var tempUrl = '/articoli/caricoscarico/'+idArticolo;                	
+                return $http({
+               	  method: 'GET',
+               	  url: tempUrl        	  
+               });
             }
         }
     });

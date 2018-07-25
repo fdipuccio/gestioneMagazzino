@@ -6,19 +6,6 @@ angular.module("gestionaleApp")
 	$scope.persistent = {};
 	$scope.persistent.idArticolo = $routeParams.idArticolo;
 
-	$scope.dtOptions = DTOptionsBuilder.newOptions().withOption('responsive', true).withLanguageSource('//cdn.datatables.net/plug-ins/1.10.16/i18n/Italian.json');
-	$scope.dtColumnDefs = [          
-		DTColumnDefBuilder.newColumnDef(0).withOption('width', '25%'),
-		DTColumnDefBuilder.newColumnDef(1).withOption('width', '25%'),
-		DTColumnDefBuilder.newColumnDef(2).withOption('width', '9%'),
-		DTColumnDefBuilder.newColumnDef(3).withOption('width', '9%'),
-		DTColumnDefBuilder.newColumnDef(4).withOption('width', '9%'),
-		DTColumnDefBuilder.newColumnDef(5).withOption('width', '9%'),
-		DTColumnDefBuilder.newColumnDef(6).withOption('width', '9%'),
-		DTColumnDefBuilder.newColumnDef(7).notSortable().withOption('width', '6%')
-	];
-	$scope.filters = {};
-	$scope.filters.filter = {};
 	// START PUBLIC FUNCTIONS
 
 	$scope.schedaArticolo = function(){
@@ -32,29 +19,41 @@ angular.module("gestionaleApp")
 		});	
 	}
 
+	$scope.loadDataForCharts = function (){
+		$scope.dataGrah1 = [];
+		$scope.dataGrah2 = [];
+		ArticoliService.getGraphAndamentoArticolo($scope.persistent.idArticolo).then(function(response) {  
+			var handleResponseResult = $scope.handleResponse(response);  
+				if(handleResponseResult.next){
+					$scope.dataGrah1 = response.dati;	
+				} else {
+					toastr.error("TODO - GESTIONE ERRORE");
+				}		    	
+		});
+
+		ArticoliService.getGraphCaricoScarico($scope.persistent.idArticolo).then(function(response1) {  
+			var handleResponseResult = $scope.handleResponse(response1);
+				if(handleResponseResult.next){
+					$scope.dataGrah2 = response1.dati;	
+				} else {
+					toastr.error("TODO - GESTIONE ERRORE");
+				}		    	
+		});
+
+		$scope.loadChart();
+	}
 
 	$scope.loadChart = function () {
 		
 		window.barChart = Morris.Line({
 			element: 'bar-chart-andamento',
 			//Mettere dati che arrivano dal servizio
-			data: [
-				{ month: '10/17', carico: 20, scarico: 8},
-				{ month: '11/17', carico: 10, scarico: 7},
-				{ month: '12/17', carico: 5, scarico: 2},
-				{ month: '01/18', carico: 5, scarico: 1},
-				{ month: '02/18', carico: 20, scarico: 10},
-				{ month: '03/18', carico: 90, scarico: 45},
-				{ month: '04/18', carico: 70, scarico: 30},
-				{ month: '05/18', carico: 80, scarico: 40},
-				{ month: '06/18', carico: 60, scarico: 29},
-				{ month: '07/18', carico: 65, scarico: 18}
-			],
-			xkey: 'month',
-			ykeys: ['carico', 'scarico'],
-			labels: ['acquisti', 'consumi'],
-			lineColors: ['#3598dc','#e7505a'],
-			barColors: ['#3598dc','#e7505a'],
+			data: $scope.dataGrah1,
+			xkey: 'data',
+			ykeys: ['prezzo'],
+			labels: ['prezzo articolo'],
+			lineColors: ['#3598dc'],
+			barColors: ['#3598dc'],
 			lineWidth: '2px',
 			redraw: true, 
 			hideHover: 'auto'
@@ -63,19 +62,8 @@ angular.module("gestionaleApp")
 		window.barChart = Morris.Bar({
 			element: 'bar-chart-magazzino',
 			//Mettere dati che arrivano dal servizio
-			data: [
-				{ month: '10/17', carico: 20, scarico: 8},
-				{ month: '11/17', carico: 10, scarico: 7},
-				{ month: '12/17', carico: 5, scarico: 2},
-				{ month: '01/18', carico: 5, scarico: 1},
-				{ month: '02/18', carico: 20, scarico: 10},
-				{ month: '03/18', carico: 90, scarico: 45},
-				{ month: '04/18', carico: 70, scarico: 30},
-				{ month: '05/18', carico: 80, scarico: 40},
-				{ month: '06/18', carico: 60, scarico: 29},
-				{ month: '07/18', carico: 65, scarico: 18}
-			],
-			xkey: 'month',
+			data: $scope.dataGrah2,
+			xkey: 'meseanno',
 			ykeys: ['carico', 'scarico'],
 			labels: ['acquisti', 'consumi'],
 			lineColors: ['#3598dc','#e7505a'],
@@ -93,8 +81,7 @@ angular.module("gestionaleApp")
 
 	//init page
 	$scope.schedaArticolo();
-	$scope.loadChart();
-	//$scope.getCategorieArticoliList();
+	$scope.loadDataForCharts();
 	
 	//private functions
 	
