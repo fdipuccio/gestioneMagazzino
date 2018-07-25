@@ -5,7 +5,8 @@ angular.module("gestionaleApp")
 	 'use strict';
 	$scope.persistent = {};
 	$scope.persistent.idArticolo = $routeParams.idArticolo;
-
+	$scope.dataGrah1 = [];
+	$scope.dataGrah2 = [];
 	// START PUBLIC FUNCTIONS
 
 	$scope.schedaArticolo = function(){
@@ -20,12 +21,11 @@ angular.module("gestionaleApp")
 	}
 
 	$scope.loadDataForCharts = function (){
-		$scope.dataGrah1 = [];
-		$scope.dataGrah2 = [];
+		
 		ArticoliService.getGraphAndamentoArticolo($scope.persistent.idArticolo).then(function(response) {  
 			var handleResponseResult = $scope.handleResponse(response);  
 				if(handleResponseResult.next){
-					$scope.dataGrah1 = response.dati;	
+					$scope.dataGrah1 = response.data.dati;	
 				} else {
 					toastr.error("TODO - GESTIONE ERRORE");
 				}		    	
@@ -34,13 +34,15 @@ angular.module("gestionaleApp")
 		ArticoliService.getGraphCaricoScarico($scope.persistent.idArticolo).then(function(response1) {  
 			var handleResponseResult = $scope.handleResponse(response1);
 				if(handleResponseResult.next){
-					$scope.dataGrah2 = response1.dati;	
+					$scope.dataGrah2 = response1.data.dati;	
 				} else {
 					toastr.error("TODO - GESTIONE ERRORE");
 				}		    	
 		});
 
-		$scope.loadChart();
+		if($scope.dataGrah2.length>0 || $scope.dataGrah1.length>0){
+			$scope.loadChart();
+		}
 	}
 
 	$scope.loadChart = function () {
