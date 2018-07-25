@@ -71,7 +71,7 @@ comunifactory.getComuniPagedSearch = function(filter, connection, cb){
 
 comunifactory.getComuni = function(filter, connection, cb){
     gestionaleLogger.logger.debug('comunifactory::getComuni');
-    var sql ="SELECT COD_ISTAT,NOME COMUNE ,COD_PROVINCIA,COD_REGIONE,CAP,CODFISCO, CONCAT(NOME,' - ',CAP) NOME  FROM AN_comuni limit 10";
+    var sql ="SELECT IDCOMUNE,COD_ISTAT,NOME COMUNE ,COD_PROVINCIA,COD_REGIONE,CAP,CODFISCO, CONCAT(NOME,' - ',CAP) NOME  FROM AN_comuni limit 10";
     //gestire i filtri ???
     gestionaleLogger.logger.debug('sql',sql);
     connection.query(sql, function (err, rows) {
