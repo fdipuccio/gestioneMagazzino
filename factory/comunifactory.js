@@ -5,7 +5,7 @@ var gestionaleLogger = require("../utility/gestionaleLogger");
 
 comunifactory.getComuneByCodIstat = function(codIstat,connection, cb){
     gestionaleLogger.logger.debug('comunifactory::getcomuniById');
-    var sql ="SELECT COD_ISTAT,NOME COMUNE ,COD_PROVINCIA,COD_REGIONE,CAP,CODFISCO, CONCAT(NOME,' - ',CAP) NOME  FROM an_comuni WHERE  COD_ISTAT = "+connection.escape(codIstat);
+    var sql ="SELECT IDCOMUNE, COD_ISTAT,NOME COMUNE ,COD_PROVINCIA,COD_REGIONE,CAP,CODFISCO, CONCAT(NOME,' - ',CAP) NOME  FROM an_comuni WHERE  COD_ISTAT = "+connection.escape(codIstat);
     gestionaleLogger.logger.debug('sql',sql);
     connection.query(sql, function (err, rows) {
         if (err){
@@ -37,7 +37,7 @@ comunifactory.getCapByComune = function(comune,connection, cb){
 
 comunifactory.getComuniPagedSearch = function(filter, connection, cb){
     gestionaleLogger.logger.debug('comunifactory::getComuniPagedSearch');
-    var sql ="SELECT COD_ISTAT,NOME COMUNE ,COD_PROVINCIA,COD_REGIONE,CAP,CODFISCO, CONCAT(NOME,' - ',CAP) NOME FROM AN_comuni WHERE 1=1";
+    var sql ="SELECT IDCOMUNE,COD_ISTAT,NOME COMUNE ,COD_PROVINCIA,COD_REGIONE,CAP,CODFISCO, CONCAT(NOME,' - ',CAP) NOME FROM AN_comuni WHERE 1=1";
     var pSize = 1;
     var offset = 0;
     
