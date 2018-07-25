@@ -1,7 +1,7 @@
 angular.module("gestionaleApp")
 .controller("DettaglioArticoloController",
- ['$scope','$uibModal','filterFilter', '$routeParams','$sessionStorage','ArticoliService','CategorieService','CommonService', 'DTOptionsBuilder', 'DTColumnDefBuilder',
- function ($scope, $uibModal, filterFilter, $routeParams, $sessionStorage, ArticoliService, CategorieService, CommonService, DTOptionsBuilder, DTColumnDefBuilder) {
+ ['$scope','$uibModal','filterFilter', '$routeParams','$sessionStorage','ArticoliService','CategorieService','CommonService', 'DTOptionsBuilder', 'DTColumnDefBuilder','$location',
+ function ($scope, $uibModal, filterFilter, $routeParams, $sessionStorage, ArticoliService, CategorieService, CommonService, DTOptionsBuilder, DTColumnDefBuilder, $location) {
 	 'use strict';
 	$scope.persistent = {};
 	$scope.persistent.idArticolo = $routeParams.idArticolo;
@@ -75,6 +75,9 @@ angular.module("gestionaleApp")
 
 	}
 
+	$scope.gotoElencoArticoli = function(){
+		$location.url("/articoli"); 
+	}
 
 
 	// END PUBLIC FUNCTIONS
@@ -95,5 +98,6 @@ angular.module("gestionaleApp")
 		chart.render();
 	}
 
+	
 
 }]);
