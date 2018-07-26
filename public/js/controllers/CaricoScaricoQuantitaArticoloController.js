@@ -77,6 +77,7 @@ angular.module("gestionaleApp")
 	$scope.ricercaArticoloByCodiceBarre = function(){
 		console.log("ricercaArticoloByCodiceBarre");	
 		//adding default values
+		
 		$scope.spinner.on();
 		ArticoliService.getAdvSearchArticoliList($scope.transient.carico.filters).then(function(response) { 
 			//invocazione service
@@ -190,7 +191,8 @@ angular.module("gestionaleApp")
 		if($scope.transient.fornitoreObject !== null && $scope.transient.fornitoreObject !== undefined && 
 			$scope.transient.fornitoreObject !== '' &&
 			$scope.transient.fornitoreObject.length > 2){
-				//TODO sostituire con servizio
+			
+			$scope.filters.filter.nome = $scope.transient.fornitoreObject;
 			FornitoreService.getAdvSearchFornitoriList($scope.filters).then(function(response) {  
 
 			var handleResponseResult = $scope.handleResponse(response);  
