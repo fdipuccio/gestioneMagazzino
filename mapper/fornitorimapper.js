@@ -21,6 +21,11 @@ fornitorimapper.FORNITORE_OUT = function(data){
         fornitoreModel.nome=data.NOME;
         fornitoreModel.indirizzo=data.INDIRIZZO;
         fornitoreModel.idcomune=data.IDCOMUNE;
+
+        fornitoreModel.provincia=data.COD_PROVINCIA;
+        fornitoreModel.cap=data.CAP;
+        fornitoreModel.citta=data.COMUNE;
+
         fornitoreModel.noteExtraIndirizzo=data.NOTE_EXTRA_INDIRIZZO;
         fornitoreModel.partitaIva=data.PARTITA_IVA;
         fornitoreModel.codiceFiscale=data.CODICE_FISCALE;
