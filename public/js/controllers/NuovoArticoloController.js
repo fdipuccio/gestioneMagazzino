@@ -15,7 +15,9 @@ angular.module("gestionaleApp")
 	$scope.listaUdmLunghezza = $sessionStorage.listaUdmLunghezza;
 	$scope.listaCategorie = $sessionStorage.listaCategorie;
 	$scope.listaColori = $sessionStorage.listaColori;
-	
+	$scope.transient.flagCodiceBarreGenerato = false;
+
+
 	if($scope.codiceBarreFromCaricoScarico !==undefined && $scope.codiceBarreFromCaricoScarico!==null){
 		$scope.transient.newArticolo.codiceBarre = $scope.codiceBarreFromCaricoScarico;
 	}
@@ -33,7 +35,28 @@ angular.module("gestionaleApp")
 		}
 	};
 
+
+	$scope.generaCodiceBarreManuale = function (){
+		
+		$scope.transient.flagCodiceBarreGenerato = true;
+
+		ArticoliService.generaBarCode().then(function(response) { 
+			var handleResponseResult = $scope.handleResponse(response);  
+	    	if(handleResponseResult.next){
+				console.log("codice a barre generato");  			
+				$scope.transient.newArticolo.codiceBarre  = response.data.barcode;		
+			} else {
+				toastr.error("ERRORE ARTICOLO GENERICO");		
+			}
+				   	 
+		});
+
+	}
 	
+	$scope.resetCodiceBarreManuale = function (){
+		$scope.transient.newArticolo.codiceBarre  = '';
+		$scope.transient.flagCodiceBarreGenerato = false;
+	}
 
 	
 	// END PUBLIC FUNCTIONS

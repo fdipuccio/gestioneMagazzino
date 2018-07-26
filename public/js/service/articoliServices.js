@@ -209,6 +209,13 @@ angular.module("gestionaleApp").factory('ArticoliService', function($http) {
                	  method: 'GET',
                	  url: tempUrl        	  
                });
-            }
+            },
+            generaBarCode : function(){            	
+            	var tempUrl = '/articoli/barcode';                	
+                return $http({
+               	  method: 'GET',
+               	  url: tempUrl        	  
+               });
+            }            
         }
     });
