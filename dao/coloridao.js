@@ -19,6 +19,14 @@ coloridao.getById = function(idColore, connection, cb){
   });
 }
 
+coloridao.canBeDeleted = function(idColore, connection, cb){
+	gestionaleLogger.logger.debug('coloridao  canBeDeleted');
+	colorifactory.canBeDeleted(idColore,connection,function(err, data){
+    if (err) return cb(err);
+		return cb(null,data)
+  });
+}
+
 coloridao.deleteById = function(idColore,connection,cb){
 	gestionaleLogger.logger.debug('coloridao  deleteById');
 	colorifactory.deleteById(idColore,connection,function(err, data){

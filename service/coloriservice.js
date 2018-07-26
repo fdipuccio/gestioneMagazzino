@@ -48,11 +48,15 @@ coloriservice.deleteById = function(idColore, cb){
     var retObj={}
     var ret="";
     transaction.inTransaction(pool, function(connection, next) {
-        coloridao.deleteById(idColore,connection,function(errPutColore,data){
-            if(errPutColore) return next(['COL005','Errore Cancellazione Colore']);
-                ret=data;
-                return next(null);
+        coloridao.canBeDeleted(idColore,connection,function(err,canDelete){
+            if(err) return next(['COL006','Errore Check Cancellazione Colore']);
+            if(!canDelete) return next(['COL007','Non è consentita la cancellazione del colore']);
+            coloridao.deleteById(idColore,connection,function(errPutColore,data){
+                if(errPutColore) return next(['COL005','Errore Cancellazione Colore']);
+                    ret=data;
+                    return next(null);
             });        
+        });
         }, function(err) {
             if (err){
                 retObj.status='KO';

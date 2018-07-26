@@ -8,7 +8,7 @@ var gestionaleLogger = require("../utility/gestionaleLogger");
 router.get('/',accesscontrol.isLoggedIn, function(req, res, next) {
     gestionaleLogger.logger.debug('colori::getAll');
     coloricontroller.getAll(req, res, function(err,data){
-        if (err) return next(err);
+        if (err)  res.end(JSON.stringify(err));
         res.end(JSON.stringify(data));
     }); 
 });
@@ -16,7 +16,7 @@ router.get('/',accesscontrol.isLoggedIn, function(req, res, next) {
 router.get('/:idColore',accesscontrol.isLoggedIn, function(req, res, next) {
     gestionaleLogger.logger.debug('colori::getById');
     coloricontroller.getById(req, res, function(err,data){
-        if (err) return next(err);
+        if (err)  res.end(JSON.stringify(err));
         res.end(JSON.stringify(data));
     }); 
 });
@@ -24,7 +24,7 @@ router.get('/:idColore',accesscontrol.isLoggedIn, function(req, res, next) {
 router.delete('/:idColore',accesscontrol.isLoggedIn, function(req, res, next) {
     gestionaleLogger.logger.debug('colori::deleteById');
     coloricontroller.deleteById(req, res, function(err,data){
-        if (err) return next(err);
+        if (err)  res.end(JSON.stringify(err));
         res.end(JSON.stringify(data));
     }); 
 });
@@ -32,7 +32,7 @@ router.delete('/:idColore',accesscontrol.isLoggedIn, function(req, res, next) {
 router.post('/',accesscontrol.isLoggedIn, function(req, res, next) {
     gestionaleLogger.logger.debug('colori::postcolore');
     coloricontroller.postColore(req, res, function(err,data){
-        if (err) return next(err);
+        if (err)  res.end(JSON.stringify(err));
         res.end(JSON.stringify(data));
     }); 
 });
@@ -40,7 +40,7 @@ router.post('/',accesscontrol.isLoggedIn, function(req, res, next) {
 router.put('/:idColore',accesscontrol.isLoggedIn, function(req, res, next) {
     gestionaleLogger.logger.debug('colori::putcolore');
     coloricontroller.putColore(req, res, function(err,data){
-        if (err) return next(err);
+        if (err)  res.end(JSON.stringify(err));
         res.end(JSON.stringify(data));
     }); 
 });

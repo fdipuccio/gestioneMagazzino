@@ -50,7 +50,7 @@ categoriearticoloservice.deleteById = function(idCategoria, cb){
     transaction.inTransaction(pool, function(connection, next) {
         categoriearticolodao.canBeDeleted(idCategoria,connection,function(error,canDelete){
             if(error) return next(['CAT006','Errore Check cancellazione Categoria']);
-            if(!canDelete) return next(['CAT007','Non è consentito la cancellazione della categoria']);
+            if(!canDelete) return next(['CAT007','Non è consentita la cancellazione della categoria']);
             categoriearticolodao.deleteById(idCategoria,connection,function(errPutCategoria,data){
                 if(errPutCategoria) return next(['CAT005','Errore Cancellazione Categoria']);
                 ret=data;

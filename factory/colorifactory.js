@@ -48,6 +48,21 @@ colorifactory.deleteById = function(idColore,connection,cb){
     });
 }
 
+colorifactory.canBeDeleted = function(idColore,connection,cb){
+    gestionaleLogger.logger.debug('colorifactory::canBeDeleted');
+    var sql = "SELECT IF(COUNT(1) = 0,'Y','N') CAN_DELETE FROM AN_COLORE C JOIN AN_ARTICOLI A ON A.COLORE=C.ID_COLORE WHERE c.ID_colore = " + connection.escape(idColore);
+    gestionaleLogger.logger.debug('sql',sql);
+    connection.query(sql, function (err, rows) {
+        if (err){
+            gestionaleLogger.logger.error('colorifactory.canBeDeleted - Internal error: ', err);
+            return cb(err,null);
+        }
+        else {
+            return cb(null,rows[0].CAN_DELETE=='Y')
+        }
+    });
+}
+
 colorifactory.postColore = function(colore, connection,cb){
     gestionaleLogger.logger.debug('colorifactory::postcolore');
     var strInsert = "INSERT INTO AN_COLORE(ID_COLORE, DESCRIZIONE) VALUES(?,?);"

@@ -279,7 +279,7 @@ articoliservice.deleteArticolo = function(id, cb){
     transaction.inTransaction(pool, function(connection, next) {
         articolidao.canBeDeleted(id,connection,function(err, canDelete){
             if(err) return next(['ART011','Error can delete articolo']);
-            if(!canDelete) return next(['ART011',"Non è consentito cancellare l'articolo"]);
+            if(!canDelete) return next(['ART011',"Non è consentita la cancellazione dell'articolo"]);
             articolidao.deleteArticolo(id,connection,function(error, data){
                 if(error) return next('Transcation Error');
                 return next(null);
