@@ -41,10 +41,6 @@ angular.module("gestionaleApp")
 					toastr.error("TODO - GESTIONE ERRORE");
 				}		    	
 		});
-
-		if($scope.dataGrah2.length>0 || $scope.dataGrah1.length>0){
-			$scope.loadChart();
-		}
 	}
 
 	$scope.loadChart1 = function () {
