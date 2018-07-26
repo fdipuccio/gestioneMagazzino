@@ -25,7 +25,8 @@ angular.module("gestionaleApp")
 		ArticoliService.getGraphAndamentoArticolo($scope.persistent.idArticolo).then(function(response) {  
 			var handleResponseResult = $scope.handleResponse(response);  
 				if(handleResponseResult.next){
-					$scope.dataGrah1 = response.data.dati;	
+					$scope.dataGrah1 = response.data.dati;
+					$scope.loadChart1();
 				} else {
 					toastr.error("TODO - GESTIONE ERRORE");
 				}		    	
@@ -35,17 +36,14 @@ angular.module("gestionaleApp")
 			var handleResponseResult = $scope.handleResponse(response1);
 				if(handleResponseResult.next){
 					$scope.dataGrah2 = response1.data.dati;	
+					$scope.loadChart2();
 				} else {
 					toastr.error("TODO - GESTIONE ERRORE");
 				}		    	
 		});
-
-		if($scope.dataGrah2.length>0 || $scope.dataGrah1.length>0){
-			$scope.loadChart();
-		}
 	}
 
-	$scope.loadChart = function () {
+	$scope.loadChart1 = function () {
 		
 		window.barChart = Morris.Line({
 			element: 'bar-chart-andamento',
@@ -60,7 +58,9 @@ angular.module("gestionaleApp")
 			redraw: true, 
 			hideHover: 'auto'
 		});
+	}
 
+	$scope.loadChart2 = function () {
 		window.barChart = Morris.Bar({
 			element: 'bar-chart-magazzino',
 			//Mettere dati che arrivano dal servizio
