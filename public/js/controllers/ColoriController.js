@@ -92,12 +92,16 @@ angular.module("gestionaleApp")
 	$scope.removeColore = function (p_id){
 		console.log("removeColore = " + p_id);
 		ColoriService.removeColore(p_id).then(function(response) {  
-	    	if(response!=null && response.data != null){
-				console.log("colore eliminato"); 
-				$scope.getListaColori(); 		
+	    				
+			var handleResponseResult = $scope.handleResponse(response);  
+			if(handleResponseResult.next){
+				toastr.success("Colore cancellato correttamente"); 
+				$scope.getListaColori(); 									
 	    	} else {
-				toastr.error("TODO - GESTIONE ERRORE");
-			}    	
+				var message = "errore_colore_codice_"+handleResponseResult.errorCode;
+				toastr.error("Errore: "+ handleResponseResult.errorCode + " - " + $scope.labels[message]);
+			}
+
 	    });				
 	}
 
