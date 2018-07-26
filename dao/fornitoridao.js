@@ -27,6 +27,15 @@ fornitoridao.getSupplierById = function(id, connection, cb){
         });
 }
 
+
+fornitoridao.canBeDeleted = function(id, connection, cb){
+	gestionaleLogger.logger.debug('fornitoridao-canBeDeleted');
+	  fornitorifactory.canBeDeleted(id, connection,function(err, data){
+          if (err) return cb(err);
+			return cb(null,data[0])
+        });
+}
+
 fornitoridao.addSupplier = function(supplier, connection, cb){
     gestionaleLogger.logger.debug('fornitoridao-addSupplier');
     fornitorifactory.addSupplier(supplier, connection,function(err,data){

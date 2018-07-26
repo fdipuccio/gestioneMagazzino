@@ -48,6 +48,24 @@ categoriearticolofactory.deleteById = function(idCategoria,connection,cb){
     });
 }
 
+categoriearticolofactory.canBeDeleted = function(idCategoria,connection,cb){
+    gestionaleLogger.logger.debug('categoriearticolofactory::canBeDeleted');
+    var sql = " SELECT IF(COUNT(1) = 0,'Y','N') CAN_DELETE " +
+              " FROM AN_CAT_ARTICOLI C  " +
+              " 	JOIN AN_ARTICOLI A ON C.ID_CATEGORIA=A.ID_CATEGORIA " +
+              " WHERE C.ID_CATEGORIA = " + connection.escape(idCategoria);
+    gestionaleLogger.logger.debug('sql',sql);
+    connection.query(sql, function (err, rows) {
+        if (err){
+            gestionaleLogger.logger.error('categoriearticolofactory.canBeDeleted - Internal error: ', err);
+            return cb(err,null);
+        }
+        else {
+            return cb(null,results[0].CAN_DELETE=='Y')
+        }
+    });
+}
+
 categoriearticolofactory.postCategoria = function(categoria, connection,cb){
     gestionaleLogger.logger.debug('categoriearticolofactory::postCategoria');
     var strInsert = "INSERT INTO AN_CAT_ARTICOLI(ID_CATEGORIA, NOME_CATEGORIA, DESCRIZIONE) VALUES(?,?,?);"

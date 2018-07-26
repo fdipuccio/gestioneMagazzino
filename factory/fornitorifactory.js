@@ -96,6 +96,23 @@ fornitorifactory.updateSupplier = function(id,fornitore, connection,cb){
     });
 };
 
+
+fornitorifactory.canBeDeleted = function(id,connection,cb){
+    gestionaleLogger.logger.debug('fornitorifactory::canBeDeleted');
+    deletestr="select if(count(1) = 0,'Y','N') CAN_DELETE " +
+              " from an_fornitori f  " +
+              "   join lg_lotti_magazzino l on l.ID_FORNITORE = f.ID " +
+              " where id= "+connection.escape(id);
+    connection.query(deletestr,function(err,results) {
+        if (err) {
+            gestionaleLogger.logger.error('fornitorifactory.canBeDeleted - Internal error: ', err);
+            return cb('KO', null);
+        }else {
+            return cb(null, results[0].CAN_DELETE=='Y')
+        }
+    });
+};
+
 fornitorifactory.deleteSupplier = function(id,connection,cb){
     gestionaleLogger.logger.debug('fornitorifactory::deleteSupplier');
     deletestr="update an_fornitori set deleted = 1, DELETE_DATE = CURRENT_TIMESTAMP where id= "+connection.escape(id);

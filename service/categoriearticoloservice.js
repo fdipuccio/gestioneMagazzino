@@ -48,11 +48,15 @@ categoriearticoloservice.deleteById = function(idCategoria, cb){
     var retObj={}
     var ret="";
     transaction.inTransaction(pool, function(connection, next) {
-        categoriearticolodao.deleteById(idCategoria,connection,function(errPutCategoria,data){
-            if(errPutCategoria) return next(['CAT005','Errore Cancellazione Categoria']);
+        categoriearticolodao.canBeDeleted(idCategoria,connection,function(error,canDelete){
+            if(error) return next(['CAT006','Errore Check cancellazione Categoria']);
+            if(!canDelete) return next(['CAT007','Non è consentito la cancellazione della categoria']);
+            categoriearticolodao.deleteById(idCategoria,connection,function(errPutCategoria,data){
+                if(errPutCategoria) return next(['CAT005','Errore Cancellazione Categoria']);
                 ret=data;
                 return next(null);
-            });        
+            }); 
+        });       
         }, function(err) {
             if (err){
                 retObj.status='KO';
