@@ -94,12 +94,16 @@ angular.module("gestionaleApp")
 	$scope.removeCategoria = function (p_id){
 		console.log("removeCategoria = " + p_id);
 		CategorieService.removeCategoria(p_id).then(function(response) {  
-	    	if(response!=null && response.data != null){
-				console.log("categoria eliminata"); 
-				$scope.getListaCategorie(); 		
+	    				
+			var handleResponseResult = $scope.handleResponse(response);  
+			if(handleResponseResult.next){
+				toastr.success("Cateoria cancellata correttamente"); 
+				$scope.getListaCategorie(); 									
 	    	} else {
-				toastr.error("TODO - GESTIONE ERRORE");
-			}    	
+				var message = "errore_categoria_codice_"+handleResponseResult.errorCode;
+				toastr.error("Errore: "+ handleResponseResult.errorCode + " - " + $scope.labels[message]);
+			}
+
 	    });				
 	}
 
