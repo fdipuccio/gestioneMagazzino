@@ -357,6 +357,25 @@ articolifactory.deleteArticolo = function(id,connection,cb){
 };
 
 
+articolifactory.canBeDeleted = function(id,connection,cb){
+    gestionaleLogger.logger.debug('articolifactory-canBeDeleted');
+    deletestr=" SELECT IF(COUNT(1) = 0,'Y','N') CAN_DELETE " +
+              " FROM AN_ARTICOLI A  " +
+              " 	JOIN LG_LOTTI_MAGAZZINO L ON L.ID_ARTICOLO = A.ID_ARTICOLO " +
+              " 	JOIN LG_QTY_ARTICOLO Q ON Q.ID_ARTICOLO = A.ID_ARTICOLO " +
+              " where A.ID_ARTICOLO= "+connection.escape(id);
+    connection.query(deletestr,function(error, results) {
+        if (error) {
+            gestionaleLogger.logger.error('articolifactory.canBeDeleted - Internal error: ', error);
+            return cb('KO',null);
+        }else {
+            gestionaleLogger.logger.debug("1 record inserted");
+            return cb(null,results[0].CAN_DELETE=='Y')
+        }
+    });
+};
+
+
 
 function gestioneFiltriArticoli(filter, sql, connection){
     var retVal = sql;

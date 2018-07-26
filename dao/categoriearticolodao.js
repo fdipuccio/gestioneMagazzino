@@ -19,6 +19,15 @@ categoriearticolodao.getById = function(idCategoria, connection, cb){
   });
 }
 
+
+categoriearticolodao.canBeDeleted = function(idCategoria, connection, cb){
+	gestionaleLogger.logger.debug('categoriearticolodao  canBeDeleted');
+	categoriearticolofactory.canBeDeleted(idCategoria,connection,function(err, data){
+    if (err) return cb(err);
+		return cb(null,data)
+  });
+}
+
 categoriearticolodao.deleteById = function(idCategoria,connection,cb){
 	gestionaleLogger.logger.debug('categoriearticolodao  deleteById');
 	categoriearticolofactory.deleteById(idCategoria,connection,function(err, data){

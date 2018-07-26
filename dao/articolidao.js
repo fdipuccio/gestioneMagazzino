@@ -45,6 +45,15 @@ articolidao.getGraficoAcArticolo = function(idArticolo, connection, cb){
 }
 
 
+articolidao.canBeDeleted = function(idArticolo, connection, cb){
+	gestionaleLogger.logger.debug('articolidao  canBeDeleted');
+	articolifactory.canBeDeleted(idArticolo, connection,function(err, data){
+        if (err) return cb(err);
+		return cb(null,data)
+    });
+}
+
+
 articolidao.getDisponibilitaArticolo = function(idArticolo, connection, cb){
 	gestionaleLogger.logger.debug('articolidao  getDisponibilitaArticolo');
 	articolifactory.getDisponibilitaArticolo(idArticolo, connection,function(err, data){

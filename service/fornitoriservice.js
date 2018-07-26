@@ -94,10 +94,14 @@ fornitoriservice.advancedSearch =function(filter,cb){
 fornitoriservice.deleteSupplier = function(id, cb){
     gestionaleLogger.logger.debug('fornitoriservice- deletefornitori');
     var retObj={};
-    transaction.inTransaction(pool, function(connection, next) {                        
-	  fornitoridao.deleteSupplier(id,connection,function(err, data){
-        if(err) return next (['FOR003','Problemi connessione alla Base Dati']);
-        return next(null);                  
+    transaction.inTransaction(pool, function(connection, next) {   
+        fornitoridao.canBeDeleted(id,connection,function(error, canDelete){
+            if(error) return next (['FOR003','Problemi connessione alla Base Dati']);
+            if(!canDelete) return next (['FOR004','Non è consentito cancellare il fornitore']);
+            fornitoridao.deleteSupplier(id,connection,function(err, data){
+                if(err) return next (['FOR003','Problemi connessione alla Base Dati']);
+                return next(null);                  
+            });
         });
     }, function(err) {
         gestionaleLogger.logger.debug('err',err);

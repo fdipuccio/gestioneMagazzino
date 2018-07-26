@@ -277,10 +277,14 @@ articoliservice.deleteArticolo = function(id, cb){
     gestionaleLogger.logger.debug('articoliservice- deleteArticolo');
     var retObj = {};
     transaction.inTransaction(pool, function(connection, next) {
-	    articolidao.deleteArticolo(id,connection,function(error, data){
-            if(error) return next('Transcation Error');
-            return next(null);
+        articolidao.canBeDeleted(id,connection,function(err, canDelete){
+            if(err) return next(['ART011','Error can delete articolo']);
+            if(!canDelete) return next(['ART011',"Non è consentito cancellare l'articolo"]);
+            articolidao.deleteArticolo(id,connection,function(error, data){
+                if(error) return next('Transcation Error');
+                return next(null);
             });
+        });
         }, function(err) {
             gestionaleLogger.logger.debug('err',err);
             if (err){
