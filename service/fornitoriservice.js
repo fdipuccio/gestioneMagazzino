@@ -13,8 +13,8 @@ fornitoriservice.getSupplierById = function(id, cb){
 	  fornitoridao.getSupplierById(id,connection, function(err, data){
           if (err || !data){
                 retObj.status='KO';
-                retObj.code=err[0]!=undefined?err[0]:'FOR000';
-                retObj.message=err[1]!=undefined?err[1]:'Errore Recupero fornitore by id';
+                retObj.code=err && err[0]!=undefined?err[0]:'FOR000';
+                retObj.message=err && err[1]!=undefined?err[1]:'Errore Recupero fornitore by id';
                 return cb(retObj,null);
             }
             retObj.status='OK';
