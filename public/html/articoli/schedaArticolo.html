@@ -27,7 +27,9 @@
                             <div class="row">
                                 <div class="col-sm-12 col-md-4 form-group">
                                         <p>Codice a Barre*:</p>
-                                        {{persistent.articolo.codiceBarre}}
+                                        <!--{{persistent.articolo.codiceBarre}}-->
+                                    <angular-barcode ng-model="persistent.articolo.codiceBarre" bc-options="bc" bc-class="barcode" bc-type="img"></angular-barcode>
+
                                     </div>
                                     <div class="col-sm-12 col-md-4 form-group">
                                         <p>Nome*:</p>

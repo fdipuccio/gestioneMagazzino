@@ -1,5 +1,5 @@
 var gestionaleApp = angular.module('gestionaleApp',
- ['ngRoute', 'ui.bootstrap', 'ngStorage', 'datatables', 'ngMaterial', 'md-steppers', 'ngAnimate','treasure-overlay-spinner', 'moment-picker', 'toggle-switch', 'dynamicNumber', 'naif.base64']); 
+ ['ngRoute', 'ui.bootstrap', 'ngStorage', 'datatables', 'ngMaterial', 'md-steppers', 'ngAnimate','treasure-overlay-spinner', 'moment-picker', 'toggle-switch', 'dynamicNumber', 'naif.base64', 'angular-barcode']); 
 
 //routing
 gestionaleApp.config(function($routeProvider, $locationProvider) {

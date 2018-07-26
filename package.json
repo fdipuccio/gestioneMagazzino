@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "angular-animate": "^1.6.9",
+    "angular-barcode": "^2.0.1",
     "angular-moment-picker": "^0.10.2",
     "app-root-path": "^2.0.1",
     "array-json-transform": "0.0.8",
@@ -14,7 +15,7 @@
     "body-parser": "^1.18.2",
     "co-foreach": "^1.1.1",
     "cookie-parser": "~1.4.3",
-    "create-output-stream": "0.0.1",
+    "create-output-stream": "0.0.1",    
     "debug": "~2.6.9",
     "express": "~4.15.5",
     "express-session": "^1.15.6",
