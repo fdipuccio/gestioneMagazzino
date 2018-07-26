@@ -69,7 +69,7 @@ angular.module("gestionaleApp")
 		FornitoreService.getFornitoreById(p_id).then(function(response) {  
 	    	var handleResponseResult = $scope.handleResponse(response);  
 	    	if(handleResponseResult.next){
-				$scope.transient.editFornitore = popolaFornitoreFromFornitoreDB(response.data.supplier);						
+				$scope.transient.editFornitore = response.data.supplier;						
 	    	} else {
 				toastr.error("Errore: "+ handleResponseResult.errorCode + " - GESTIONE ERRORE DA FARE!!!" );
 			}    	
@@ -143,28 +143,7 @@ angular.module("gestionaleApp")
 	
 	//private functions		
 
-	 function popolaFornitoreFromFornitoreDB(fornitoreDB){
-		var fornitore = {};
-
-		fornitore.nome = fornitoreDB.NOME;		
-		fornitore.provincia = fornitoreDB.PROVINCIA;
-		fornitore.regione = fornitoreDB.REGIONE;
-		fornitore.cap = fornitoreDB.CAP;
-		fornitore.citta = fornitoreDB.CITTA;
-		fornitore.indirizzo = fornitoreDB.INDIRIZZO;
-		fornitore.note_extra_indirizzo = fornitoreDB.NOTE_EXTRA_INDIRIZZO;
-		fornitore.codice_fiscale = fornitoreDB.CODICE_FISCALE;
-		fornitore.partita_iva = fornitoreDB.PARTITA_IVA;
-		fornitore.telefono = fornitoreDB.TELEFONO;
-		fornitore.fax = fornitoreDB.FAX;
-		fornitore.mail = fornitoreDB.MAIL;
-		fornitore.iva_applicata_prod = fornitoreDB.IVA_APPLICATA_PROD;
-		fornitore.iva_applicata_serv = fornitoreDB.IVA_APPLICATA_SERV;
-		fornitore.fatt_elettronica_pz = fornitoreDB.FATT_ELETTRONICA_PZ;
-		fornitore.note_fornitore = fornitoreDB.NOTE_CLIENTE;
-		return fornitore;
-
-	}
+	
 
 }]);
 

@@ -70,13 +70,14 @@ angular.module("gestionaleApp").factory('FornitoreService', function($http) {
                
             },
             updateFornitore : function(p_id, editFornitore){                        
-                
-            	var tempUrl = '/fornitori/updatefornitori/'+p_id;                	
+                  var pData = {};
+                  pData.fornitore = editFornitore;
+            	var tempUrl = '/fornitori/'+p_id;                	
             	
             	 return $http({
                	     method: 'PUT',
                      url: tempUrl ,
-                     data:  editFornitore     	  
+                     data:  pData     	  
                });
             	
             },
