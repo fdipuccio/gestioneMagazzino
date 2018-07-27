@@ -7,20 +7,27 @@ var ARTICOLI_QUERY = "SELECT ART.ID_ARTICOLO , " +
                         " ART.TIPOLOGIA , " + 
                         " ART.DESCRIZIONE , " + 
                         " ART.LUNGHEZZA , " +
+                        " L.ID_UDM ID_UDM_LUNGHEZZA , " +
                         " L.DESCRIZIONE UDM_LUNGHEZZA , " +
                         " ART.QTY_SCATOLA , " +
+                        " QS.ID_UDM ID_UDM_QTY_SCATOLA , " +
                         " QS.DESCRIZIONE UDM_QTY_SCATOLA , " +
                         " ART.TIMER_SCADENZA_DD , " +
                         " ART.MINIMO_MAGAZZINO , " +
                         " ART.DIAMETRO , " +
+                        " L.ID_UDM ID_UDM_DIAMETRO , " +
                         " L.DESCRIZIONE UDM_DIAMETRO , " +
                         " ART.MARCA , " +
+                        " CL.ID_COLORE ID_COLORE , " +
                         " CL.DESCRIZIONE COLORE , " +
                         " ART.PESO , " + 
+                        " P.ID_UDM ID_UDM_PESO , " +
                         " P.DESCRIZIONE UDM_PESO , " +
                         " ART.VOLUME , " + 
+                        " V.ID_UDM ID_UDM_VOLUME , " +
                         " V.DESCRIZIONE UDM_VOLUME , " +
                         " ART.CAPACITA , " + 
+                        " CP.ID_UDM ID_UDM_CAPACITA , " +
                         " CP.DESCRIZIONE UDM_CAPACITA , " +
                         " ART.PREZZO , " + 
                         " ART.VALUTA , " + 
