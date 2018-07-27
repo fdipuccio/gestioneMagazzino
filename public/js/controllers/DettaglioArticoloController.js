@@ -7,6 +7,12 @@ angular.module("gestionaleApp")
 	$scope.persistent.idArticolo = $routeParams.idArticolo;
 	$scope.dataGrah1 = [];
 	$scope.dataGrah2 = [];
+	$scope.listaQtyScatola = $sessionStorage.listaQtyScatola;
+	$scope.listaUdmDiametro = $sessionStorage.listaUdmDiametro;
+	$scope.listaUdmLunghezza = $sessionStorage.listaUdmLunghezza;
+	$scope.listaCategorie = $sessionStorage.listaCategorie;
+	$scope.listaColori = $sessionStorage.listaColori;
+
 	// START PUBLIC FUNCTIONS
 
 	$scope.schedaArticolo = function(){
@@ -20,8 +26,24 @@ angular.module("gestionaleApp")
 		});	
 	}
 
-	$scope.loadDataForCharts = function (){
-		
+	$scope.updateArticolo = function(){
+		ArticoliService.editArticolo($scope.persistent.articolo, $scope.persistent.idArticolo).then(function(response) { 
+			var handleResponseResult = $scope.handleResponse(response);  
+	    	if(handleResponseResult.next){
+				toastr.success("Articolo aggiornato correttamente");
+	    	} else {
+				if(handleResponseResult.errorCode == 'ART002'){
+					toastr.warning("ARTICOLO GIA PRESENTE");
+				} else {
+					toastr.error("ERRORE ARTICOLO GENERICO");		
+				}
+						
+			}    	 
+		});
+	}
+
+	$scope.loadChartAndamento = function (){
+		$("#bar-chart-andamento").empty();
 		ArticoliService.getGraphAndamentoArticolo($scope.persistent.idArticolo).then(function(response) {  
 			var handleResponseResult = $scope.handleResponse(response);  
 				if(handleResponseResult.next){
@@ -31,7 +53,10 @@ angular.module("gestionaleApp")
 					toastr.error("TODO - GESTIONE ERRORE");
 				}		    	
 		});
+	}
 
+	$scope.loadChartCarico = function (){
+		$("#bar-chart-magazzino").empty();
 		ArticoliService.getGraphCaricoScarico($scope.persistent.idArticolo).then(function(response1) {  
 			var handleResponseResult = $scope.handleResponse(response1);
 				if(handleResponseResult.next){
@@ -86,10 +111,15 @@ angular.module("gestionaleApp")
 
 	//init page
 	$scope.schedaArticolo();
-	$scope.loadDataForCharts();
+	//$scope.loadDataForCharts();
 	
 	//private functions
 	
+	$('.nav-tabs a').click(function (e) {
+	    e.preventDefault();
+	    $(this).tab('show');
+	});
+
 	function toggleDataSeries(e) {
 		if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
 			e.dataSeries.visible = false;
