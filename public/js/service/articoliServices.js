@@ -118,10 +118,10 @@ angular.module("gestionaleApp").factory('ArticoliService', function($http) {
                });  
             	
             },
-            editArticolo : function(editArticolo) {
+            editArticolo : function(editArticolo, idArticolo) {
                 var p_body = {};                 
                 
-            	var tempUrl = '/articoli/updateArticolo/'+editArticolo.ID_ARTICOLO;                	
+            	var tempUrl = '/articoli/updateArticolo/'+idArticolo;                	
             	
             	 return $http({
                	     method: 'PUT',
