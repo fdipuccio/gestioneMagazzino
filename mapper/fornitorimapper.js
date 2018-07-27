@@ -20,7 +20,7 @@ fornitorimapper.FORNITORE_OUT = function(data){
         fornitoreModel.idfornitore=data.ID_FORNITORE;
         fornitoreModel.nome=data.NOME;
         fornitoreModel.indirizzo=data.INDIRIZZO;
-        fornitoreModel.idcomune=data.IDCOMUNE;
+        fornitoreModel.idComune=data.IDCOMUNE;
 
         fornitoreModel.provincia=data.COD_PROVINCIA;
         fornitoreModel.cap=data.CAP;
