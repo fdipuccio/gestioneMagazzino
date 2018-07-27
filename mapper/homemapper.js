@@ -29,6 +29,7 @@ homemapper.OUT_ALERT_SCADENZA = function(data){
             alertModel = {};
             alertModel.idArticolo=data[t].ID_ARTICOLO;
             alertModel.codiceArticolo=data[t].CODICE_ARTICOLO;
+            alertModel.qty=data[t].QTY;
             alertModel.descrizioneArticolo=data[t].DESCRIZIONE;
             alertModel.dataScadenza=data[t].DATA_SCADENZA;
             retVal.push(alertModel);

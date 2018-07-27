@@ -71,16 +71,16 @@ fornitorifactory.addSupplier = function(supplier,connection, cb){
 fornitorifactory.updateSupplier = function(id,fornitore, connection,cb){
     gestionaleLogger.logger.debug('fornitorifactory::updateSupplier');
     var updtStr="update an_fornitori set ";
-    updtStr+=(fornitore.nome!=undefined)?" nome ="+connection.escape(fornitore.nome)+",":"''"+",";
-    updtStr+=(fornitore.indirizzo!=undefined)?" indirizzo ="+connection.escape(fornitore.indirizzo)+",":"''"+",";
-    updtStr+=(fornitore.idComune!=undefined)?" IDCOMUNE ="+connection.escape(fornitore.idComune)+",":"''"+",";
-    updtStr+=(fornitore.noteExtraIndirizzo!=undefined || noteExtraIndirizzo==null)?" note_extra_indirizzo ="+connection.escape(fornitore.noteExtraIndirizzo)+",":"''"+",";
-    updtStr+=(fornitore.partitaIva!=undefined || partitaIva==null)?" partita_iva ="+connection.escape(fornitore.partitaIva)+",":"''"+",";
-    updtStr+=(fornitore.codiceFiscale!=undefined || codiceFiscale==null)?" codice_fiscale ="+connection.escape(fornitore.codiceFiscale)+",":"''"+",";
-    updtStr+=(fornitore.mail!=undefined || mail==null)?" mail ="+connection.escape(fornitore.mail)+",":"''"+",";
-    updtStr+=(fornitore.telefono!=undefined || telefono==null)?" telefono ="+connection.escape(fornitore.telefono)+",":"''"+",";
-    updtStr+=(fornitore.fax!=undefined || fax==null)?" fax ="+connection.escape(fornitore.fax)+",":"''"+",";
-    updtStr+=(fornitore.noteFornitore!=undefined || noteFornitore==null)?" note_fornitore ="+connection.escape(fornitore.noteFornitore)+",":"''"+",";
+    updtStr+=(fornitore.nome!=undefined)?" nome ="+connection.escape(fornitore.nome)+",":"";
+    updtStr+=(fornitore.indirizzo!=undefined)?" indirizzo ="+connection.escape(fornitore.indirizzo)+",":"";
+    updtStr+=(fornitore.idComune!=undefined)?" IDCOMUNE ="+connection.escape(fornitore.idComune)+",":"";
+    updtStr+=(fornitore.noteExtraIndirizzo!=undefined || fornitore.noteExtraIndirizzo==null)?" note_extra_indirizzo ="+connection.escape(fornitore.noteExtraIndirizzo)+",":"";
+    updtStr+=(fornitore.partitaIva!=undefined || fornitore.partitaIva==null)?" partita_iva ="+connection.escape(fornitore.partitaIva)+",":"";
+    updtStr+=(fornitore.codiceFiscale!=undefined || fornitore.codiceFiscale==null)?" codice_fiscale ="+connection.escape(fornitore.codiceFiscale)+",":"";
+    updtStr+=(fornitore.mail!=undefined || fornitore.mail==null)?" mail ="+connection.escape(fornitore.mail)+",":"";
+    updtStr+=(fornitore.telefono!=undefined || fornitore.telefono==null)?" telefono ="+connection.escape(fornitore.telefono)+",":"";
+    updtStr+=(fornitore.fax!=undefined || fornitore.fax==null)?" fax ="+connection.escape(fornitore.fax)+",":"";
+    updtStr+=(fornitore.noteFornitore!=undefined || fornitore.noteFornitore==null)?" note_fornitore ="+connection.escape(fornitore.noteFornitore)+",":"";
     updtStr= updtStr.substring(0, updtStr.length - 1);// elimino l'ultima vigola :)
     updtStr+= " where id ="+connection.escape(id);
     gestionaleLogger.logger.debug('updtStr',updtStr);

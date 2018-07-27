@@ -5,7 +5,7 @@ var gestionaleLogger = require("../utility/gestionaleLogger");
 
 homefactory.getDatiAlertScadenza = function(connection, cb){
     gestionaleLogger.logger.debug('homefactory::getDatiAlertScadenza');
-    var sql =" SELECT ID_ARTICOLO, CODICE_ARTICOLO, DESCRIZIONE, DATA_SCADENZA " +
+    var sql =" SELECT ID_ARTICOLO, CODICE_ARTICOLO, DESCRIZIONE, DATA_SCADENZA, QTY " +
              " FROM VW_ALERT_ARTICOLI V " +
              " WHERE ALERT_SCA = 'TRUE'";
     gestionaleLogger.logger.debug('sql',sql);

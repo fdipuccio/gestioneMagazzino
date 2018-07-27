@@ -32,7 +32,7 @@ fornitoridao.canBeDeleted = function(id, connection, cb){
 	gestionaleLogger.logger.debug('fornitoridao-canBeDeleted');
 	  fornitorifactory.canBeDeleted(id, connection,function(err, data){
           if (err) return cb(err);
-			return cb(null,data[0])
+			return cb(null,data)
         });
 }
 
