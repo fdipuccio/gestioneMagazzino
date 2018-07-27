@@ -1,4 +1,5 @@
 var articolimapper = require('./articolimapper')
+const leftPad = require('left-pad')
 
 
 articolimapper.CATEGORIES_OUT = function(data){
@@ -93,7 +94,12 @@ articolimapper.OUT_STORICO_ARTICOLO = function(data){
 articolimapper.OUT_GRAFICO_AC_ARTICOLO = function(data){
     var retVal = new Array();
     var elem = {};
+    var size = 0;
+    var now = new Date();
+    var meseanno = "";
+
     if(data){
+        size=data[0].PROP_VALUE;
         for(var i in data){
             elem = {};
             elem.meseanno=data[i].MESEANNO;
@@ -101,6 +107,21 @@ articolimapper.OUT_GRAFICO_AC_ARTICOLO = function(data){
             elem.scarico=data[i].QTY_SCARICO;
             retVal.push(elem);
         }
+
+        if(retVal.length < size){
+            for (var m = 0; m < size; m++) {
+                meseanno=  now.getFullYear() + "" +leftPad(now.getMonth()+1, 2, '0');
+                if(!retVal[m] || retVal[m].meseanno!=meseanno){
+                    elem = {};
+                    elem.meseanno=meseanno;
+                    elem.carico=0;
+                    elem.scarico=0;
+                    retVal.push(elem);
+                }
+                now.setMonth(now.getMonth() - 1);                
+            }
+        }
+
     }
     
     return retVal;

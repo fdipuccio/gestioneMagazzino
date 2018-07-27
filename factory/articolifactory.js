@@ -267,7 +267,7 @@ articolifactory.getDisponibilitaArticolo = function(idArticolo, connection, cb){
 
 articolifactory.getGraficoAcArticolo = function(idArticolo, connection, cb){
     gestionaleLogger.logger.debug('articolifactory-getGraficoAcArticolo');  
-    var sql = " SELECT MESEANNO, QTY_CARICO, QTY_SCARICO FROM VW_GRAFICO_AC_ARTICOLO WHERE ID_ARTICOLO = " + connection.escape(idArticolo);
+    var sql = " SELECT MESEANNO, QTY_CARICO, QTY_SCARICO, PROP_VALUE FROM VW_GRAFICO_AC_ARTICOLO WHERE ID_ARTICOLO = " + connection.escape(idArticolo) + " ORDER BY MESEANNO DESC ";
     connection.query(sql,function(error, results) {
         if (error) {
             gestionaleLogger.logger.error('articolifactory.getGraficoAcArticolo - Internal error: ', error);
