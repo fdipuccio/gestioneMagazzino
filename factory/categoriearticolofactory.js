@@ -61,7 +61,7 @@ categoriearticolofactory.canBeDeleted = function(idCategoria,connection,cb){
             return cb(err,null);
         }
         else {
-            return cb(null,results[0].CAN_DELETE=='Y')
+            return cb(null,rows[0].CAN_DELETE=='Y')
         }
     });
 }
