@@ -1,20 +1,20 @@
 <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancelNewCategoriaoButton()">&times;</button>
-    <h4 class="modal-title" id="myModalLabel">Inserisci Nuovo Categoria</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancelEditCategoriaButton()">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Modifica Categoria</h4>
 </div>
 <div class="modal-body">
-    <form role="form" name="editCategoriaForm" novalidate> 
+    <form role="form" name="editCategoriaForm" novalidate autocomplete="off"> 
         <fieldset>
             <div class="row">
                 <div class="col-sm-12 col-md-5 form-group" ng-class="{'has-error':editCategoriaForm.nome.$invalid && !editCategoriaForm.nome.$pristine}">
                     <p>Nome*:</p>
                     <input class="form-control form-control-sm "  name="nome" type="text" 
-                    ng-model="transient.editCategoria.nome" ng-maxlength="15">
+                    ng-model="transient.editCategoria.nome" ng-maxlength="25" required>
                 </div>
                 <div class="col-sm-12 col-md-7 form-group" ng-class="{'has-error':editCategoriaForm.editCategoria.$invalid && !editCategoriaForm.descrizione.$pristine}">
                     <p>Descrizione*:</p>
                     <input class="form-control form-control-sm "  name="nome" type="text" 
-                    ng-model="transient.editCategoria.descrizione" required ng-maxlength="70">
+                    ng-model="transient.editCategoria.descrizione" required ng-maxlength="100" required>
                 </div>                 
             </div>                  
 

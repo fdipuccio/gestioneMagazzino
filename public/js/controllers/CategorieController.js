@@ -51,7 +51,7 @@ angular.module("gestionaleApp")
 				creaCategoria($uibModalInstance);
 				$uibModalInstance.dismiss('cancel');
 			};		
-			$scope.cancelDelete = function () {
+			$scope.cancelNewCategoriaButton = function () {
 				//$uibModalInstance.close(false);
 				$uibModalInstance.dismiss('cancel');
 			};
