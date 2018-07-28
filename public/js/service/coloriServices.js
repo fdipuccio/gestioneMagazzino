@@ -36,9 +36,9 @@ angular.module("gestionaleApp").factory('ColoriService', function($http) {
                });  
             	
             },   
-            editColore : function(editColore){
+            editColore : function(oldCodice, editColore){
                   
-            	var tempUrl = '/colori/'+editColore.idColore;                	
+            	var tempUrl = '/colori/'+oldCodice;                	
                 var p_body = {};     
                 p_body.colore = editColore;
 

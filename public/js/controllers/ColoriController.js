@@ -7,6 +7,7 @@ angular.module("gestionaleApp")
 	$scope.transient = {};
 	$scope.transient.newColore = {};	
 	$scope.transient.editColore = {};	
+	$scope.transient.oldCodice = '';
 	$scope.listaColori = [];	
 	$scope.dtOptions = DTOptionsBuilder.newOptions().withOption('responsive', true).withLanguageSource('//cdn.datatables.net/plug-ins/1.10.16/i18n/Italian.json');
 	$scope.dtColumnDefs = [          
@@ -49,7 +50,7 @@ angular.module("gestionaleApp")
 				creaColore($uibModalInstance);
 				$uibModalInstance.dismiss('cancel');
 			};		
-			$scope.cancelDelete = function () {
+			$scope.cancelNewColoreButton = function () {
 				//$uibModalInstance.close(false);
 				$uibModalInstance.dismiss('cancel');
 			};
@@ -111,7 +112,7 @@ angular.module("gestionaleApp")
 
 //open modale di modifica colore
 $scope.openModalEditColore = function (idColore) {
-
+	$scope.transient.oldCodice = idColore;
 	//recupero dettaglio colore
 	ColoriService.getColoreById(idColore).then(function(response) {  
 
@@ -166,7 +167,7 @@ function creaColore($uibModalInstance){
 function modifyColore($uibModalInstance){
 	console.log("modifyColore");	
 	//adding default values
-	ColoriService.editColore($scope.transient.editColore).then(function(response) { 
+	ColoriService.editColore($scope.transient.oldCodice, $scope.transient.editColore).then(function(response) { 
 		
 		var handleResponseResult = $scope.handleResponse(response);  
 	    	if(handleResponseResult.next){
