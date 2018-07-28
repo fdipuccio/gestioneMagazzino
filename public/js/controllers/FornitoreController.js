@@ -122,7 +122,7 @@ angular.module("gestionaleApp")
 			var handleResponseResult = $scope.handleResponse(response);  
 	    	if(handleResponseResult.next){
 				toastr.success("Fornitore cancellato correttamente"); 
-				$scope.getFornitoriList(); 									
+				$scope.getAdvSearchFornitoriList();									
 	    	} else {
 				var message = "errore_fornitore_codice_"+handleResponseResult.errorCode;
 				toastr.error("Errore: "+ handleResponseResult.errorCode + " - " + $scope.labels[message]);
