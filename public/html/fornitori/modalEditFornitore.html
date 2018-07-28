@@ -3,7 +3,7 @@
     <h4 class="modal-title" id="myModalLabel">Modifica Fornitore</h4>
 </div>
 <div class="modal-body">
-    <form role="form" name="editFornitoreForm" novalidate> 
+    <form role="form" name="editFornitoreForm" novalidate autocomplete="off"> 
         <fieldset>
             <div class="row">
                 <div class="col-sm-12 form-group" ng-class="{'has-error': editFornitoreForm.nome.$invalid && !editFornitoreForm.nome.$pristine}">
@@ -27,7 +27,7 @@
                         class="f1-first-ricerca-comune form-control" 
                         uib-typeahead="comune as comune.NOME for comune in elencoComuni" 
                         typeahead-on-select="onSelectSupplier($item, $model, $label)"                        
-                        typeahead-min-length="3">  
+                        typeahead-min-length="3">
                 </div>               
                 <div class="col-sm-12 col-md-1 form-group">
                     <p>Provincia:</p>

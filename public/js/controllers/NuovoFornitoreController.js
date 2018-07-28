@@ -31,7 +31,12 @@ angular.module("gestionaleApp")
 				//TODO sostituire con servizio
 			CommonService.getListaComuniAvanzata($scope.transient.newFornitore.cittaObject).then(function(response) {  		
 				if(response!=null && response.data != null){
-					$scope.elencoComuni = response.data;	    	
+					$scope.elencoComuni = response.data;
+					if($scope.elencoComuni.length == 0){						
+						$scope.transient.newFornitore.cap = "";
+						$scope.transient.newFornitore.provincia = "";
+						$scope.transient.newFornitore.idComune = "";
+					}	    	
 				}    	
 			});	
 		} else {
