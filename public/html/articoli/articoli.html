@@ -9,17 +9,17 @@
 
         <div class="search-bar bordered">
             <div class="row">
-                <div class="col-sm-12 col-md-4 form-group" ng-class="{'has-error':newArticoloForm.lunghezza.$invalid && !newArticoloForm.lunghezza.$pristine}">
+                <div class="col-sm-12 col-md-4 form-group" >
                     <p>Codice a Barre:</p>                    
                     <input class="form-control form-control-sm "  name="filter.codiceBarre" type="text" 
                     ng-model="filters.filter.codiceBarre" required >
                 </div>
-                <div class="col-sm-12 col-md-4 form-group" ng-class="{'has-error':newArticoloForm.lunghezza.$invalid && !newArticoloForm.lunghezza.$pristine}">
+                <div class="col-sm-12 col-md-4 form-group" >
                     <p>Nome:</p>                    
-                    <input class="form-control form-control-sm "  name="filter.nome" type="text" 
-                    ng-model="filters.filter.nome" required >
+                    <input class="form-control form-control-sm "  name="filter.codiceArticolo" type="text" 
+                    ng-model="filters.filter.codiceArticolo" required >
                 </div>
-                <div class="col-sm-12 col-md-4 form-group" ng-class="{'has-error':newArticoloForm.idCategoria.$invalid && !newArticoloForm.idCategoria.$pristine}">
+                <div class="col-sm-12 col-md-4 form-group" >
                     <p>Categoria:</p>
                     <select required name="categoria" 
                         ng-model="filters.filter.idCategoria" class="form-control input-sm">
