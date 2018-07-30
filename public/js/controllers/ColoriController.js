@@ -159,7 +159,11 @@ function creaColore($uibModalInstance){
 				$uibModalInstance.dismiss('cancel');				
 			$scope.getListaColori();						
 	    	} else {
-				toastr.error("Errore: "+ handleResponseResult.errorCode + " - GESTIONE ERRORE DA FARE!!!" );
+				if(handleResponseResult.errorCode && handleResponseResult.message){
+					toastr.error("Errore: "+ handleResponseResult.errorCode + " - " + handleResponseResult.message );
+				}else{
+					toastr.error("Errore: "+ handleResponseResult.errorCode + " - GESTIONE ERRORE DA FARE!!!");
+				}
 			}		    	
 	});
 }

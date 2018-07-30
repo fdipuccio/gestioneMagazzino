@@ -75,14 +75,20 @@ coloriservice.postColore = function(colore, cb){
     var ret="";
     transaction.inTransaction(pool, function(connection, next) {
         coloridao.postColore(colore,connection,function(erraddColore,data){
-            if(erraddColore) return next(['COL003','Errore Inserimento Colore']);
-                ret=data;
-                return next(null);
-            });        
+            if(erraddColore){
+                if(erraddColore==="KO"){
+                    return next(['COL003','Errore Inserimento Colore']);
+                }else{
+                    return next(['COL003',erraddColore]);
+                }                
+            }
+            ret=data;
+            return next(null);
+        });        
         }, function(err) {
             if (err){
                 retObj.status='KO';
-                retObj.code=err[0]!=undefined?err[0]:'CAT003';
+                retObj.code=err[0]!=undefined?err[0]:'COL003';
                 retObj.message=err[1]!=undefined?err[1]:'Errore Inserimento Colore';
                 return cb(retObj,null);
             }

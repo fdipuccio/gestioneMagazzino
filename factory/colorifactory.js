@@ -69,8 +69,13 @@ colorifactory.postColore = function(colore, connection,cb){
     gestionaleLogger.logger.debug('strInsert : ',strInsert);
     connection.query(strInsert,[colore.idColore,colore.descrizione],function(err, results) {
         if (err) {
-            gestionaleLogger.logger.error('colorifactory.postcolore - Internal error: ', err);
-            return cb('KO');
+            if(err.code === "ER_DUP_ENTRY"){
+                gestionaleLogger.logger.error('colorifactory.postcolore - Codice Colore già presente');
+                return cb('Codice Colore già presente');
+            }else{
+                gestionaleLogger.logger.error('colorifactory.postcolore - Internal error: ', err);
+                return cb('KO');    
+            }
         }else {
             gestionaleLogger.logger.debug("1 record inserted");
             return cb(null, results.insertId)
