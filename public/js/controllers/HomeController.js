@@ -43,7 +43,7 @@ function ($scope,CommonService,ArticoliService,CategorieService,ScadenzeService,
                      articolo.icon = 'fa fa-bell-o';
                      articolo.label = 'label-default';
                    }
-       
+									 articolo.qty = item.qty;
 									 articolo.deadline = dd>0?(dd>1?dd + ' giorni ':dd + ' giorno '):'';									 
                    articolo.dataScadenza = $filter('date')(item.dataScadenza, "dd/MM/yyyy");
                    $scope.scadenzeList.push(articolo);
