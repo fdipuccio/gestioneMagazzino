@@ -68,7 +68,7 @@
                     <td>{{scatolo.qty}}</td>    
                     <td>
                         <input class="form-control form-control-sm"  name="scatolo.qtyRelese" type="number" 
-                        ng-model="scatolo.qtyRelese" min="0">
+                        ng-model="scatolo.qtyRelese" min="0" max="{{scatolo.qty}}">
                     </td>
                     <td>{{scatolo.scadenza | date:'dd/MM/yyyy'}}</td>                  
                     
