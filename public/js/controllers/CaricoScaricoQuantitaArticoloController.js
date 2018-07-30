@@ -283,4 +283,17 @@ angular.module("gestionaleApp")
 		
 	});
 	
+	$scope.$watch("transient.nuovoLotto.numeroScatoli", function(newValue, oldValue) {
+		if(newValue!==oldValue){
+			
+			if($scope.transient.nuovoLotto.articoli.length > 0
+			&& $scope.transient.flagArticoliUguali){
+				$scope.transient.mostraStep2Carico = false;
+				$scope.transient.nuovoLotto.articoli = [];
+			}
+
+		}
+		
+	});
+
 }]);
