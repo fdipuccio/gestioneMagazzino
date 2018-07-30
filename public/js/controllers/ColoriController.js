@@ -159,8 +159,8 @@ function creaColore($uibModalInstance){
 				$uibModalInstance.dismiss('cancel');				
 			$scope.getListaColori();						
 	    	} else {
-				if(handleResponseResult.errorCode && handleResponseResult.message){
-					toastr.error("Errore: "+ handleResponseResult.errorCode + " - " + handleResponseResult.message );
+				if(handleResponseResult.errorCode == 'COL103'){
+					toastr.warning(handleResponseResult.message);
 				}else{
 					toastr.error("Errore: "+ handleResponseResult.errorCode + " - GESTIONE ERRORE DA FARE!!!");
 				}

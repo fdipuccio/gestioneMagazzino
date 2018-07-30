@@ -31,8 +31,14 @@ fornitoriservice.addSupplier =function(supplier, cb){
     gestionaleLogger.logger.debug('fornitoriservice- addSupplier');
     transaction.inTransaction(pool, function(connection, next) {        
 	  fornitoridao.addSupplier(supplier,connection,function(err, data){
-        if(err) return next (['FOR001','Problemi connessione alla Base Dati']);
-		idf = data;
+        if(err) {
+            if(err==="KO"){
+                return next (['FOR001','Problemi connessione alla Base Dati']);
+            }else{
+                return next(['FORN001',err]);
+            } 
+        }
+        idf = data;
         return next(null);                  
       });
     }, function(err) {
@@ -55,7 +61,13 @@ fornitoriservice.updateSupplier =function(id, fornitore, cb){
     var retObj={};
     transaction.inTransaction(pool, function(connection, next) {                
         fornitoridao.updateSupplier(id, fornitore, connection, function(err, data){
-                if(err) return next (['FOR002','Problemi connessione alla Base Dati']);
+                if(err) {
+                    if(err==="KO"){
+                        return next (['FOR002','Problemi connessione alla Base Dati']);
+                    }else{
+                        return next(['FORN002',err]);
+                    } 
+                }
                 return next(null);                  
             });
         }, function(err) {

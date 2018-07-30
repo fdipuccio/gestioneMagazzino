@@ -59,8 +59,13 @@ fornitorifactory.addSupplier = function(supplier,connection, cb){
     connection.query(strInsert,[supplier.nome, supplier.indirizzo, supplier.idComune, supplier.noteExtraIndirizzo, supplier.partitaIva, supplier.codiceFiscale, supplier.mail,
         supplier.telefono, supplier.fax, supplier.noteFornitore],function(err, results) {
         if (err) {
-            gestionaleLogger.logger.error('fornitorifactory.addSupplier - Internal error: ', err);
-            return cb('KO', null);
+            if(err.code === "ER_DUP_ENTRY"){
+                gestionaleLogger.logger.error('fornitorifactory.addSupplier - Nome Fornitore già presente');
+                return cb('Nome Fornitore già presente');
+            }else{
+                gestionaleLogger.logger.error('fornitorifactory.addSupplier - Internal error: ', err);
+                return cb('KO', null);  
+            }
         }else {
             gestionaleLogger.logger.debug("1 record inserted");
             return cb(null, results.insertId)
@@ -87,8 +92,13 @@ fornitorifactory.updateSupplier = function(id,fornitore, connection,cb){
 
     connection.query(updtStr,function(err, results) {
         if (err) {
-            gestionaleLogger.logger.error('fornitorifactory.updateSupplier - Internal error: ', err);
-            return cb('KO',null);
+            if(err.code === "ER_DUP_ENTRY"){
+                gestionaleLogger.logger.error('fornitorifactory.updateSupplier - Nome Fornitore già presente');
+                return cb('Nome Fornitore già presente');
+            }else{
+                gestionaleLogger.logger.error('fornitorifactory.updateSupplier - Internal error: ', err);
+                return cb('KO', null);  
+            }
         }else {
             gestionaleLogger.logger.debug("Update done");
             return cb(null,'OK')

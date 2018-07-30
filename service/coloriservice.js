@@ -79,7 +79,7 @@ coloriservice.postColore = function(colore, cb){
                 if(erraddColore==="KO"){
                     return next(['COL003','Errore Inserimento Colore']);
                 }else{
-                    return next(['COL003',erraddColore]);
+                    return next(['COL103',erraddColore]);
                 }                
             }
             ret=data;

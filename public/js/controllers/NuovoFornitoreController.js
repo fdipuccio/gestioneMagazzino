@@ -86,7 +86,7 @@ angular.module("gestionaleApp")
 				$scope.$parent.getAdvSearchFornitoriList(); 	
 
 			}  else {
-				if(handleResponseResult.errorCode == 'FORN001'){
+				if(handleResponseResult.errorCode == 'FORN001' || 'FORN002'){
 					toastr.warning(handleResponseResult.message);
 				} else {
 					toastr.error("ERRORE CREAZIONE FORNITORE");		
