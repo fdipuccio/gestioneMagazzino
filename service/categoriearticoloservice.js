@@ -75,9 +75,15 @@ categoriearticoloservice.postCategoria = function(categoria, cb){
     var ret="";
     transaction.inTransaction(pool, function(connection, next) {
         categoriearticolodao.postCategoria(categoria,connection,function(erraddCategoria,data){
-            if(erraddCategoria) return next(['CAT003','Errore Inserimento Categoria']);
-                ret=data;
-                return next(null);
+            if(erraddCategoria){
+                if(erraddCategoria==="KO"){
+                    return next(['CAT003','Errore Inserimento Categoria']);
+                }else{
+                    return next(['CAT103',erraddCategoria]);
+                }     
+            }
+            ret=data;
+            return next(null);
             });        
         }, function(err) {
             if (err){
@@ -98,9 +104,15 @@ categoriearticoloservice.putCategoria = function(idCategoria,categoria, cb){
     var ret="";
     transaction.inTransaction(pool, function(connection, next) {
         categoriearticolodao.putCategoria(idCategoria,categoria,connection,function(errPutCategoria,data){
-            if(errPutCategoria) return next(['CAT004','Errore Modifca Categoria']);
-                ret=data;
-                return next(null);
+            if(errPutCategoria){
+                if(errPutCategoria==="KO"){
+                    return next(['CAT003','Errore Update Categoria']);
+                }else{
+                    return next(['CAT103',errPutCategoria]);
+                }     
+            }
+            ret=data;
+            return next(null);
             });        
         }, function(err) {
             if (err){

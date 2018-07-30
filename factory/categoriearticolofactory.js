@@ -72,8 +72,13 @@ categoriearticolofactory.postCategoria = function(categoria, connection,cb){
     gestionaleLogger.logger.debug('strInsert : ',strInsert);
     connection.query(strInsert,[categoria.idCategoria,categoria.nome,categoria.descrizione],function(err, results) {
         if (err) {
-            gestionaleLogger.logger.error('categoriearticolofactory.postCategoria - Internal error: ', err);
-            return cb('KO');
+            if(err.code === "ER_DUP_ENTRY"){
+                gestionaleLogger.logger.error('categoriearticolofactory.postCategoria - Nome Categoria già presente');
+                return cb('Nome Categoria già presente');
+            }else{
+                gestionaleLogger.logger.error('categoriearticolofactory.postCategoria - Internal error: ', err);
+                return cb('KO');    
+            }
         }else {
             gestionaleLogger.logger.debug("1 record inserted");
             return cb(null, results.insertId)
@@ -93,8 +98,13 @@ categoriearticolofactory.putCategoria = function(idCategoria, categoria, connect
            
    connection.query(updtStr,function(err, results) {
        if (err) {
-           gestionaleLogger.logger.error('categoriearticolofactory.putCategoria - Internal error: ', err);
-           return cb('KO');
+        if(err.code === "ER_DUP_ENTRY"){
+            gestionaleLogger.logger.error('categoriearticolofactory.postCategoria - Nome Categoria già presente');
+            return cb('Nome Categoria già presente');
+        }else{
+            gestionaleLogger.logger.error('categoriearticolofactory.postCategoria - Internal error: ', err);
+            return cb('KO');    
+        }
        }else {
            return cb(null, results)
        }

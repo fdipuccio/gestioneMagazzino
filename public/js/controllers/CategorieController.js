@@ -160,7 +160,11 @@ function creaCategoria($uibModalInstance){
 				$uibModalInstance.dismiss('cancel');				
 			$scope.getListaCategorie();						
 	    	} else {
-				toastr.error("Errore: "+ handleResponseResult.errorCode + " - GESTIONE ERRORE DA FARE!!!" );
+				if(handleResponseResult.errorCode == 'CAT103'){
+					toastr.warning(handleResponseResult.message);
+				}else{
+					toastr.error("Errore: "+ handleResponseResult.errorCode + " - GESTIONE ERRORE DA FARE!!!");
+				}
 			}		    	
 	});
 }
@@ -176,7 +180,11 @@ function modifyCategoria($uibModalInstance){
 				$uibModalInstance.dismiss('cancel');
 			$scope.getListaCategorie();						
 	    	} else {
-				toastr.error("Errore: "+ handleResponseResult.errorCode + " - GESTIONE ERRORE DA FARE!!!" );
+				if(handleResponseResult.errorCode == 'CAT103'){
+					toastr.warning(handleResponseResult.message);
+				}else{
+					toastr.error("Errore: "+ handleResponseResult.errorCode + " - GESTIONE ERRORE DA FARE!!!");
+				}
 			}		    	
 	});
 }
