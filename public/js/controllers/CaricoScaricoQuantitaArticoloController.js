@@ -244,13 +244,13 @@ angular.module("gestionaleApp")
 		var scaricoTemp = [];
 		
 		angular.forEach($scope.transient.listaScatoliScarico, function(item) {
-  			if(item.selected){
+  			if(item.selected && item.qtyRelese > 0){
 				item.scadenza=$filter('date')(item.scadenza, "dd/MM/yyyy");
 				scaricoTemp.push(item);
 			  }
 		});
-
-		MagazzinoService.scaricoQuantitaArticolo(scaricoTemp).then(function(response) { 
+		if(scaricoTemp.length > 0){
+			MagazzinoService.scaricoQuantitaArticolo(scaricoTemp).then(function(response) { 
 				//invocazione service
 				var handleResponseResult = $scope.handleResponse(response);  
 				if(handleResponseResult.next){
@@ -262,7 +262,11 @@ angular.module("gestionaleApp")
 					toastr.error("Errore: "+ response.data.errMessage + " - Errore nel carico articoli" );
 				}
 				$scope.spinner.off();  		
-			});					
+			});
+		} else {
+			toastr.warning("La quantità totale che si sta provando a scaricare non è valida" );
+		}
+							
 	}
 	
 	$scope.gotoNuovoArticolo = function (){				
