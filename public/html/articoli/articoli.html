@@ -58,11 +58,10 @@
                             <thead>
                                 <tr>                                         
                                     <th><i class="fa fa-pencil-square"></i> Nome</th>                                    
-                                    <th><i class="fa fa-tags"></i> Categoria</th>
-                                    <th><i class="fa fa-arrows-h"></i> Lunghezza</th>
-                                    <th><i class="fa fa-inbox"></i> Qty Scatola</th>
+                                    <th><i class="fa fa-tags"></i> Categoria</th>                                                                  
                                     <th><i class="fa fa-google-wallet"></i> Marca</th>
                                     <th><i class="fa fa-tint"></i> Colore</th>
+                                    <th><i class="fa fa-cubes"></i> Qty Magazzino</th>  
                                     <th><i class="fa fa-bomb"></i> GG Scadenza</th>
                                     <th><i class="fa fa-slack"></i> Min</th>                        
                                     <th><i class="fa fa-cogs"></i> Azioni</th>                          
@@ -71,11 +70,10 @@
                             <tbody>
                                 <tr class="odd gradeX" ng-repeat="articolo in articoli">                                                                                                         
                                     <td>{{articolo.codiceArticolo}}</td>
-                                    <td>{{articolo.descCategoria}}</td>
-                                    <td>{{articolo.lunghezza}} ({{articolo.udmLunghezza}})</td>  
-                                    <td>{{articolo.qtyInScatola}} ({{articolo.udmQtyInScatola}})</td>  
+                                    <td>{{articolo.descCategoria}}</td>                                     
                                     <td>{{articolo.marca}}</td>   
-                                    <td>{{articolo.colore}}</td>      
+                                    <td>{{articolo.colore}}</td> 
+                                    <td>{{articolo.qty}}</td>     
                                     <td>{{articolo.timerScadenza}}</td>
                                      <td>{{articolo.minimoMagazzino}}</td>
                                     <td class="text-center">
