@@ -36,13 +36,13 @@ var ARTICOLI_QUERY = "SELECT ART.ID_ARTICOLO , " +
                         " ART.DATA_INS , " + 
                         " ART.DATA_MOD , " + 
                         " ART.UDM , " + 
-                        " CONVERT(ART.NOTE USING UTF8) AS NOTE  " +
-                        // ", " + 
-                        // " Q.QTY, " + 
+                        " CONVERT(ART.NOTE USING UTF8) AS NOTE,  " +
+                        " Q.QTY " + 
+                        //", " + 
                         // "  q.ID_MAGAZZINO, " + 
                         // "  q.ID_QTY_MAGAZZINO   " + 
                         " FROM AN_ARTICOLI ART  " + 
-                       // "   LEFT JOIN LG_QTY_ARTICOLO Q  ON Q.ID_ARTICOLO = ART.ID_ARTICOLO  " + 
+                        "   LEFT JOIN (SELECT SUM(QTY) QTY, ID_ARTICOLO FROM LG_QTY_ARTICOLO GROUP BY ID_ARTICOLO) Q  ON Q.ID_ARTICOLO = ART.ID_ARTICOLO  " + 
                         "   LEFT JOIN AN_IVA_APPLICATA I ON ART.IVA = I.CODICE  " + 
                         "   LEFT JOIN (SELECT * FROM AN_UDM WHERE UDM_TYPE = 'LUNGHEZZA') L ON L.ID_UDM = ART.UDM_LUNGHEZZA  " + 
                         "   LEFT JOIN (SELECT * FROM AN_UDM WHERE UDM_TYPE = 'DIAMETRO') D ON D.ID_UDM = ART.UDM_DIAMETRO  " + 
@@ -387,8 +387,8 @@ articolifactory.canBeDeleted = function(id,connection,cb){
 function gestioneFiltriArticoli(filter, sql, connection){
     var retVal = sql;
 
-    if(filter.categoria){
-        retVal += " AND ART.ID_CATEGORIA ="+connection.escape(filter.categoria)+" ";
+    if(filter.idCategoria){
+        retVal += " AND ART.ID_CATEGORIA ="+connection.escape(filter.idCategoria)+" ";
     }
 
     if(filter.codiceArticolo){
