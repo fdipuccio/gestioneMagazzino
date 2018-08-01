@@ -171,27 +171,7 @@ angular.module("gestionaleApp")
 
 		
 	}
-	/*
-	$scope.confermaScaricoArticoloButton = function(){
-		var lotto = {};
-
-		lotto.operazione = "SCARICO";
-		lotto.qty = $scope.transient.numeroScatoli;
-		lotto.articoli = $scope.transient.listaScatoliScarico;		
-		lotto.dataOperazione = $filter('date')(new Date(), "dd/MM/yyyy");
-		$scope.spinner.on();	
-		ArticoliService.scaricoQuantitaArticolo($scope.persistent.articoloSelezionato.idArticolo, lotto).then(function(response) { 
-			//invocazione service
-			var handleResponseResult = $scope.handleResponse(response);  
-	    	if(handleResponseResult.next){
-				toastr.success("Scarico articolo registrato correttamente");
-			} else {
-				toastr.error("Errore: "+ response.data.errMessage + " - Errore nello scarico articoli" );
-			}
-	    	$scope.spinner.off();  		
-		});
-	}*/
-
+	
 	$scope.getFornitoriWithTypeAhead = function (){
 		$scope.transient.nuovoLotto.idFornitore = "";
 		if($scope.transient.fornitoreObject !== null && $scope.transient.fornitoreObject !== undefined && 
