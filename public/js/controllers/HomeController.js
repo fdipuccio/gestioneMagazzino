@@ -23,11 +23,11 @@ function ($scope,CommonService,ArticoliService,CategorieService,ScadenzeService,
             $scope.scadenzeList = [];           
             angular.forEach(response.data.articoli, function(item){		
 							 var articolo = {};					
-               if(tempoRimasto(item.dataScadenza).giorni >= 0){                   
+                                  
 									 var dd = tempoRimasto(item.dataScadenza).giorni;
 									 articolo.idArticolo = item.idArticolo;
                    articolo.articolo = item.codiceArticolo;
-                   if(dd == 0){
+                   if(dd <= 0){
                      articolo.icon = 'fa fa-bolt';
                      articolo.label = 'label-danger';
                    }else if(dd > 0 && dd <=20){
@@ -47,7 +47,7 @@ function ($scope,CommonService,ArticoliService,CategorieService,ScadenzeService,
 									 articolo.deadline = dd>0?(dd>1?dd + ' giorni ':dd + ' giorno '):'';									 
                    articolo.dataScadenza = $filter('date')(item.dataScadenza, "dd/MM/yyyy");
                    $scope.scadenzeList.push(articolo);
-               }
+               
            }); 
           
             } else {
