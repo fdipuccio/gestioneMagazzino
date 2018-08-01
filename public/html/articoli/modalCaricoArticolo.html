@@ -104,7 +104,7 @@
                 </div>
                 <div class="col-sm-12 col-md-4 form-group">
                     <p>Data Inserimento:</p>               
-                    <div class="input-group" locale="it" moment-picker="transient.nuovoLotto.dataInserimento" format="DD/MM/YYYY" start-view="month">
+                    <div class="input-group" locale="it" moment-picker="transient.nuovoLotto.dataInserimento" format="DD/MM/YYYY" start-view="month" max-date="dataInserimentoMaxSelezionabile">
                                 <input type="text" readonly required name="dataInserimento" id="dataInserimento" 
                                 ng-model="transient.nuovoLotto.dataInserimento" class="form-control" >
                                 <span class="input-group-addon">
@@ -133,7 +133,7 @@
                     </div>
                     <div class="col-sm-12 col-md-5 form-group" ng-class="{'has-error':scatolo.dataScadenza.$invalid && !scatolo.dataScadenza.$pristine}">
                         <p>Data Scadenza*:</p>
-                        <div class="input-group" locale="it" moment-picker="scatolo.dataScadenza" format="DD/MM/YYYY" start-view="month">
+                        <div class="input-group" locale="it" moment-picker="scatolo.dataScadenza" format="DD/MM/YYYY" start-view="month" min-date="dataScadenzaMinSelezionabile">
                             <input type="text" required name="dataScadenza" id="dataScadenza" 
                             ng-model="scatolo.dataScadenza" class="form-control" >
                             <span class="input-group-addon">

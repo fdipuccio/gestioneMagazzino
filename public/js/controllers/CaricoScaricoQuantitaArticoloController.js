@@ -27,6 +27,12 @@ angular.module("gestionaleApp")
 	$scope.transient.scarico.qty = 1;
 
 	$scope.transient.mostraArticoloNonPresente=false;
+	var today = new Date();
+	var tomorrow = new Date();
+	tomorrow.setDate(today.getDate()+1);
+
+	$scope.dataInserimentoMaxSelezionabile = $filter('date')(today, "dd/MM/yyyy");
+	$scope.dataScadenzaMinSelezionabile = $filter('date')(tomorrow, "dd/MM/yyyy");
 
 	$scope.transient.paginaProvenienza = "home";
 	$scope.transient.filters = {};
