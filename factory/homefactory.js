@@ -5,9 +5,22 @@ var gestionaleLogger = require("../utility/gestionaleLogger");
 
 homefactory.getDatiAlertScadenza = function(connection, cb){
     gestionaleLogger.logger.debug('homefactory::getDatiAlertScadenza');
-    var sql =" SELECT ID_ARTICOLO, CODICE_ARTICOLO, DESCRIZIONE, DATA_SCADENZA, QTY " +
-             " FROM VW_ALERT_ARTICOLI V " +
-             " WHERE ALERT_SCA = 'TRUE' ORDER BY DATA_SCADENZA";
+    var sql =" SELECT  " +
+            "     A.ID_ARTICOLO,  " +
+            "     A.CODICE_ARTICOLO,  " +
+            "     A.DESCRIZIONE,  " +
+            "     Q.SCADENZA, " + 
+            "     SUM(Q.QTY) QTY,  " +
+            "     A.TIMER_SCADENZA_DD  " +
+            "     FROM  " +
+            "     LG_QTY_ARTICOLO Q  " +
+            "         JOIN  " +
+            "     AN_ARTICOLI A ON A.ID_ARTICOLO = Q.ID_ARTICOLO  " +
+            " WHERE 1=1  " +
+            "     AND Q.QTY > 0   " +
+            "     AND A.DELETED = 0  " +
+            "     AND (DATE_SUB(Q.SCADENZA, INTERVAL A.TIMER_SCADENZA_DD DAY) <= now())  " +
+            " GROUP BY Q.SCADENZA  ";
     gestionaleLogger.logger.debug('sql',sql);
     connection.query(sql, function (err, rows) {
         if (err){
@@ -22,9 +35,14 @@ homefactory.getDatiAlertScadenza = function(connection, cb){
 
 homefactory.getDatiAlertQuantita = function(connection, cb){
     gestionaleLogger.logger.debug('homefactory::getDatiAlertQuantita');
-    var sql =" SELECT ID_ARTICOLO, CODICE_ARTICOLO, DESCRIZIONE, QTY " +
-             " FROM VW_ALERT_ARTICOLI V " +
-             " WHERE ALERT_QTY = 'TRUE'";
+    var sql =" SELECT A.ID_ARTICOLO, A.CODICE_ARTICOLO, A.DESCRIZIONE,  sum(Q.QTY) QTY , A.MINIMO_MAGAZZINO " +
+            " FROM LG_QTY_ARTICOLO Q " +
+            "  JOIN AN_ARTICOLI A ON A.ID_ARTICOLO=Q.ID_ARTICOLO " +
+            "  WHERE 1=1 " + 
+            "   AND Q.QTY > 0 " +
+            "   AND A.DELETED = 0 " +
+            "  group by id_articolo " +
+            "  having (A.MINIMO_MAGAZZINO >= sum(Q.QTY));";
     gestionaleLogger.logger.debug('sql',sql);
     connection.query(sql, function (err, rows) {
         if (err){
