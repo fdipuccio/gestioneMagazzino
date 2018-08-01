@@ -165,7 +165,7 @@ angular.module("gestionaleApp")
 
 		
 	}
-
+	/*
 	$scope.confermaScaricoArticoloButton = function(){
 		var lotto = {};
 
@@ -184,7 +184,7 @@ angular.module("gestionaleApp")
 			}
 	    	$scope.spinner.off();  		
 		});
-	}
+	}*/
 
 	$scope.getFornitoriWithTypeAhead = function (){
 		$scope.transient.nuovoLotto.idFornitore = "";
@@ -250,6 +250,7 @@ angular.module("gestionaleApp")
 			  }
 		});
 		if(scaricoTemp.length > 0){
+			$scope.spinner.on();			
 			MagazzinoService.scaricoQuantitaArticolo(scaricoTemp).then(function(response) { 
 				//invocazione service
 				var handleResponseResult = $scope.handleResponse(response);  
