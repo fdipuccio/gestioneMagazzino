@@ -15,8 +15,8 @@ var ARTICOLI_QUERY = "SELECT ART.ID_ARTICOLO , " +
                         " ART.TIMER_SCADENZA_DD , " +
                         " ART.MINIMO_MAGAZZINO , " +
                         " ART.DIAMETRO , " +
-                        " L.ID_UDM ID_UDM_DIAMETRO , " +
-                        " L.DESCRIZIONE UDM_DIAMETRO , " +
+                        " D.ID_UDM ID_UDM_DIAMETRO , " +
+                        " D.DESCRIZIONE UDM_DIAMETRO , " +
                         " ART.MARCA , " +
                         " CL.ID_COLORE ID_COLORE , " +
                         " CL.DESCRIZIONE COLORE , " +
