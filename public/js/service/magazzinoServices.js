@@ -27,7 +27,7 @@ angular.module("gestionaleApp").factory('MagazzinoService', function($http) {
 
             scaricoQuantitaArticolo : function(pScarico){        
                 var pbody = {};
-                pbody.scarico = pScarico;
+                pbody.lista = pScarico;
             	var tempUrl = '/magazzini/scarico';                	
             	
             	 return $http({
