@@ -18,15 +18,41 @@
         </div>
         
         <div class="row" ng-if="transient.flagArticoloSelezionato">
-            <div class="col-sm-12 col-md-9 form-group" >
-                <p>Nome:{{persistent.articoloSelezionato.codiceArticolo}} </p> 
-                <p>Marca:{{persistent.articoloSelezionato.marca}}</p>
-                <p>Colore:{{persistent.articoloSelezionato.colore}}</p>                    
+            <div class="col-sm-12 col-md-3 form-group" >
+                <p>Nome: </p> 
+                <p><b>{{persistent.articoloSelezionato.codiceArticolo}}</b></p>                                    
             </div>
+            <div class="col-sm-12 col-md-3 form-group" >
+                <p>Marca: </p> 
+                <p><b>{{persistent.articoloSelezionato.marca}}</b></p>                                   
+            </div>
+            <div class="col-sm-12 col-md-3 form-group" >
+                <p>Colore: </p> 
+                <p><b>{{persistent.articoloSelezionato.colore}}</b></p>                                   
+            </div>           
             <div class="col-sm-12 col-md-3 form-group" ng-if="transient.paginaProvenienza=='home'">
                 <p>&nbsp;</p>                    
                     <button type="button" class="btn btn-primary" ng-click="resetArticoloSelezionato()" type="submit">Reset</button>
             </div>                
+        </div>
+
+        <div class="row" ng-if="transient.flagArticoloSelezionato">
+            <div class="col-sm-12 col-md-3 form-group" >
+                <p>Categoria: </p> 
+                <p><b>{{persistent.articoloSelezionato.descCategoria}}</b></p>                                   
+            </div>
+            <div class="col-sm-12 col-md-3 form-group" >
+                <p>Lunghezza: </p> 
+                <p><b>{{persistent.articoloSelezionato.lunghezza}} {{persistent.articoloSelezionato.udmLunghezza}}</b></p>                                    
+            </div>
+            <div class="col-sm-12 col-md-3 form-group" >
+                <p>Diametro: </p> 
+                <p><b>{{persistent.articoloSelezionato.diametro}} {{persistent.articoloSelezionato.udmDiametro}}</b></p>                                    
+            </div>   
+             <div class="col-sm-12 col-md-3 form-group" >
+                <p>Quantita in scatola: </p> 
+                <p><b>{{persistent.articoloSelezionato.qtyInScatola}} {{persistent.articoloSelezionato.udmQtyInScatola}}</b></p>                                   
+            </div>                         
         </div>
 
     </div>
