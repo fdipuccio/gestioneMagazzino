@@ -53,7 +53,8 @@
                                                     <p>UDM - Lunghezza*:</p>                    
                                                     <select required name="udmLunghezza" ng-model="persistent.articolo.udmLunghezza" class="form-control input-sm">
                                                         <option value="">{{labels.select_empty_value}}</option>
-                                                        <option ng-repeat="tipolItem in listaUdmLunghezza" ng-selected="catItem.idCategoria == persistent.articolo.ID_UDM" value="{{tipolItem.ID_UDM}}">{{tipolItem.DESCRIZIONE}}</option>
+                                                        <option ng-repeat="tipolItem in listaUdmLunghezza" 
+                                                        ng-selected="tipolItem.ID_UDM == persistent.articolo.idUdmLunghezza" value="{{tipolItem.ID_UDM}}">{{tipolItem.DESCRIZIONE}}</option>
                                                     </select>
                                                 </div>            
                                             </div>                  
@@ -68,7 +69,9 @@
                                                     <p>UDM - Diametro*:</p>                    
                                                     <select required name="udmDiametro" ng-model="persistent.articolo.udmDiametro" class="form-control input-sm">
                                                         <option value="">{{labels.select_empty_value}}</option>
-                                                        <option ng-repeat="tipolItem in listaUdmDiametro" value="{{tipolItem.ID_UDM}}">{{tipolItem.DESCRIZIONE}}</option>
+                                                        <option ng-repeat="tipolItem in listaUdmDiametro"
+                                                        ng-selected="tipolItem.ID_UDM == persistent.articolo.idUdmDiametro"
+                                                        value="{{tipolItem.ID_UDM}}">{{tipolItem.DESCRIZIONE}}</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-sm-12 col-md-3 form-group" ng-class="{'has-error':editArticoloForm.diametro.$invalid && !editArticoloForm.diametro.$pristine}">
@@ -81,7 +84,9 @@
                                                     <p>UDM - Quantità in scatola*:</p>                    
                                                     <select required name="udmQtyInScatola" ng-model="persistent.articolo.udmQtyInScatola" class="form-control input-sm">
                                                         <option value="">{{labels.select_empty_value}}</option>
-                                                        <option ng-repeat="tipolItem in listaQtyScatola" value="{{tipolItem.ID_UDM}}">{{tipolItem.DESCRIZIONE}}</option>
+                                                        <option ng-repeat="tipolItem in listaQtyScatola"
+                                                         ng-selected="tipolItem.ID_UDM == persistent.articolo.idUdmQtyInScatola"
+                                                         value="{{tipolItem.ID_UDM}}">{{tipolItem.DESCRIZIONE}}</option>                                                         
                                                     </select>
                                                 </div>           
                                             </div>
@@ -102,7 +107,9 @@
                                                     <select required name="colore" 
                                                         ng-model="persistent.articolo.colore" class="form-control input-sm">
                                                         <option value="">{{labels.select_empty_value}}</option>
-                                                        <option ng-repeat="colItem in listaColori" value="{{colItem.idColore}}">{{colItem.idColore}} - {{colItem.descrizione}}</option>
+                                                        <option ng-repeat="colItem in listaColori" 
+                                                        ng-selected="colItem.idColore == persistent.articolo.idColore"
+                                                        value="{{colItem.idColore}}">{{colItem.idColore}} - {{colItem.descrizione}}</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-sm-12 col-md-3 form-group" >
