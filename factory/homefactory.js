@@ -7,7 +7,7 @@ homefactory.getDatiAlertScadenza = function(connection, cb){
     gestionaleLogger.logger.debug('homefactory::getDatiAlertScadenza');
     var sql =" SELECT ID_ARTICOLO, CODICE_ARTICOLO, DESCRIZIONE, DATA_SCADENZA, QTY " +
              " FROM VW_ALERT_ARTICOLI V " +
-             " WHERE ALERT_SCA = 'TRUE'";
+             " WHERE ALERT_SCA = 'TRUE' ORDER BY DATA_SCADENZA";
     gestionaleLogger.logger.debug('sql',sql);
     connection.query(sql, function (err, rows) {
         if (err){
