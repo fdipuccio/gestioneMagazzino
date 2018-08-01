@@ -27,6 +27,12 @@ angular.module("gestionaleApp")
 	$scope.transient.scarico.qty = 1;
 
 	$scope.transient.mostraArticoloNonPresente=false;
+	var today = new Date();
+	var tomorrow = new Date();
+	tomorrow.setDate(today.getDate()+1);
+
+	$scope.dataInserimentoMaxSelezionabile = $filter('date')(today, "dd/MM/yyyy");
+	$scope.dataScadenzaMinSelezionabile = $filter('date')(tomorrow, "dd/MM/yyyy");
 
 	$scope.transient.paginaProvenienza = "home";
 	$scope.transient.filters = {};
@@ -165,7 +171,7 @@ angular.module("gestionaleApp")
 
 		
 	}
-
+	/*
 	$scope.confermaScaricoArticoloButton = function(){
 		var lotto = {};
 
@@ -184,7 +190,7 @@ angular.module("gestionaleApp")
 			}
 	    	$scope.spinner.off();  		
 		});
-	}
+	}*/
 
 	$scope.getFornitoriWithTypeAhead = function (){
 		$scope.transient.nuovoLotto.idFornitore = "";
@@ -250,6 +256,7 @@ angular.module("gestionaleApp")
 			  }
 		});
 		if(scaricoTemp.length > 0){
+			$scope.spinner.on();			
 			MagazzinoService.scaricoQuantitaArticolo(scaricoTemp).then(function(response) { 
 				//invocazione service
 				var handleResponseResult = $scope.handleResponse(response);  
