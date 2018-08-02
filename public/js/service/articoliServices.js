@@ -191,12 +191,12 @@ angular.module("gestionaleApp").factory('ArticoliService', function($http) {
                   data: pbody        	  
                });
             },            
-            getGraphAndamentoArticolo : function(idArticolo){ 
+            getGraphAndamentoArticolo : function(idArticolo, start, end){ 
                 var pbody = {};
                 pbody.input = {};
                 pbody.input.idArticolo = idArticolo;
-                pbody.input.startDate = "01/01/2018";
-                pbody.input.endDate = "31/12/2018";       	
+                pbody.input.startDate = start;
+                pbody.input.endDate = end;       	
             	var tempUrl = '/articoli/andamentoprezzo';                	
                 return $http({
                	  method: 'POST',

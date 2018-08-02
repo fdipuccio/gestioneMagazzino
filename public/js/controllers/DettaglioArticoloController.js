@@ -1,7 +1,7 @@
 angular.module("gestionaleApp")
 .controller("DettaglioArticoloController",
- ['$scope','$uibModal','filterFilter', '$routeParams','$sessionStorage','ArticoliService','CategorieService','CommonService', 'DTOptionsBuilder', 'DTColumnDefBuilder','$location',
- function ($scope, $uibModal, filterFilter, $routeParams, $sessionStorage, ArticoliService, CategorieService, CommonService, DTOptionsBuilder, DTColumnDefBuilder, $location) {
+ ['$scope','$uibModal','filterFilter', '$routeParams','$sessionStorage','ArticoliService','CategorieService','CommonService', '$filter', 'DTOptionsBuilder', 'DTColumnDefBuilder','$location',
+ function ($scope, $uibModal, filterFilter, $routeParams, $sessionStorage, ArticoliService, CategorieService, CommonService, $filter, DTOptionsBuilder, DTColumnDefBuilder, $location) {
 	 'use strict';
 	$scope.persistent = {};
 	$scope.persistent.idArticolo = $routeParams.idArticolo;
@@ -44,7 +44,12 @@ angular.module("gestionaleApp")
 
 	$scope.loadChartAndamento = function (){
 		$("#bar-chart-andamento").empty();
-		ArticoliService.getGraphAndamentoArticolo($scope.persistent.idArticolo).then(function(response) {  
+		$scope.endDate = $filter('date')(new Date(), "dd/MM/yyyy");
+		$scope.mydate = new Date();
+		$scope.startDate = $scope.mydate.setDate($scope.mydate.getDate() - 365);
+		$scope.startDate = $filter('date')($scope.startDate, "dd/MM/yyyy");
+
+		ArticoliService.getGraphAndamentoArticolo($scope.persistent.idArticolo, $scope.startDate, $scope.endDate).then(function(response) {  
 			var handleResponseResult = $scope.handleResponse(response);  
 				if(handleResponseResult.next){
 					$scope.dataGrah1 = response.data.dati;
